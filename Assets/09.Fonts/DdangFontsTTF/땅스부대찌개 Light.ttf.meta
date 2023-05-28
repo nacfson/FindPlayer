@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 66ca7649bf0ea0540852aef224e3dfab
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Ttangsbudaejjigae
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 24a9c13f8b4b2294daa81d17d7cce46e, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
