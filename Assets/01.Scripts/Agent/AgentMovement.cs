@@ -38,7 +38,8 @@ public class AgentMovement : MonoBehaviour{
             _acionData.IsRunning = true;
             _agentAnimator.SetBoolRun(true);
         }
-        if(Input.GetKeyUp(KeyCode.LeftShift)){
+
+        else if(Input.GetKeyUp(KeyCode.LeftShift)){
             _currentSpeed = _movementData.Speed;
             _acionData.IsRunning = false;
             _agentAnimator.SetBoolRun(false);
@@ -52,12 +53,16 @@ public class AgentMovement : MonoBehaviour{
         else if(_controller.isGrounded == true){
             _agentAnimator.OnJump(false);
         }
+        
         Vector3 cameraForward = Vector3.Scale(_cameraTransform.forward, new Vector3(1, 0, 1)).normalized;
         Vector3 cameraRight = Vector3.Scale(_cameraTransform.right, new Vector3(1, 0, 1)).normalized;
         Vector3 move = (_movementVelocity.x * cameraRight + _movementVelocity.z * cameraForward) * _currentSpeed * Time.fixedDeltaTime + Vector3.up * _verticalSpeed;
 
         if(_movementVelocity.magnitude > 0f){
             SetLerpRotation(move + transform.position,_rotateSpeed);
+        }
+        else if(_movementVelocity.sqrMagnitude < 0.1f){
+            _agentAnimator.SetBoolRun(false);
         }
         _controller.Move(move);
 

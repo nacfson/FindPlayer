@@ -15,7 +15,6 @@ public class WalkState : State{
 
     public override void OnExitState(){
         StopAllCoroutines();
-
     }
 
     public override void OnUpdateState(){
