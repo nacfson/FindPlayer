@@ -10,6 +10,8 @@ using TMPro;
 public class NetworkManager : MonoBehaviourPunCallbacks{
     [SerializeField] private Transform _canvas;
     [SerializeField] private TMP_InputField _roomNameInputField;
+    [SerializeField] private TMP_Text _errorText;
+    [SerializeField] private TMP_Text _roomNameText;
 
     private Button _startButton;
     
@@ -39,8 +41,19 @@ public class NetworkManager : MonoBehaviourPunCallbacks{
 
     public override void OnJoinedRoom(){
         MenuManager.Instance.OpenMenu("room");
+        _roomNameText.SetText(PhotonNetwork.CurrentRoom.Name);
     }
     public override void OnCreateRoomFailed(short returnCode, string message){
+        string text = $"Room Creation Failed {message}" ;
+        _errorText.SetText(text);
         MenuManager.Instance.OpenMenu("error");
+    }
+
+    public void LeaveRoom(){
+        PhotonNetwork.LeaveRoom();
+        MenuManager.Instance.OpenMenu("loading");
+    }
+    public override void OnLeftRoom(){
+        MenuManager.Instance.OpenMenu("title");
     }
 }
