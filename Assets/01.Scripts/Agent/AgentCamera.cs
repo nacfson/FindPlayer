@@ -27,6 +27,9 @@ public class AgentCamera : MonoBehaviour{
     private void Awake() {
         _followCam = FindObjectOfType<CinemachineVirtualCamera>();
         _agentInput = GetComponent<AgentInput>();
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
     
     private void Start() {

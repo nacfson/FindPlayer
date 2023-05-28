@@ -10,7 +10,10 @@ public class AgentInput : MonoBehaviour{
     public event Action OnAttackKeyPress;
     
     public event Action OnJumpKeyPress;
-
+    protected ActionData _actionData;
+    private void Awake() {
+        _actionData = transform.Find("AD").GetComponent<ActionData>();
+    }
     private void Update() {
         GetMovementInput();
         GetJumpInput();
@@ -31,14 +34,14 @@ public class AgentInput : MonoBehaviour{
         }
     }
 
-
     private void GetJumpInput(){
         if(Input.GetButtonDown("Jump")){
             OnJumpKeyPress?.Invoke();
         }
     }
     private void GetMovementInput(){
-        float x = Input.GetAxisRaw("Horizontal"),z= Input.GetAxisRaw("Vertical");
+        if(_actionData.IsAttacking) return;
+        float x = Input.GetAxis("Horizontal"),z= Input.GetAxis("Vertical");
         Vector3 dir = new Vector3(x,0,z);
 
         OnMovementKeyPress?.Invoke(dir);

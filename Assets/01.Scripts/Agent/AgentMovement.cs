@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Core;
 
 [RequireComponent(typeof(CharacterController))]
 public class AgentMovement : MonoBehaviour{
@@ -14,36 +15,36 @@ public class AgentMovement : MonoBehaviour{
     protected AgentInput _agentInput;
     protected AgentAnimator _agentAnimator;
     protected float _currentSpeed;
-    protected float _rotateSpeed = 8f;
+    private Transform _cameraTransform;
+    protected ActionData _acionData;
+    [SerializeField]
+    protected float _rotateSpeed = 30f;
     private void Awake() {
         _controller = GetComponent<CharacterController>();
         _agentInput = GetComponent<AgentInput>();
         _agentAnimator = transform.Find("Visual").GetComponent<AgentAnimator>();
+        _acionData = transform.Find("AD").GetComponent<ActionData>();
         _currentSpeed = _movementData.Speed;
     }
     private void Start() {
         _agentInput.OnMovementKeyPress += SetMovementVelocity;
         _agentInput.OnJumpKeyPress += Jump;
+        _cameraTransform = Define.MainCam.transform;
     }
+    //속도 자연스럽게
     private void FixedUpdate(){
         if(Input.GetKey(KeyCode.LeftShift)){
             _currentSpeed = _movementData.RunSpeed;
-            _agentAnimator.SetSpeed(1f);
+            _acionData.IsRunning = true;
+            _agentAnimator.SetBoolRun(true);
         }
-        else if(Input.GetKeyUp(KeyCode.LeftShift)){
+        if(Input.GetKeyUp(KeyCode.LeftShift)){
             _currentSpeed = _movementData.Speed;
-            _agentAnimator.SetSpeed(0f);
+            _acionData.IsRunning = false;
+            _agentAnimator.SetBoolRun(false);
         }
-        
-        if(_movementVelocity.magnitude > 0f){
-            Quaternion rotation = Quaternion.LookRotation(_movementVelocity,Vector3.up);
-            transform.rotation = Quaternion.Slerp(transform.rotation,rotation,_rotateSpeed * Time.deltaTime);
 
-            _agentAnimator.SetSpeed(0.5f);
-        }
-        else{
-            _agentAnimator.SetSpeed(0f);
-        }
+        _agentAnimator.SetSpeed(_movementVelocity.sqrMagnitude);
 
         if(_controller.isGrounded == false){
             _verticalSpeed += _gravity * Time.fixedDeltaTime;
@@ -51,8 +52,27 @@ public class AgentMovement : MonoBehaviour{
         else if(_controller.isGrounded == true){
             _agentAnimator.OnJump(false);
         }
-        Vector3 move = (_movementVelocity * _currentSpeed + _verticalSpeed * Vector3.up) * Time.fixedDeltaTime;
+        Vector3 cameraForward = Vector3.Scale(_cameraTransform.forward, new Vector3(1, 0, 1)).normalized;
+        Vector3 cameraRight = Vector3.Scale(_cameraTransform.right, new Vector3(1, 0, 1)).normalized;
+        Vector3 move = (_movementVelocity.x * cameraRight + _movementVelocity.z * cameraForward) * _currentSpeed * Time.fixedDeltaTime + Vector3.up * _verticalSpeed;
+
+        if(_movementVelocity.magnitude > 0f){
+            SetLerpRotation(move + transform.position,_rotateSpeed);
+        }
         _controller.Move(move);
+
+    }    
+    public void SetLerpRotation(Vector3 target, float speed){
+        //_actionData.isRotate = true;
+        Vector3 dir = target - transform.position;
+        dir.y = 0f;
+
+        Quaternion rotation = Quaternion.LookRotation(dir);
+        transform.rotation = Quaternion.Slerp(transform.rotation,rotation, speed * Time.deltaTime);
+
+        if(transform.rotation == rotation){
+            //_actionData.isRotate = false;
+        }
     }
 
     public void SetMovementVelocity(Vector3 velocity){

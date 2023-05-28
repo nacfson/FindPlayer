@@ -7,9 +7,14 @@ public class AgentAnimator : MonoBehaviour{
     protected readonly int _speedHash = Animator.StringToHash("SPEED");
     protected readonly int _jumpHash = Animator.StringToHash("JUMP");
     protected readonly int _attackHash = Animator.StringToHash("ATTACK");
-    protected readonly int _attackBoolHash =Animator .StringToHash("IS_ATTACK");
+    protected readonly int _attackBoolHash = Animator.StringToHash("IS_ATTACK");
+    protected readonly int _runBoolHash = Animator.StringToHash("IS_RUN");
+    protected readonly int _deadHash = Animator.StringToHash("DEAD");
     protected Animator _animator;
     protected ActionData _actionData;
+
+    public event Action OnAttackEndTrigger;
+    public event Action OnAttackTrigger;
 
     private void Awake() {
         _animator = GetComponent<Animator>();
@@ -18,6 +23,9 @@ public class AgentAnimator : MonoBehaviour{
     public void SetSpeed(float speed){
         _animator.SetFloat(_speedHash,speed);
     }
+    public void SetBoolRun(bool result){
+        _animator.SetBool(_runBoolHash,result);
+    }
 
     public void OnJump(bool result){
         if(result){
@@ -25,6 +33,14 @@ public class AgentAnimator : MonoBehaviour{
         }
         else{
             _animator.ResetTrigger(_jumpHash);
+        }
+    }
+    public void OnDead(bool result){
+        if(result){
+            _animator.SetTrigger(_deadHash);
+        }
+        else{
+            _animator.ResetTrigger(_deadHash);
         }
     }
 
@@ -38,5 +54,9 @@ public class AgentAnimator : MonoBehaviour{
         _animator.ResetTrigger(_attackHash);
         SetBoolAttack(false);
         _actionData.IsAttacking = false;
+        OnAttackEndTrigger?.Invoke();
+    }
+    public void OnAttack(){
+        OnAttackTrigger?.Invoke();
     }
 }
