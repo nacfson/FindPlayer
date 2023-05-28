@@ -4,15 +4,25 @@ using UnityEngine;
 using System;
 
 public class AgentInput : MonoBehaviour{
+    public event Action<float, float> OnMouseInput;
+
     public event Action<Vector3> OnMovementKeyPress;
     public event Action OnAttackKeyPress;
-    public event Action OnRunKeyPress;
+    
     public event Action OnJumpKeyPress;
 
     private void Update() {
         GetMovementInput();
         GetJumpInput();
         GetAttackInput();
+        GetMouseInput();
+    }
+
+    private void GetMouseInput(){
+        float x = Input.GetAxis("Mouse X");
+        float y = Input.GetAxis("Mouse Y");
+
+        OnMouseInput?.Invoke(x,y);
     }
 
     private void GetAttackInput(){
@@ -20,6 +30,7 @@ public class AgentInput : MonoBehaviour{
             OnAttackKeyPress?.Invoke();
         }
     }
+
 
     private void GetJumpInput(){
         if(Input.GetButtonDown("Jump")){
