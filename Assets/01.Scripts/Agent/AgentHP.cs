@@ -18,4 +18,9 @@ public class AgentHP : MonoBehaviour{
         _agentAnimator.OnDead(true);
         OnDead?.Invoke();
     }
+
+    private void OnDestroy()
+    {
+        Debug.LogError("Why this object destroyed");
+    }
 }

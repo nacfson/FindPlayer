@@ -7,12 +7,12 @@ using TMPro;
 
 public class RoomListItem : MonoBehaviour{
     [SerializeField] private TMP_Text _text;
-    RoomInfo _info;
+    public RoomInfo info;
     public void SetUp(RoomInfo info){
-        this._info = info;
-        _text.SetText(_info.Name);
+        this.info = info;
+        _text.SetText(info.Name);
     }
     public void OnClick(){
-        NetworkManager.Instance.JoinRoom(_info);
+        NetworkManager.Instance.JoinRoom(info);
     }
 }
