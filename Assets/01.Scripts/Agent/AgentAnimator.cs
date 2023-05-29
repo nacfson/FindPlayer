@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-public class AgentAnimator : MonoBehaviour{
+using Photon.Pun;
+using Photon.Realtime;
+public class AgentAnimator : MonoBehaviourPun{
     protected readonly int _speedHash = Animator.StringToHash("SPEED");
     protected readonly int _jumpHash = Animator.StringToHash("JUMP");
     protected readonly int _attackHash = Animator.StringToHash("ATTACK");
@@ -13,12 +15,15 @@ public class AgentAnimator : MonoBehaviour{
     protected Animator _animator;
     protected ActionData _actionData;
 
+    public PhotonView PV;
+
     public event Action OnAttackEndTrigger;
     public event Action OnAttackTrigger;
 
     private void Awake() {
         _animator = GetComponent<Animator>();
         _actionData = transform.parent.Find("AD").GetComponent<ActionData>();
+        PV = transform.parent.GetComponent<PhotonView>();
     }
     public void SetSpeed(float speed){
         _animator.SetFloat(_speedHash,speed);

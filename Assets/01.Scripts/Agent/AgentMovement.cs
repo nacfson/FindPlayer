@@ -3,9 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Core;
+using Photon.Pun;
+using Photon.Realtime;
 
 [RequireComponent(typeof(CharacterController))]
-public class AgentMovement : MonoBehaviour{
+public class AgentMovement : MonoBehaviourPun{
     [SerializeField]
     protected MovementData _movementData;
     protected Vector3 _movementVelocity;
@@ -17,6 +19,8 @@ public class AgentMovement : MonoBehaviour{
     protected float _currentSpeed;
     private Transform _cameraTransform;
     protected ActionData _acionData;
+
+    public PhotonView PV;
     [SerializeField]
     protected float _rotateSpeed = 30f;
     private void Awake() {
@@ -25,6 +29,7 @@ public class AgentMovement : MonoBehaviour{
         _agentAnimator = transform.Find("Visual").GetComponent<AgentAnimator>();
         _acionData = transform.Find("AD").GetComponent<ActionData>();
         _currentSpeed = _movementData.Speed;
+        PV = GetComponent<PhotonView>();
     }
     private void Start() {
         _agentInput.OnMovementKeyPress += SetMovementVelocity;
