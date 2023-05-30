@@ -1496,6 +1496,7 @@ MonoBehaviour:
   _playerListItemPrefab: {fileID: 4357861879972433347, guid: 1fb4f791e28224c4b8fdaba0c962250a,
     type: 3}
   _startGameButton: {fileID: 1768610154}
+  _maxPlayerCount: 10
 --- !u!4 &811599624
 Transform:
   m_ObjectHideFlags: 0

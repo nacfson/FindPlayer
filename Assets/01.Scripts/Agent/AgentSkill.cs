@@ -9,6 +9,7 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
     protected AgentInput _agentInput;
     protected AgentAnimator _agentAnimator;
     protected ActionData _actionData;
+    protected AgentMovement _agentMovement;
     protected Collider _targetCol;
 
     [SerializeField] protected Material _changeMat;
@@ -22,6 +23,7 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
         _col = transform.Find("Collider").GetComponent<Collider>();
         _agentAnimator = transform.Find("Visual").GetComponent<AgentAnimator>();
         _actionData = transform.Find("AD").GetComponent<ActionData>();
+        _agentMovement = GetComponent<AgentMovement>();
     }
 
     private void Start() {
@@ -30,8 +32,10 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
     }
     private void Update() {
         Collider temp = GetClosestObjectCollider();
+
         if(_targetCol != null && temp == null) {
             SettingTargetObj(false);
+            _targetCol = temp;
         }
         else{
             _targetCol = temp;
@@ -87,6 +91,7 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
             _actionData.IsAttacking = true;
             _agentAnimator.SetBoolAttack(true);
             _agentAnimator.SetTriggerAttack();
+            _agentMovement.SetRunSpeed(false);
         }
     }
 }

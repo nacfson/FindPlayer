@@ -20,7 +20,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks{
     [SerializeField] private GameObject _roomListItemPrefab;
     [SerializeField] private GameObject _playerListItemPrefab;
     [SerializeField] private GameObject _startGameButton;
-
+    [SerializeField] private int _maxPlayerCount = 10;
     private Button _startButton;
     
     private void Awake() {
@@ -33,13 +33,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks{
         Debug.Log("On Connected To Master");
         PhotonNetwork.JoinLobby();
         PhotonNetwork.AutomaticallySyncScene = true; //씬을 로딩했을때  다같이 이동하게 됨
-    }
+}
 
     public override void OnJoinedLobby(){
         MenuManager.Instance.OpenMenu("title");
         Debug.Log("On Joined Lobby");
         PhotonNetwork.NickName = "Player: " + Random.Range(0,1000).ToString("0000");
-
     }
 
     public void CreateRoom(){
@@ -92,17 +91,17 @@ public class NetworkManager : MonoBehaviourPunCallbacks{
         foreach(Transform trans in _roomListContent){
             Destroy(trans.gameObject);
         }
-        for(int i = 0; i < roomList.Count ; i++){
-            if(roomList[i].RemovedFromList){
+        for (int i = 0; i < roomList.Count; i++) {
+            if (roomList[i].RemovedFromList) {
                 continue;
             }
-
-            Instantiate(_roomListItemPrefab,_roomListContent).GetComponent<RoomListItem>().SetUp(roomList[i]);
+            if(roomList[i].PlayerCount >= _maxPlayerCount) {
+                Instantiate(_roomListItemPrefab, _roomListContent).GetComponent<RoomListItem>().SetUp(roomList[i],_maxPlayerCount,false);
+                continue;
+            }
+            Instantiate(_roomListItemPrefab, _roomListContent).GetComponent<RoomListItem>().SetUp(roomList[i], _maxPlayerCount);
         }
-
-
     }
-
     public override void OnPlayerEnteredRoom(Player newPlayer){
         Instantiate(_playerListItemPrefab,_playerListContent).GetComponent<PlayerListItem>().SetUp(newPlayer);
     }

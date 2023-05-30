@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using Photon.Realtime;
 using Photon.Pun;
 public class AgentHP : MonoBehaviourPunCallbacks{
     public UnityEvent OnDead;
@@ -16,8 +17,9 @@ public class AgentHP : MonoBehaviourPunCallbacks{
         DeadProcess();
     }
 
-    private void DeadProcess(){
+    protected virtual void DeadProcess(){
         _agentAnimator.OnDead(true);
+
         Debug.Log("DeadProcess");
         OnDead?.Invoke();
     }

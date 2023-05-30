@@ -16,11 +16,6 @@ public class AgentInput : MonoBehaviour{
 
     private void Awake() {
         _actionData = transform.Find("AD").GetComponent<ActionData>();
-
-    }
-
-    private void Start() {
-
     }
     private void Update() {
 
