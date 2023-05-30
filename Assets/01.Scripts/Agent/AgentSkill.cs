@@ -3,12 +3,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class AgentSkill : MonoBehaviour{
+public class AgentSkill : MonoBehaviourPunCallbacks{
     protected AgentInput _agentInput;
     protected AgentAnimator _agentAnimator;
     protected ActionData _actionData;
-
+    [SerializeField] protected LayerMask _layerMask;
     private void Awake() {
         _agentInput = GetComponent<AgentInput>();
         _agentAnimator = transform.Find("Visual").GetComponent<AgentAnimator>();
@@ -20,12 +21,15 @@ public class AgentSkill : MonoBehaviour{
         _agentAnimator.OnAttackTrigger += Attack;
     }
     private void Attack(){
-        bool result = Physics.SphereCast(transform.position - transform.forward * 0.5f , 0.5f,transform.forward,out RaycastHit hit, 1f,1 << LayerMask.NameToLayer("PLAYER"));
+        bool result = Physics.SphereCast(transform.position - transform.forward * 0.5f , 0.5f,transform.forward,out RaycastHit hit, 1f,_layerMask);
         Debug.Log($"Result: {result}");
 
         if(result){
-            if(hit.collider.TryGetComponent<AgentHP>(out AgentHP agentHP)){
+            if(hit.collider.transform.TryGetComponent<AgentHP>(out AgentHP agentHP)){
                 agentHP.Damaged();
+            }
+            else {
+                Debug.LogError("I can't find agentHP");
             }
         }
     }

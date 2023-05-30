@@ -13,22 +13,17 @@ public class AgentInput : MonoBehaviour{
     
     public event Action OnJumpKeyPress;
     protected ActionData _actionData;
-    private PhotonView _PV;
+
     private void Awake() {
         _actionData = transform.Find("AD").GetComponent<ActionData>();
-        _PV = GetComponent<PhotonView>();
+
     }
 
     private void Start() {
-        if(_PV.IsMine == false){
-            GetComponentInChildren<Camera>().gameObject.SetActive(false);
-            GetComponentInChildren<CinemachineVirtualCamera>().gameObject.SetActive(false);
-        }
+
     }
     private void Update() {
-        if(_PV.IsMine == false){
-            return;
-        }
+
         GetMovementInput();
         GetJumpInput();
         GetAttackInput();

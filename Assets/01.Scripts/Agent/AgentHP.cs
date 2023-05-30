@@ -3,12 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-public class AgentHP : MonoBehaviour{
+using Photon.Pun;
+public class AgentHP : MonoBehaviourPunCallbacks{
     public UnityEvent OnDead;
     protected AgentAnimator _agentAnimator;
-
+    PhotonView PV;
     private void Awake() {
-        _agentAnimator = transform.Find("Visual").GetComponent<AgentAnimator>();
+        _agentAnimator = transform.root.Find("Visual").GetComponent<AgentAnimator>();
+        PV = transform.root.GetComponent<PhotonView>();
     }
     public void Damaged(){
         DeadProcess();
@@ -16,11 +18,7 @@ public class AgentHP : MonoBehaviour{
 
     private void DeadProcess(){
         _agentAnimator.OnDead(true);
+        Debug.Log("DeadProcess");
         OnDead?.Invoke();
-    }
-
-    private void OnDestroy()
-    {
-        Debug.LogError("Why this object destroyed");
     }
 }

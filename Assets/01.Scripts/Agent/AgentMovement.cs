@@ -5,8 +5,10 @@ using UnityEngine;
 using Core;
 using Photon.Pun;
 using Photon.Realtime;
+using Cinemachine;
 
 [RequireComponent(typeof(CharacterController))]
+
 public class AgentMovement : MonoBehaviourPun{
     [SerializeField]
     protected MovementData _movementData;
@@ -35,9 +37,16 @@ public class AgentMovement : MonoBehaviourPun{
         _agentInput.OnMovementKeyPress += SetMovementVelocity;
         _agentInput.OnJumpKeyPress += Jump;
         _cameraTransform = Define.MainCam.transform;
+        if(PV.IsMine == false) {
+            GetComponentInChildren<Camera>().gameObject.SetActive(false);
+            GetComponentInChildren<CinemachineVirtualCamera>().gameObject.SetActive(false);
+        }
     }
     //속도 자연스럽게
     private void FixedUpdate(){
+        if(PV.IsMine == false) {
+            return;
+        }
         if(Input.GetKey(KeyCode.LeftShift)){
             _currentSpeed = _movementData.RunSpeed;
             _acionData.IsRunning = true;
