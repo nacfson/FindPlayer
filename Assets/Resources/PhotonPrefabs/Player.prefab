@@ -440,9 +440,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46277c5dc4b988e41a08a6d10d659a72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _changeMat: {fileID: 0}
   _layerMask:
     serializedVersion: 2
     m_Bits: 128
+  _radius: 0.8
 --- !u!114 &430032871078137223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -583,6 +585,7 @@ GameObject:
   - component: {fileID: 1223104513874530457}
   - component: {fileID: 3425885097997473300}
   - component: {fileID: 4044220089279969539}
+  - component: {fileID: 2635922658796364937}
   m_Layer: 7
   m_Name: Collider
   m_TagString: Untagged
@@ -666,10 +669,23 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.31201178
+  m_Radius: 0.27744612
   m_Height: 1
   m_Direction: 1
-  m_Center: {x: 0.032473266, y: 0.46614575, z: 0}
+  m_Center: {x: 0.018834919, y: 0.46614575, z: 0}
+--- !u!114 &2635922658796364937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7056748644164520144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da78dd117bdfd4240a1d7711cda16f5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _meshRenderer: {fileID: 1945411163952876255}
 --- !u!1001 &430032871691115850
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -870,3 +886,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PV: {fileID: 0}
+--- !u!137 &1945411163952876255 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2236237030686087061, guid: b10fec9bba2b7eb4285c00cedd56af11,
+    type: 3}
+  m_PrefabInstance: {fileID: 430032871691115850}
+  m_PrefabAsset: {fileID: 0}

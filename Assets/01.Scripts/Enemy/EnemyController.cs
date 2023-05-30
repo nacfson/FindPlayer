@@ -17,6 +17,10 @@ public class EnemyController : MonoBehaviour{
         _navMeshAgent.SetDestination(pos);
     }
 
+    public void EnableNavMesh(bool result) {
+        _navMeshAgent.enabled = result;
+    }
+
     public void StopImmediately(){
         _navMeshAgent.SetDestination(transform.position);
         _navMeshAgent.velocity = Vector3.zero;

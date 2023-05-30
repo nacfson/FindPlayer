@@ -25,8 +25,6 @@ public class IdleState : State{
     IEnumerator DelayCoroutine(float targetTime){
         float timer = 0f;
         while(timer < targetTime){
-            Debug.Log($"Percent: {timer / targetTime}");
-            Debug.Log($"CanMove: {_actionData.CanMove}");
             timer += Time.deltaTime;
             yield return null;
         }

@@ -2,14 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AIBrain : MonoBehaviour{
+public class AIBrain : PoolableMono{
     public State CurrentState => _currentState;
+    public EnemyController EnemyController => _enemyController;
+
+    private EnemyController _enemyController;
     [SerializeField] private State _currentState;
 
     private List<State> _states;
 
     private void Awake() {
         _states = new List<State>();
+        _enemyController = GetComponent<EnemyController>();
         transform.Find("AD").GetComponentsInChildren<State>(_states);
 
         foreach(var s in _states){
@@ -28,5 +32,8 @@ public class AIBrain : MonoBehaviour{
         _currentState.OnExitState();
         this._currentState = state;
         _currentState.OnEnterState();
+    }
+
+    public override void Init() {
     }
 }

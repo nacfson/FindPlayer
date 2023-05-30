@@ -47,6 +47,10 @@ public class AgentMovement : MonoBehaviourPun{
         if(PV.IsMine == false) {
             return;
         }
+
+        if (_acionData.IsAttacking) {
+            return;
+        }
         if(Input.GetKey(KeyCode.LeftShift)){
             _currentSpeed = _movementData.RunSpeed;
             _acionData.IsRunning = true;
@@ -80,7 +84,7 @@ public class AgentMovement : MonoBehaviourPun{
         }
         _controller.Move(move);
 
-    }    
+    }
     public void SetLerpRotation(Vector3 target, float speed){
         //_actionData.isRotate = true;
         Vector3 dir = target - transform.position;
