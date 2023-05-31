@@ -7,5 +7,6 @@ public class ActionData : MonoBehaviour{
     public bool IsMoving;
     public bool IsRunning;
     public bool IsArrived;
+    public bool IsRotating;
     public bool CanMove;
 }

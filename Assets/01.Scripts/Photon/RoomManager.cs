@@ -15,12 +15,11 @@ public enum GameState {
 public class RoomManager : MonoBehaviourPunCallbacks{
     public static RoomManager Instance;
     public Dictionary<Player,bool> playerDictionary = new Dictionary<Player,bool>();
-    public List<CinemachineVirtualCamera> cameras = new List<CinemachineVirtualCamera>();
+    public Dictionary<Player,CinemachineVirtualCamera> cameras = new Dictionary<Player,CinemachineVirtualCamera>();
     public GameState CurrentState => _currentState;
     private GameState _currentState;
     private PhotonView _PV;
-
-    private int _currentCameraIndex = 0;
+    private int _cameraIndex = 0;
     private void Awake() { 
         if(Instance){
             Destroy(this.gameObject);
@@ -47,35 +46,29 @@ public class RoomManager : MonoBehaviourPunCallbacks{
         base.OnEnable();
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
-    public override void OnDisable()
-    {
+    public override void OnDisable(){
         base.OnDisable();
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
     public void ChangeCamera(){
-        if (_PV.IsMine && CurrentState == GameState.SPECTACTOR) {
-            foreach (var c in cameras) {
-                if (c == cameras[_currentCameraIndex]) {
-                    c.enabled = true;
-                }
-                else {
-                    c.enabled = false;
-                }
-            }
-            _currentCameraIndex++;
-        }
-    }
-    public void AddCamera(CinemachineVirtualCamera cmCam) {
-        if (_PV.IsMine) {
-            cameras.Add(cmCam);
-        }
-    }
-    public void RemoveCamera(CinemachineVirtualCamera cmCam) {
-        if (_PV.IsMine) {
-            cameras.Remove(cmCam);
-        }
-    }
+        CinemachineVirtualCamera currentCamera = cameras.Values.ElementAt(_cameraIndex);
 
+        _cameraIndex = (_cameraIndex + 1) % cameras.Count;
+        Player targetPlayer = null;
+        foreach(var c in cameras){
+            if(c.Value == currentCamera) {
+                targetPlayer = c.Key;
+            }
+            c.Value.enabled = false;
+        }
+        currentCamera.enabled = true;
+        InGameUI.Instance.SetPlayerNameUI(targetPlayer,true);
+    }
+    public void AddCamera(Player player,CinemachineVirtualCamera cmCam) {
+        if (_PV.IsMine) {
+            cameras.Add(player,cmCam);
+        }
+    }
     private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode){
         if(scene.buildIndex == Define.GameSceneIndex){
             PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs","PlayerManager"),Vector3.zero, Quaternion.identity);

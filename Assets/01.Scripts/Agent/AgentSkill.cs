@@ -16,7 +16,7 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
     [SerializeField] protected LayerMask _layerMask;
     [SerializeField] protected float _radius = 0.8f;
 
-    protected Material _originMat;
+    [SerializeField] protected Material _originMat;
     protected Collider _col;
     private void Awake() {
         _agentInput = GetComponent<AgentInput>();
@@ -31,19 +31,19 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
         _agentAnimator.OnAttackTrigger += Attack;
     }
     private void Update() {
+        if(_actionData.IsAttacking) return;
         Collider temp = GetClosestObjectCollider();
 
-        if(_targetCol != null && temp == null) {
-            SettingTargetObj(false);
-            _targetCol = temp;
-        }
-        else{
-            _targetCol = temp;
-            if(_targetCol  != null) {
-                SettingTargetObj(true);
+        if(_targetCol != temp && temp != null) {
+            if(_targetCol != null) {
+                SettingTargetObj(false);
             }
+            _targetCol = temp;
+            SettingTargetObj(true);
         }
-        Debug.Log(_targetCol);
+        else if(_targetCol != null) {
+            SettingTargetObj(true);
+        }
     }
 
     public void SettingTargetObj(bool result) {

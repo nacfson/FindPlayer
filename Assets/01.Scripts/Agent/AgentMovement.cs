@@ -20,7 +20,7 @@ public class AgentMovement : MonoBehaviourPun{
     protected AgentAnimator _agentAnimator;
     protected float _currentSpeed;
     private Transform _cameraTransform;
-    protected ActionData _acionData;
+    protected ActionData _actionData;
 
     public PhotonView PV;
     [SerializeField]
@@ -29,7 +29,7 @@ public class AgentMovement : MonoBehaviourPun{
         _controller = GetComponent<CharacterController>();
         _agentInput = GetComponent<AgentInput>();
         _agentAnimator = transform.Find("Visual").GetComponent<AgentAnimator>();
-        _acionData = transform.Find("AD").GetComponent<ActionData>();
+        _actionData = transform.Find("AD").GetComponent<ActionData>();
         _currentSpeed = _movementData.Speed;
         PV = GetComponent<PhotonView>();
     }
@@ -47,13 +47,13 @@ public class AgentMovement : MonoBehaviourPun{
         if(PV.IsMine == false) {
             return;
         }
-        if (_acionData.IsAttacking) {
+        if (_actionData.IsAttacking) {
             return;
         }
-        if(Input.GetKeyDown(KeyCode.LeftShift)){
+        if(Input.GetKey(KeyCode.LeftShift)){
             SetRunSpeed(true);
         }
-        else if(Input.GetKeyUp(KeyCode.LeftShift)){
+        else{
             SetRunSpeed(false);
         }
 
@@ -87,19 +87,22 @@ public class AgentMovement : MonoBehaviourPun{
         else {
             _currentSpeed = _movementData.Speed;
         }
-        _acionData.IsRunning = result;
+        _actionData.IsRunning = result;
         _agentAnimator.SetBoolRun(result);
     }
     public void SetLerpRotation(Vector3 target, float speed){
-        //_actionData.isRotate = true;
+        _actionData.IsRotating  = true;
         Vector3 dir = target - transform.position;
         dir.y = 0f;
 
-        Quaternion rotation = Quaternion.LookRotation(dir);
-        transform.rotation = Quaternion.Slerp(transform.rotation,rotation, speed * Time.deltaTime);
+        Quaternion targetRotation = Quaternion.LookRotation(dir);
 
-        if(transform.rotation == rotation){
-            //_actionData.isRotate = false;
+        // 현재의 회전과 목표 회전 사이를 선형 보간하여 시간을 다르게 해줍니다.
+        float lerpSpeed = _rotateSpeed * Time.deltaTime * 0.3f;
+        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, lerpSpeed);
+
+        if (transform.rotation == targetRotation){
+            _actionData.IsRotating = false;
         }
     }
 

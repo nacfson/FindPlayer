@@ -441,11 +441,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46277c5dc4b988e41a08a6d10d659a72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _changeMat: {fileID: 0}
+  _changeMat: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   _layerMask:
     serializedVersion: 2
     m_Bits: 128
   _radius: 0.8
+  _originMat: {fileID: 2100000, guid: a170b2dc65d54ce4d959d38806c6326a, type: 2}
 --- !u!114 &430032871078137223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -586,6 +587,7 @@ MonoBehaviour:
   IsMoving: 0
   IsRunning: 0
   IsArrived: 0
+  IsRotating: 0
   CanMove: 0
 --- !u!1 &7056748644164520144
 GameObject:
@@ -701,6 +703,42 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 6024539399465418470}
         m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2635922658796364937}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 430032871078137220}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 4044220089279969539}
+        m_TargetAssemblyTypeName: UnityEngine.Collider, UnityEngine
         m_MethodName: set_enabled
         m_Mode: 6
         m_Arguments:

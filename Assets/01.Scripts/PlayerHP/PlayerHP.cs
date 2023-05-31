@@ -12,7 +12,6 @@ public class PlayerHP : AgentHP {
             base.DeadProcess();
 
             RoomManager.Instance.UpdateState(GameState.SPECTACTOR);
-            RoomManager.Instance.RemoveCamera(_cmCam);
         }
     }
 }

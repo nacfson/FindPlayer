@@ -9,7 +9,7 @@ public class AgentHP : MonoBehaviourPunCallbacks{
     protected AgentAnimator _agentAnimator;
     protected CinemachineVirtualCamera _cmCam;
     protected PhotonView _PV;
-    private void Awake() {
+    protected void Awake() {
         _agentAnimator = transform.root.Find("Visual").GetComponent<AgentAnimator>();
         _PV = transform.root.GetComponent<PhotonView>();
         _cmCam = GetComponentInChildren<CinemachineVirtualCamera>();

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 using Photon.Pun;
+using Photon.Realtime;
 public class AgentCamera : MonoBehaviour{    
 
     public Vector3 finarDir;    
@@ -25,11 +26,13 @@ public class AgentCamera : MonoBehaviour{
     private CinemachineVirtualCamera _followCam;
     private AgentInput _agentInput;
     private PhotonView _PV;
+    private ActionData _actionData;
 
     private void Awake() {
         _followCam = GetComponentInChildren<CinemachineVirtualCamera>();
         _agentInput = GetComponent<AgentInput>();
         _PV = GetComponent<PhotonView>();
+        _actionData = transform.Find("AD").GetComponent<ActionData>();
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -42,10 +45,11 @@ public class AgentCamera : MonoBehaviour{
         _rotX = _followCam.transform.localRotation.eulerAngles.x;
         _rotY = _followCam.transform.localRotation.eulerAngles.y;
 
-        RoomManager.Instance.AddCamera(_followCam);
-        
+        if(RoomManager.Instance != null) {
+            Player player = PhotonNetwork.LocalPlayer;
+            RoomManager.Instance.AddCamera(player, _followCam);
+        }
     }
-
     private void OnScrollHandle(float value){
         _followCam.m_Lens.FieldOfView -= value * _zoomSpeed;
         _followCam.m_Lens.FieldOfView = Mathf.Clamp(_followCam.m_Lens.FieldOfView,3f,_maxOrthoSize);
@@ -58,7 +62,7 @@ public class AgentCamera : MonoBehaviour{
         _rotX += -y * _sensitivity * Time.deltaTime;
         _rotY += x * _sensitivity * Time.deltaTime;
 
-        _rotX = Mathf.Clamp(_rotX,0f,_clampAngle);
+        //_rotX = Mathf.Clamp(_rotX,0f,_clampAngle);
         Quaternion rot = Quaternion.Euler(_rotX,_rotY,0);
         _followCam.transform.rotation = rot;
     }

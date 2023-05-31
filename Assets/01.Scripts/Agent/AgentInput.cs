@@ -29,6 +29,7 @@ public class AgentInput : MonoBehaviour{
     }
 
     private void GetMouseClickInput(){
+        if (RoomManager.Instance == null) return;
         Debug.Log($"CurrentState {RoomManager.Instance.CurrentState}");
         if(RoomManager.Instance.CurrentState == GameState.SPECTACTOR){
             if (Input.GetMouseButtonDown(0)) {
