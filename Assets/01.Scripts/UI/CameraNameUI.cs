@@ -5,9 +5,8 @@ using TMPro;
 using Photon.Realtime;
 public class CameraNameUI : MonoBehaviour {
     [SerializeField] private TMP_Text _playerNameText;
-
-    public void SetPlayerText(Player player) {
-        string value = $"PlayerName: {player.NickName}";
+    public void SetPlayerText(string nickName) {
+        string value = $"PlayerName: {nickName}";
         _playerNameText.SetText(value);
     }
 }

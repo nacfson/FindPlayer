@@ -16,8 +16,11 @@ public class AgentInput : MonoBehaviour{
     public event Action OnJumpKeyPress;
     protected ActionData _actionData;
 
+    protected PhotonView _PV;
+
     private void Awake() {
         _actionData = transform.Find("AD").GetComponent<ActionData>();
+        _PV = GetComponent<PhotonView>();
     }
     private void Update() {
 
@@ -25,21 +28,11 @@ public class AgentInput : MonoBehaviour{
         GetJumpInput();
         GetAttackInput();
         GetMouseInput();
-        GetMouseClickInput();
     }
 
-    private void GetMouseClickInput(){
-        if (RoomManager.Instance == null) return;
-        Debug.Log($"CurrentState {RoomManager.Instance.CurrentState}");
-        if(RoomManager.Instance.CurrentState == GameState.SPECTACTOR){
-            if (Input.GetMouseButtonDown(0)) {
-                OnMouseClicked?.Invoke();
-                RoomManager.Instance.ChangeCamera();
-            }
-        }
-    }
 
-private void GetMouseInput(){
+
+    private void GetMouseInput(){
         float x = Input.GetAxis("Mouse X");
         float y = Input.GetAxis("Mouse Y");
 

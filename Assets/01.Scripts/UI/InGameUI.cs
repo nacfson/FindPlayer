@@ -16,10 +16,10 @@ public class InGameUI : MonoBehaviour {
         _lastPlayerCount.SetText(count.ToString());
     }
 
-    public void SetPlayerNameUI(Player player,bool result) {
-        _cameraNameUI.enabled = result;
+    public void SetPlayerNameUI(string nickName,bool result) {
+        _cameraNameUI.gameObject.SetActive(result);
         if (result) {
-            _cameraNameUI.SetPlayerText(player);
+            _cameraNameUI.SetPlayerText(nickName);
         }
     }
 } 

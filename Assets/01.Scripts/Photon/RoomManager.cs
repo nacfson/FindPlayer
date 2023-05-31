@@ -8,16 +8,10 @@ using UnityEngine.SceneManagement;
 using Core;
 using Cinemachine;
 using System.Linq;
-public enum GameState { 
-    LOBBY = 0, INROOM = 1,INGAME = 2,SPECTACTOR = 3
-}
 
 public class RoomManager : MonoBehaviourPunCallbacks{
     public static RoomManager Instance;
     public Dictionary<Player,bool> playerDictionary = new Dictionary<Player,bool>();
-    public Dictionary<Player,CinemachineVirtualCamera> cameras = new Dictionary<Player,CinemachineVirtualCamera>();
-    public GameState CurrentState => _currentState;
-    private GameState _currentState;
     private PhotonView _PV;
     private int _cameraIndex = 0;
     private void Awake() { 
@@ -37,11 +31,7 @@ public class RoomManager : MonoBehaviourPunCallbacks{
 
         InGameUI.Instance.SetLastPlayerText(ReturnPlayerCount());
     }
-    public void UpdateState(GameState state) {
-        if (_PV.IsMine) {
-            this._currentState = state;
-        }
-    }
+
     public override void OnEnable(){
         base.OnEnable();
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -50,32 +40,14 @@ public class RoomManager : MonoBehaviourPunCallbacks{
         base.OnDisable();
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
-    public void ChangeCamera(){
-        CinemachineVirtualCamera currentCamera = cameras.Values.ElementAt(_cameraIndex);
 
-        _cameraIndex = (_cameraIndex + 1) % cameras.Count;
-        Player targetPlayer = null;
-        foreach(var c in cameras){
-            if(c.Value == currentCamera) {
-                targetPlayer = c.Key;
-            }
-            c.Value.enabled = false;
-        }
-        currentCamera.enabled = true;
-        InGameUI.Instance.SetPlayerNameUI(targetPlayer,true);
-    }
-    public void AddCamera(Player player,CinemachineVirtualCamera cmCam) {
-        if (_PV.IsMine) {
-            cameras.Add(player,cmCam);
-        }
-    }
+
     private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode){
         if(scene.buildIndex == Define.GameSceneIndex){
             PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs","PlayerManager"),Vector3.zero, Quaternion.identity);
 
             List<Player> playerList = PhotonNetwork.PlayerList.ToList();
             InitPlayer(playerList);
-            UpdateState(GameState.INGAME);
         }
     }
 

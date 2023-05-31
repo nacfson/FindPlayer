@@ -4,7 +4,7 @@ using UnityEngine;
 using Cinemachine;
 using Photon.Pun;
 using Photon.Realtime;
-public class AgentCamera : MonoBehaviour{    
+public class AgentCamera : MonoBehaviourPunCallbacks{    
 
     public Vector3 finarDir;    
     [SerializeField] private float _zoomSpeed;
@@ -44,11 +44,6 @@ public class AgentCamera : MonoBehaviour{
 
         _rotX = _followCam.transform.localRotation.eulerAngles.x;
         _rotY = _followCam.transform.localRotation.eulerAngles.y;
-
-        if(RoomManager.Instance != null) {
-            Player player = PhotonNetwork.LocalPlayer;
-            RoomManager.Instance.AddCamera(player, _followCam);
-        }
     }
     private void OnScrollHandle(float value){
         _followCam.m_Lens.FieldOfView -= value * _zoomSpeed;

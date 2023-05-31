@@ -8,5 +8,6 @@ public class ActionData : MonoBehaviour{
     public bool IsRunning;
     public bool IsArrived;
     public bool IsRotating;
+    public bool IsDead;
     public bool CanMove;
 }
