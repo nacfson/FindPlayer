@@ -76,10 +76,12 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
     }
 
     private void Attack(){
+        Debug.Log($"TargetName: {_targetCol}");
         if (_targetCol != null) {
             if (_targetCol.TryGetComponent<AgentHP>(out AgentHP agentHP)){
                 agentHP.Damaged();
             }
+
         }
     }
     private void StartAttack(){
