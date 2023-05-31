@@ -44,6 +44,9 @@ public class AgentCamera : MonoBehaviourPunCallbacks{
 
         _rotX = _followCam.transform.localRotation.eulerAngles.x;
         _rotY = _followCam.transform.localRotation.eulerAngles.y;
+
+        string nickName = PhotonNetwork.LocalPlayer.NickName;
+        CameraManager.Instance.AddCamera(nickName,_followCam);
     }
     private void OnScrollHandle(float value){
         _followCam.m_Lens.FieldOfView -= value * _zoomSpeed;

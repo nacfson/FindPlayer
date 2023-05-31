@@ -23,7 +23,7 @@ public class AgentController : MonoBehaviour {
             if (Input.GetMouseButtonDown(0)) {
                 //OnMouseClicked?.Invoke();
                 Debug.Log("ChangeCameraInAgentInput");
-                RoomManager.Instance.ChangeCamera();
+                CameraManager.Instance.ChangeCamera();
             }
         }
         else {
