@@ -4,12 +4,14 @@ using UnityEngine;
 using System;
 using Cinemachine;
 using Photon.Pun;
+using Core;
 
 public class AgentInput : MonoBehaviour{
     public event Action<float, float> OnMouseInput;
 
     public event Action<Vector3> OnMovementKeyPress;
     public event Action OnAttackKeyPress;
+    public event Action OnMouseClicked;
     
     public event Action OnJumpKeyPress;
     protected ActionData _actionData;
@@ -23,9 +25,20 @@ public class AgentInput : MonoBehaviour{
         GetJumpInput();
         GetAttackInput();
         GetMouseInput();
+        GetMouseClickInput();
     }
 
-    private void GetMouseInput(){
+    private void GetMouseClickInput(){
+        Debug.Log($"CurrentState {RoomManager.Instance.CurrentState}");
+        if(RoomManager.Instance.CurrentState == GameState.SPECTACTOR){
+            if (Input.GetMouseButtonDown(0)) {
+                OnMouseClicked?.Invoke();
+                RoomManager.Instance.ChangeCamera();
+            }
+        }
+    }
+
+private void GetMouseInput(){
         float x = Input.GetAxis("Mouse X");
         float y = Input.GetAxis("Mouse Y");
 

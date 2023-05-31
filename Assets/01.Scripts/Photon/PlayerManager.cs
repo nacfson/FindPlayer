@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using System.IO;
 using System;
-
+using Cinemachine;
 public class PlayerManager : MonoBehaviour{
     private PhotonView _PV;
     private void Awake() {

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using Photon.Pun;
 public class AgentCamera : MonoBehaviour{    
 
     public Vector3 finarDir;    
@@ -23,10 +24,12 @@ public class AgentCamera : MonoBehaviour{
     
     private CinemachineVirtualCamera _followCam;
     private AgentInput _agentInput;
+    private PhotonView _PV;
 
     private void Awake() {
-        _followCam = FindObjectOfType<CinemachineVirtualCamera>();
+        _followCam = GetComponentInChildren<CinemachineVirtualCamera>();
         _agentInput = GetComponent<AgentInput>();
+        _PV = GetComponent<PhotonView>();
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -38,6 +41,9 @@ public class AgentCamera : MonoBehaviour{
 
         _rotX = _followCam.transform.localRotation.eulerAngles.x;
         _rotY = _followCam.transform.localRotation.eulerAngles.y;
+
+        RoomManager.Instance.AddCamera(_followCam);
+        
     }
 
     private void OnScrollHandle(float value){
@@ -46,6 +52,9 @@ public class AgentCamera : MonoBehaviour{
     }
 
     private void OnMouseHandle(float x, float y){
+        if(_PV.IsMine == false) {
+            return;
+        }
         _rotX += -y * _sensitivity * Time.deltaTime;
         _rotY += x * _sensitivity * Time.deltaTime;
 

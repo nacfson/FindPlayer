@@ -38,8 +38,8 @@ public class AgentMovement : MonoBehaviourPun{
         _agentInput.OnJumpKeyPress += Jump;
         _cameraTransform = Define.MainCam.transform;
         if(PV.IsMine == false) {
-            GetComponentInChildren<Camera>().gameObject.SetActive(false);
-            GetComponentInChildren<CinemachineVirtualCamera>().gameObject.SetActive(false);
+            //GetComponentInChildren<Camera>().gameObject.SetActive(false);
+            GetComponentInChildren<CinemachineVirtualCamera>().enabled = false;
         }
     }
     //속도 자연스럽게

@@ -6,8 +6,13 @@ using Photon.Realtime;
 
 public class PlayerHP : AgentHP {
     protected override void DeadProcess() {
-        Player player = PhotonNetwork.LocalPlayer;
-        RoomManager.Instance.DeadPlayer(player, false);
-        base.DeadProcess();
+        if (_PV.IsMine) {
+            Player player = PhotonNetwork.LocalPlayer;
+            RoomManager.Instance.DeadPlayer(player, false);
+            base.DeadProcess();
+
+            RoomManager.Instance.UpdateState(GameState.SPECTACTOR);
+            RoomManager.Instance.RemoveCamera(_cmCam);
+        }
     }
 }
