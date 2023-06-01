@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using System.IO;
 using Photon.Realtime;
 public class GameManager : MonoBehaviourPunCallbacks{
     public static GameManager Instance;
@@ -23,7 +24,6 @@ public class GameManager : MonoBehaviourPunCallbacks{
         }
         //CreatePool();
         GetComponentsInChildren<WayPoint>(wayPoints);
-        MakeAIPlayer();
     }
     private void CreatePool() {
         PoolManager.Instance = new PoolManager(this.transform);
@@ -32,15 +32,7 @@ public class GameManager : MonoBehaviourPunCallbacks{
             PoolManager.Instance.CreatePool(p.prefab,p.count);
         }
     }
-    private void MakeAIPlayer(){
-        for(int i = 0; i < _initAICount; i++) {
-            AIBrain brain = Instantiate<AIBrain>(_aiPlayer);
-            brain.EnemyController.EnableNavMesh(false);
-            brain.transform.position = RandomWayPoint().ReturnPos();
-            brain.EnemyController.EnableNavMesh(true);
 
-        }
-    }
 
     public WayPoint RandomWayPoint(){
         int index = 0;

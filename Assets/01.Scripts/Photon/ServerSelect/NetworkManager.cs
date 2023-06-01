@@ -13,6 +13,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks{
     public static NetworkManager Instance;
     [SerializeField] private Transform _canvas;
     [SerializeField] private TMP_InputField _roomNameInputField;
+    [SerializeField] private TMP_InputField _nickNameInputField;
     [SerializeField] private TMP_Text _errorText;
     [SerializeField] private TMP_Text _roomNameText;
     [SerializeField] private Transform _roomListContent;
@@ -21,24 +22,35 @@ public class NetworkManager : MonoBehaviourPunCallbacks{
     [SerializeField] private GameObject _playerListItemPrefab;
     [SerializeField] private GameObject _startGameButton;
     [SerializeField] private int _maxPlayerCount = 10;
+
+    private bool _selectedName; 
     private Button _startButton;
     
     private void Awake() {
         Instance = this;
-
+        
+        _selectedName = false;
         Debug.Log("Connecting To Master");
         PhotonNetwork.ConnectUsingSettings();
     }
     public override void OnConnectedToMaster(){
         Debug.Log("On Connected To Master");
-        PhotonNetwork.JoinLobby();
-        PhotonNetwork.AutomaticallySyncScene = true; //씬을 로딩했을때  다같이 이동하게 됨
-}
+        if(_selectedName == false){
+            MenuManager.Instance.OpenMenu("selectName");
+        }
+        PhotonNetwork.AutomaticallySyncScene = true; //한 명이 씬을 로딩했을때  다같이 이동하게 됨
+    }
+
+    public void JoinLobby() {
+        PhotonNetwork.JoinLobby(TypedLobby.Default);
+        MenuManager.Instance.OpenMenu("loading");
+    }
 
     public override void OnJoinedLobby(){
         MenuManager.Instance.OpenMenu("title");
         Debug.Log("On Joined Lobby");
-        PhotonNetwork.NickName = "Player: " + Random.Range(0,1000).ToString("0000");
+        PhotonNetwork.NickName = _nickNameInputField.text;
+        _selectedName = true;
     }
 
     public void CreateRoom(){
@@ -62,7 +74,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks{
         for(int i =0 ; i< players.Count(); i++){
             Instantiate(_playerListItemPrefab,_playerListContent).GetComponent<PlayerListItem>().SetUp(players[i]);
         }
-
         _startGameButton.SetActive(PhotonNetwork.IsMasterClient);
     }
     public override void OnMasterClientSwitched(Player newMasterClient){

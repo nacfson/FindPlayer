@@ -8,11 +8,13 @@ using UnityEngine.SceneManagement;
 using Core;
 using Cinemachine;
 using System.Linq;
+using System;
 
 public class RoomManager : MonoBehaviourPunCallbacks{
     public static RoomManager Instance;
     public Dictionary<Player,bool> playerDictionary = new Dictionary<Player,bool>();
     private PhotonView _PV;
+    [SerializeField] private int _initAICount = 50;
     private int _cameraIndex = 0;
     private void Awake() { 
         if(Instance){
@@ -47,6 +49,18 @@ public class RoomManager : MonoBehaviourPunCallbacks{
 
             List<Player> playerList = PhotonNetwork.PlayerList.ToList();
             InitPlayer(playerList);
+            MakeAIPlayer();
+        }
+    }
+
+    private void MakeAIPlayer(){
+        if(PhotonNetwork.IsMasterClient){
+            for(int i = 0; i < _initAICount; i++) {
+                GameObject brain =  PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs","AIPlayer"),Vector3.zero, Quaternion.identity);
+                brain.GetComponent<EnemyController>().EnableNavMesh(false);
+                brain.transform.position = GameManager.Instance.RandomWayPoint().ReturnPos();
+                brain.GetComponent<EnemyController>().EnableNavMesh(true);
+            }
         }
     }
 

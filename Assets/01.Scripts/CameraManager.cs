@@ -16,6 +16,7 @@ public class CameraManager : MonoBehaviour {
         photonView = GetComponent<PhotonView>();
     }
     private int _cameraIndex = 0;
+
     public void AddCamera(string playerName, CinemachineVirtualCamera camera) {
         if (!cameraDictionary.ContainsKey(playerName)) {
             cameraDictionary.Add(playerName, camera);
@@ -25,11 +26,16 @@ public class CameraManager : MonoBehaviour {
             cameraDictionary[playerName] = camera;
         }
     }
-    public void ChangeCamera() {
-        CinemachineVirtualCamera currentCamera = cameraDictionary.Values.ElementAt(_cameraIndex);
-        Debug.LogError($"{currentCamera}");
+    public void ChangeCamera(int cameraIndex) {
+        photonView.RPC("ChangeCameraRPC", RpcTarget.All,cameraIndex);
+    }
 
-        _cameraIndex = (_cameraIndex + 1) % cameraDictionary.Count;
+    [PunRPC]
+    public void ChangeCameraRPC(int cameraIndex) {
+        if (photonView.IsMine == false) return;
+
+        CinemachineVirtualCamera currentCamera = cameraDictionary.Values.ElementAt(cameraIndex);
+
         string targetPlayer = null;
         foreach (var c in cameraDictionary) {
             if (c.Value == currentCamera) {

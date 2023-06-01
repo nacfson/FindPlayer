@@ -10,6 +10,7 @@ public class AgentController : MonoBehaviour {
     protected ActionData _actionData;
     protected AgentAnimator _agentAnimator;
     protected AgentHP _agentHP;
+    protected int _cameraIndex = 0;
 
     private void Awake() {
         _PV = GetComponent<PhotonView>();
@@ -25,7 +26,8 @@ public class AgentController : MonoBehaviour {
         if (_actionData.IsDead) {
             if (Input.GetMouseButtonDown(0)) {
                 //OnMouseClicked?.Invoke();
-                CameraManager.Instance.ChangeCamera();
+                _cameraIndex = (_cameraIndex + 1) % CameraManager.Instance.cameraDictionary.Count;
+                CameraManager.Instance.ChangeCamera(_cameraIndex);
             }
         }
     }
@@ -40,7 +42,7 @@ public class AgentController : MonoBehaviour {
             _agentAnimator.IsDead(result);
             _agentHP.OnDead?.Invoke();
             _actionData.IsDead = true;
-            CameraManager.Instance.ChangeCamera();
+            CameraManager.Instance.ChangeCamera(_cameraIndex);
         }
     }
 

@@ -17,6 +17,7 @@ public class PlayerManager : MonoBehaviour{
     }
     private void CreateController(){
         Debug.Log("Instantiated Player Controller");
-        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs","Player"),Vector3.zero,Quaternion.identity);
+        Vector3 pos = GameManager.Instance.RandomWayPoint().ReturnPos();
+        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs","Player"),pos,Quaternion.identity);
     }
 }
