@@ -1,22 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class AgentHighlighting : MonoBehaviour {
-    [SerializeField] protected SkinnedMeshRenderer _meshRenderer;
-    protected Material _material;
+    protected List<SkinnedMeshRenderer> _meshRendererList;
+    [SerializeField] private Transform _visualTransform;
+
     private void Awake() {
-        _material = _meshRenderer.material;
-        Debug.Log(_material);
+        _meshRendererList = new List<SkinnedMeshRenderer>();
+        _visualTransform.GetComponentsInChildren<SkinnedMeshRenderer>(_meshRendererList);
+        //Debug.LogError(_meshRendererList.Count);
     }
 
-    public Material GetMaterial() {
-        return _material;
+    public void SetMaterial(float value) {
+        foreach(var m in _meshRendererList) {
+            Material[] mats = m.materials;
+            mats[mats.Length - 1].SetFloat("_LineThickness", value);
+            m.materials = mats;
+        }
     }
-    
-    public void SetMaterial(Material material) {
-        _meshRenderer.material = material;
-    }
-
-
 }

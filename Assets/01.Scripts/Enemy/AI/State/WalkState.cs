@@ -8,7 +8,7 @@ public class WalkState : State{
     [SerializeField] private TimerData _timerSO;
     public override void OnEnterState(){
         _wayPoint = GameManager.Instance.RandomWayPoint();
-        Debug.Log(_wayPoint);
+        //Debug.Log(_wayPoint);
         _controller.SetDestination(_wayPoint.ReturnPos());
 
         StartCoroutine(DelayCoroutine(_timerSO.ReturnRandomTime()));

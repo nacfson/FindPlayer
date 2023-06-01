@@ -11,6 +11,7 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
     protected ActionData _actionData;
     protected AgentMovement _agentMovement;
     protected Collider _targetCol;
+    protected PhotonView _PV;
 
     [SerializeField] protected Material _changeMat;
     [SerializeField] protected LayerMask _layerMask;
@@ -24,6 +25,7 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
         _agentAnimator = transform.Find("Visual").GetComponent<AgentAnimator>();
         _actionData = transform.Find("AD").GetComponent<ActionData>();
         _agentMovement = GetComponent<AgentMovement>();
+        _PV = GetComponent<PhotonView>();
     }
 
     private void Start() {
@@ -32,27 +34,24 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
     }
     private void Update() {
         if(_actionData.IsAttacking) return;
-        Collider temp = GetClosestObjectCollider();
-
-        if(_targetCol != temp && temp != null) {
-            if(_targetCol != null) {
-                SettingTargetObj(false);
-            }
-            _targetCol = temp;
-            SettingTargetObj(true);
+        if(_targetCol != null) {
+            SettingTargetObj(false);
         }
-        else if(_targetCol != null) {
+        Collider temp = GetClosestObjectCollider();
+        _targetCol = temp;
+        if(_targetCol != null) {
             SettingTargetObj(true);
         }
     }
 
     public void SettingTargetObj(bool result) {
-        if(result) {
-            _originMat = _targetCol.transform.GetComponent<AgentHighlighting>().GetMaterial();
-            _targetCol.transform.GetComponent<AgentHighlighting>().SetMaterial(_changeMat);
-        }
-        else {
-            _targetCol.transform.GetComponent<AgentHighlighting>().SetMaterial(_originMat);
+        if (_PV.IsMine) {
+            if (result) {
+                _targetCol.transform.GetComponent<AgentHighlighting>().SetMaterial(0.02f);
+            }
+            else {
+                _targetCol.transform.GetComponent<AgentHighlighting>().SetMaterial(0f);
+            }
         }
     }
 
@@ -78,10 +77,11 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
     private void Attack(){
         Debug.Log($"TargetName: {_targetCol}");
         if (_targetCol != null) {
+            Debug.Log("TargetCol not null");
             if (_targetCol.TryGetComponent<AgentHP>(out AgentHP agentHP)){
+                Debug.Log("Damaged");
                 agentHP.Damaged();
             }
-
         }
     }
     private void StartAttack(){

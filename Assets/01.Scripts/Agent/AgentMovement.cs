@@ -60,7 +60,7 @@ public class AgentMovement : MonoBehaviourPun{
         _agentAnimator.SetSpeed(_movementVelocity.sqrMagnitude);
 
         if(_controller.isGrounded == false){
-            _verticalSpeed += _gravity * Time.fixedDeltaTime;
+            _verticalSpeed += _gravity * Time.fixedDeltaTime * 0.1f;
         }
         else if(_controller.isGrounded == true){
             _agentAnimator.OnJump(false);
@@ -79,6 +79,7 @@ public class AgentMovement : MonoBehaviourPun{
         _controller.Move(move);
 
     }
+
 
     public void SetRunSpeed(bool result) {
         if(result){
@@ -113,7 +114,7 @@ public class AgentMovement : MonoBehaviourPun{
     public void Jump(){
         if(_controller.isGrounded){
             _agentAnimator.OnJump(true);
-            _verticalSpeed = _movementData.JumpHeight;
+            _verticalSpeed = _movementData.JumpHeight * 0.18f;
         }
     }
 }

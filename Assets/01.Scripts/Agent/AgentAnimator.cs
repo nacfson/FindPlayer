@@ -12,6 +12,8 @@ public class AgentAnimator : MonoBehaviourPun{
     protected readonly int _attackBoolHash = Animator.StringToHash("IS_ATTACK");
     protected readonly int _runBoolHash = Animator.StringToHash("IS_RUN");
     protected readonly int _deadHash = Animator.StringToHash("DEAD");
+    protected readonly int _deadBoolHash = Animator.StringToHash("IS_DEAD");
+
     protected Animator _animator;
     protected ActionData _actionData;
 
@@ -47,6 +49,9 @@ public class AgentAnimator : MonoBehaviourPun{
         else{
             _animator.ResetTrigger(_deadHash);
         }
+    }
+    public void IsDead(bool result) {
+        _animator.SetBool(_deadBoolHash, result);
     }
 
     public void SetTriggerAttack(){

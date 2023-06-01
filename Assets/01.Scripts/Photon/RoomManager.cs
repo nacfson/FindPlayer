@@ -29,7 +29,7 @@ public class RoomManager : MonoBehaviourPunCallbacks{
             playerDictionary.Add(player, true);
         }
 
-        InGameUI.Instance.SetLastPlayerText(ReturnPlayerCount());
+        InGameUI.Instance.RpcMethod(ReturnPlayerCount());
     }
 
     public override void OnEnable(){
@@ -40,7 +40,6 @@ public class RoomManager : MonoBehaviourPunCallbacks{
         base.OnDisable();
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
-
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode){
         if(scene.buildIndex == Define.GameSceneIndex){
@@ -55,8 +54,7 @@ public class RoomManager : MonoBehaviourPunCallbacks{
         if (playerDictionary.ContainsKey(player)) {
             playerDictionary[player] = result;
             if(InGameUI.Instance != null) {
-                InGameUI.Instance.SetLastPlayerText(ReturnPlayerCount());
-
+                InGameUI.Instance.RpcMethod(ReturnPlayerCount());
             }
         }
     }

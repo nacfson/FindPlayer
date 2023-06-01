@@ -10,11 +10,13 @@ public class AgentHP : MonoBehaviourPunCallbacks{
     protected CinemachineVirtualCamera _cmCam;
     protected PhotonView _PV;
     protected ActionData _actionData;
+    protected AgentController _agentController;
     protected void Awake() {
         _agentAnimator = transform.parent.Find("Visual").GetComponent<AgentAnimator>();
         _actionData = transform.parent.Find("AD").GetComponent<ActionData>();
         _PV = transform.root.GetComponent<PhotonView>();
         _cmCam = GetComponentInChildren<CinemachineVirtualCamera>();
+        _agentController = transform.parent.GetComponent<AgentController>();
     }
     public void Damaged(){
         DeadProcess();
@@ -22,7 +24,7 @@ public class AgentHP : MonoBehaviourPunCallbacks{
 
     protected virtual void DeadProcess(){
         _agentAnimator.OnDead(true);
-        Debug.Log("DeadProcess");
         OnDead?.Invoke();
+        Debug.Log("DeadProcess");
     }
 }

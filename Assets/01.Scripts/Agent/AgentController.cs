@@ -8,27 +8,40 @@ using Photon.Realtime;
 public class AgentController : MonoBehaviour {
     protected PhotonView _PV;
     protected ActionData _actionData;
+    protected AgentAnimator _agentAnimator;
+    protected AgentHP _agentHP;
 
     private void Awake() {
         _PV = GetComponent<PhotonView>();
         _actionData = transform.Find("AD").GetComponent<ActionData>();
+        _agentAnimator = transform.Find("Visual").GetComponent<AgentAnimator>();
+        _agentHP = transform.Find("Collider").GetComponent<AgentHP>();
     }
     private void Update() {
         GetMouseClickInput();
     }
     private void GetMouseClickInput() {
-        if (RoomManager.Instance == null) return;
         if (_PV.IsMine == false) return;
         if (_actionData.IsDead) {
             if (Input.GetMouseButtonDown(0)) {
                 //OnMouseClicked?.Invoke();
-                Debug.Log("ChangeCameraInAgentInput");
                 CameraManager.Instance.ChangeCamera();
             }
         }
-        else {
-            Debug.LogError("It is not dead");
-        }
-
     }
+    public void MethodRpc() {
+        _PV.RPC("OnDeadRpc", RpcTarget.All, true);
+    }
+
+    [PunRPC]
+    public void OnDeadRpc(bool result) {
+        if (_PV.IsMine) {
+            _agentAnimator.OnDead(result);
+            _agentAnimator.IsDead(result);
+            _agentHP.OnDead?.Invoke();
+            _actionData.IsDead = true;
+            CameraManager.Instance.ChangeCamera();
+        }
+    }
+
 }
