@@ -15,8 +15,6 @@ public class CameraManager : MonoBehaviour {
         Instance = this;
         photonView = GetComponent<PhotonView>();
     }
-    private int _cameraIndex = 0;
-
     public void AddCamera(string playerName, CinemachineVirtualCamera camera) {
         if (!cameraDictionary.ContainsKey(playerName)) {
             cameraDictionary.Add(playerName, camera);
@@ -27,14 +25,8 @@ public class CameraManager : MonoBehaviour {
         }
     }
     public void ChangeCamera(int cameraIndex) {
-        photonView.RPC("ChangeCameraRPC", RpcTarget.All,cameraIndex);
-    }
-
-    [PunRPC]
-    public void ChangeCameraRPC(int cameraIndex) {
         //죽은 사람만 카메라를 바꿀 수 있도록 코드를 수정해야함.
-
-
+        Debug.LogError(cameraIndex);
         CinemachineVirtualCamera currentCamera = cameraDictionary.Values.ElementAt(cameraIndex);
 
         string targetPlayer = null;

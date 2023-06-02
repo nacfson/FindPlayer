@@ -27,10 +27,12 @@ public class InGameUI : MonoBehaviour {
     public void CreateKillLogUI(Player killer,Player deader) {
         _PV.RPC("CreateKillLogUIRPC", RpcTarget.All, killer, deader);
     }
+    [PunRPC]
     public void CreateKillLogUIRPC(Player killer,Player deader) {
         KillLogUI kui = Instantiate<KillLogUI>(_killLogUI, transform.position, Quaternion.identity);
         kui.transform.position = transform.position;
         kui.SetUI(killer, deader);
+        kui.transform.SetParent(this.transform);
     }
 
     public void SetPlayerNameUI(string nickName,bool result) {

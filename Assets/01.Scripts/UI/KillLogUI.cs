@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,6 +16,9 @@ public class KillLogUI: MonoBehaviour {
         _killLogText.SetText(result);
     }
 
+    public void ShowingSequence(){
+        Destroy(this.gameObject,3f);
+    }
 
 
 }

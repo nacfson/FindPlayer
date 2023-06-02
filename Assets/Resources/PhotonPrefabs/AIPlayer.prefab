@@ -428,7 +428,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e51f77bfddfc81a42b68d0726ab082b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _currentState: {fileID: 8396855441330308996}
+  _currentState: {fileID: 8396855442795313438}
 --- !u!195 &8396855442095193013
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -436,7 +436,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8396855442095193014}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: 0
   m_Radius: 0.3
   m_Speed: 3.5

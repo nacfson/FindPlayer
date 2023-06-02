@@ -1,14 +1,11 @@
 using System.IO;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.SceneManagement;
 using Core;
-using Cinemachine;
 using System.Linq;
-using System;
 
 public class RoomManager : MonoBehaviourPunCallbacks{
     public static RoomManager Instance;
@@ -57,9 +54,7 @@ public class RoomManager : MonoBehaviourPunCallbacks{
         if(PhotonNetwork.IsMasterClient){
             for(int i = 0; i < _initAICount; i++) {
                 GameObject brain =  PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs","AIPlayer"),Vector3.zero, Quaternion.identity);
-                brain.GetComponent<EnemyController>().EnableNavMesh(false);
                 brain.transform.position = GameManager.Instance.RandomWayPoint().ReturnPos();
-                brain.GetComponent<EnemyController>().EnableNavMesh(true);
             }
         }
     }
