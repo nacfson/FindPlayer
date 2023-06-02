@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 
 public class AgentSkill : MonoBehaviourPunCallbacks{
     protected AgentInput _agentInput;
@@ -80,7 +81,8 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
             Debug.Log("TargetCol not null");
             if (_targetCol.TryGetComponent<AgentHP>(out AgentHP agentHP)){
                 Debug.Log("Damaged");
-                agentHP.Damaged();
+                Player player = PhotonNetwork.LocalPlayer;
+                agentHP.Damaged(player);
             }
         }
     }

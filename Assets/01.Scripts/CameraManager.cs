@@ -22,7 +22,7 @@ public class CameraManager : MonoBehaviour {
             cameraDictionary.Add(playerName, camera);
         }
         else {
-            // ÀÌ¹Ì ÇØ´ç ÇÃ·¹ÀÌ¾îÀÇ Ä«¸Ş¶ó°¡ Ãß°¡µÇ¾î ÀÖ´Â °æ¿ì, ±âÁ¸ Ä«¸Ş¶ó¸¦ ´ëÃ¼ÇÕ´Ï´Ù.
+            // ï¿½Ì¹ï¿½ ï¿½Ø´ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ Ä«ï¿½Ş¶ï¿½ ï¿½ß°ï¿½ï¿½Ç¾ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ Ä«ï¿½Ş¶ï¿½ ï¿½ï¿½Ã¼ï¿½Õ´Ï´ï¿½.
             cameraDictionary[playerName] = camera;
         }
     }
@@ -32,7 +32,8 @@ public class CameraManager : MonoBehaviour {
 
     [PunRPC]
     public void ChangeCameraRPC(int cameraIndex) {
-        if (photonView.IsMine == false) return;
+        //ì£½ì€ ì‚¬ëŒë§Œ ì¹´ë©”ë¼ë¥¼ ë°”ê¿€ ìˆ˜ ìˆë„ë¡ ì½”ë“œë¥¼ ìˆ˜ì •í•´ì•¼í•¨.
+
 
         CinemachineVirtualCamera currentCamera = cameraDictionary.Values.ElementAt(cameraIndex);
 

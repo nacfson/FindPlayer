@@ -5,9 +5,9 @@ using Photon.Pun;
 using Photon.Realtime;
 
 public class PlayerHP : AgentHP {
-    protected override void DeadProcess() {
+    protected override void DeadProcess(Player attacker) {
         Player player = PhotonNetwork.LocalPlayer;
-        RoomManager.Instance.DeadPlayer(player,false);
+        RoomManager.Instance.DeadPlayer(attacker,player,false);
         _agentController.MethodRpc();
     }
 }

@@ -18,11 +18,11 @@ public class AgentHP : MonoBehaviourPunCallbacks{
         _cmCam = GetComponentInChildren<CinemachineVirtualCamera>();
         _agentController = transform.parent.GetComponent<AgentController>();
     }
-    public void Damaged(){
-        DeadProcess();
+    public void Damaged(Player attacker){
+        DeadProcess(attacker);
     }
 
-    protected virtual void DeadProcess(){
+    protected virtual void DeadProcess(Player attacker){
         _agentAnimator.OnDead(true);
         OnDead?.Invoke();
         Debug.Log("DeadProcess");

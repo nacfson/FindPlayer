@@ -64,9 +64,19 @@ public class RoomManager : MonoBehaviourPunCallbacks{
         }
     }
 
-    public void DeadPlayer(Player player,bool result) {
+    public void DeadPlayer(Player attacker, Player player,bool result = false) {
         if (playerDictionary.ContainsKey(player)) {
             playerDictionary[player] = result;
+            if(InGameUI.Instance != null) {
+                InGameUI.Instance.RpcMethod(ReturnPlayerCount());
+                InGameUI.Instance.CreateKillLogUI(attacker,player);
+            }
+        }
+    }
+
+    public void LeftPlayer(Player lefter) {
+        if (playerDictionary.ContainsKey(lefter)) {
+            playerDictionary[lefter] = false;
             if(InGameUI.Instance != null) {
                 InGameUI.Instance.RpcMethod(ReturnPlayerCount());
             }
@@ -83,7 +93,7 @@ public class RoomManager : MonoBehaviourPunCallbacks{
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer) {
-        DeadPlayer(otherPlayer,false);
+        LeftPlayer(otherPlayer);
     }
 
 }
