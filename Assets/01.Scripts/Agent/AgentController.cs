@@ -25,8 +25,7 @@ public class AgentController : MonoBehaviour {
         if (_PV.IsMine == false) return;
         if (_actionData.IsDead) {
             if (Input.GetMouseButtonDown(0)) {
-                //OnMouseClicked?.Invoke();
-                _cameraIndex = (_cameraIndex + 1) % CameraManager.Instance.cameraDictionary.Count;
+                _cameraIndex = (_cameraIndex + 1) % CameraManager.Instance.GetCameraCount();
                 CameraManager.Instance.ChangeCamera(_cameraIndex);
             }
         }

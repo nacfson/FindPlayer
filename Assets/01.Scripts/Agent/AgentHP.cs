@@ -11,12 +11,14 @@ public class AgentHP : MonoBehaviourPunCallbacks{
     protected PhotonView _PV;
     protected ActionData _actionData;
     protected AgentController _agentController;
+    protected AgentCamera _agentCamera;
     protected void Awake() {
         _agentAnimator = transform.parent.Find("Visual").GetComponent<AgentAnimator>();
         _actionData = transform.parent.Find("AD").GetComponent<ActionData>();
         _PV = transform.root.GetComponent<PhotonView>();
         _cmCam = GetComponentInChildren<CinemachineVirtualCamera>();
         _agentController = transform.parent.GetComponent<AgentController>();
+        _agentCamera = transform.parent.GetComponent<AgentCamera>();
     }
     public void Damaged(Player attacker){
         DeadProcess(attacker);

@@ -28,11 +28,14 @@ public class AgentCamera : MonoBehaviourPunCallbacks{
     private PhotonView _PV;
     private ActionData _actionData;
 
+    public Player player;
+
     private void Awake() {
         _followCam = GetComponentInChildren<CinemachineVirtualCamera>();
         _agentInput = GetComponent<AgentInput>();
         _PV = GetComponent<PhotonView>();
         _actionData = transform.Find("AD").GetComponent<ActionData>();
+        player = PhotonNetwork.LocalPlayer;
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -46,7 +49,7 @@ public class AgentCamera : MonoBehaviourPunCallbacks{
         _rotY = _followCam.transform.localRotation.eulerAngles.y;
 
         string nickName = PhotonNetwork.LocalPlayer.NickName;
-        CameraManager.Instance.AddCamera(nickName,_followCam);
+        CameraManager.Instance.AddCamera(this);
     }
     private void OnScrollHandle(float value){
         _followCam.m_Lens.FieldOfView -= value * _zoomSpeed;
@@ -63,6 +66,14 @@ public class AgentCamera : MonoBehaviourPunCallbacks{
         //_rotX = Mathf.Clamp(_rotX,0f,_clampAngle);
         Quaternion rot = Quaternion.Euler(_rotX,_rotY,0);
         _followCam.transform.rotation = rot;
+    }
+
+    public CinemachineVirtualCamera GetCamera(){
+        return _followCam;
+    }
+
+    public Player GetPlayer(){
+        return player;
     }
 
 }

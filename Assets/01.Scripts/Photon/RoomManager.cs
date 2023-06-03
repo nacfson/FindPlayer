@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
@@ -59,9 +60,11 @@ public class RoomManager : MonoBehaviourPunCallbacks{
         }
     }
 
-    public void DeadPlayer(Player attacker, Player player,bool result = false) {
+    public void DeadPlayer(Player attacker, AgentCamera agentCamera,bool result = false) {
+        Player player = agentCamera.GetPlayer();
         if (playerDictionary.ContainsKey(player)) {
             playerDictionary[player] = result;
+            CameraManager.Instance.RemoveCamera(agentCamera);
             if(InGameUI.Instance != null) {
                 InGameUI.Instance.RpcMethod(ReturnPlayerCount());
                 InGameUI.Instance.CreateKillLogUI(attacker,player);
@@ -90,5 +93,4 @@ public class RoomManager : MonoBehaviourPunCallbacks{
     public override void OnPlayerLeftRoom(Player otherPlayer) {
         LeftPlayer(otherPlayer);
     }
-
 }
