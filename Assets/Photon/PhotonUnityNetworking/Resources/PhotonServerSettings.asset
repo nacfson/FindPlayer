@@ -47,6 +47,11 @@ MonoBehaviour:
   - AddCameraRPC
   - ChangeCameraRPC
   - CreateKillLogUIRPC
+  - SetLoadingTextRPC
+  - GameStateRPC
+  - UpdateStateRPC
+  - GameStartRPC
+  - GameEndRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

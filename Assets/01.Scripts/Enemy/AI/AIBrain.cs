@@ -25,6 +25,7 @@ public class AIBrain : PoolableMono{
     }
 
     private void Update() {
+        if(RoomManager.Instance.CurrentState == GAME_STATE.LOADING) return;
         _currentState.OnUpdateState();
     }
 

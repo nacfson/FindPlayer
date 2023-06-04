@@ -7,13 +7,20 @@ using Photon.Realtime;
 using UnityEngine.SceneManagement;
 using Core;
 using System.Linq;
-
+using System;
+using System.Collections;
+public enum GAME_STATE{
+    MENU =0, LOADING =1, INGAME = 2
+}
 public class RoomManager : MonoBehaviourPunCallbacks{
     public static RoomManager Instance;
     public Dictionary<Player,bool> playerDictionary = new Dictionary<Player,bool>();
     private PhotonView _PV;
+    [SerializeField] private float _loadingTime;
     [SerializeField] private int _initAICount = 50;
     private int _cameraIndex = 0;
+    public GAME_STATE CurrentState => _currentState;
+    private GAME_STATE _currentState;
     private void Awake() { 
         if(Instance){
             Destroy(this.gameObject);
@@ -46,9 +53,29 @@ public class RoomManager : MonoBehaviourPunCallbacks{
             PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs","PlayerManager"),Vector3.zero, Quaternion.identity);
 
             List<Player> playerList = PhotonNetwork.PlayerList.ToList();
+            UpdateState(GAME_STATE.LOADING);
             InitPlayer(playerList);
+            LoadingGame();
             MakeAIPlayer();
         }
+    }
+
+    private void LoadingGame(){
+        if(PhotonNetwork.IsMasterClient){
+            StartCoroutine(LoadGameCor());
+        }
+    }
+
+    IEnumerator LoadGameCor(){
+        float timer = 0f;
+        while(timer < _loadingTime){
+            timer += Time.deltaTime;
+            string value = ((int)(_loadingTime - timer)).ToString();
+            InGameUI.Instance.SetLoadingText(value);
+            yield return null;
+        }
+        InGameUI.Instance.GameStart();
+        UpdateState(GAME_STATE.INGAME);
     }
 
     private void MakeAIPlayer(){
@@ -68,6 +95,9 @@ public class RoomManager : MonoBehaviourPunCallbacks{
             if(InGameUI.Instance != null) {
                 InGameUI.Instance.RpcMethod(ReturnPlayerCount());
                 InGameUI.Instance.CreateKillLogUI(attacker,player);
+            }
+            if(GameEnd()){
+                
             }
         }
     }
@@ -92,5 +122,18 @@ public class RoomManager : MonoBehaviourPunCallbacks{
 
     public override void OnPlayerLeftRoom(Player otherPlayer) {
         LeftPlayer(otherPlayer);
+    }
+
+    public void UpdateState(GAME_STATE state){
+        _PV.RPC("UpdateStateRPC",RpcTarget.All,state);
+    }
+
+    [PunRPC]
+    public void UpdateStateRPC(GAME_STATE state){
+        _currentState = state;
+    }
+
+    public bool GameEnd(){
+        return ReturnPlayerCount() <= 1;
     }
 }

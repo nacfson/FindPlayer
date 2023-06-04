@@ -459,17 +459,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 649265f16905afe409124b108b989f03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  finarDir: {x: 0, y: 0, z: 0}
   _zoomSpeed: 0
   _maxOrthoSize: 15
   _followSpeed: 10
   _sensitivity: 100
-  _clampAngle: 360
-  realCamera: {fileID: 330585546}
-  dirNormal: {x: 0, y: 0, z: 0}
-  maxDistance: 0
-  minDistance: 0
-  finalDistance: 0
+  _clampAngle: 70
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!114 &430032871078137217
 MonoBehaviour:
   m_ObjectHideFlags: 0
