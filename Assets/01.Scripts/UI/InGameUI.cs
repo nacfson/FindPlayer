@@ -11,6 +11,8 @@ public class InGameUI : MonoBehaviour {
     [SerializeField] private KillLogUI _killLogUI;
     [SerializeField] private GameObject _loadingPanel;
     [SerializeField] private GameObject _uiCam;
+    [SerializeField] private ScorePanelUI _scorePanel;
+    [SerializeField] private ProvocationData _provocationData;
     private TMP_Text _loadingText;
     public static InGameUI Instance;
     private PhotonView _PV;
@@ -18,6 +20,7 @@ public class InGameUI : MonoBehaviour {
         Instance = this;
         _PV = GetComponent<PhotonView>();
         _loadingText  = _loadingPanel.transform.Find("LoadingText").GetComponent<TMP_Text>();
+        _loadingPanel.gameObject.SetActive(true);
     }
 
     public void RpcMethod(int count) {
@@ -68,6 +71,28 @@ public class InGameUI : MonoBehaviour {
 
     [PunRPC]
     public void GameEndRPC(){
-        
+        string provocation = _provocationData.RandomProvocation();
+        _scorePanel.SetProvocationText(provocation);
+        object score;
+        object killCount;
+        object rank;
+        object maxPlayer;
+
+        if(PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("SCORE",out score)){
+            score = (int)score;
+        }
+        if(PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("KILL",out killCount)){
+            killCount = (int)killCount;
+        }
+        if(PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("SCORE",out rank)){
+            rank = (int)rank;
+        }
+        if(PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("KILL",out maxPlayer)){
+            maxPlayer = (int)maxPlayer;
+        }
+
+        _scorePanel.SetScoreText((int)killCount,(int)score);        
+        _scorePanel.SetRankText((int)rank,(int)maxPlayer);
+        _scorePanel.gameObject.SetActive(true);
     }
 } 

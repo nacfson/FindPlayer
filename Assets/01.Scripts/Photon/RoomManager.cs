@@ -9,6 +9,7 @@ using Core;
 using System.Linq;
 using System;
 using System.Collections;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 public enum GAME_STATE{
     MENU =0, LOADING =1, INGAME = 2
 }
@@ -19,6 +20,8 @@ public class RoomManager : MonoBehaviourPunCallbacks{
     [SerializeField] private float _loadingTime;
     [SerializeField] private int _initAICount = 50;
     private int _cameraIndex = 0;
+    private int _killCount = 0;
+    private int _socre = 0;
     public GAME_STATE CurrentState => _currentState;
     private GAME_STATE _currentState;
     private void Awake() { 
@@ -92,14 +95,21 @@ public class RoomManager : MonoBehaviourPunCallbacks{
         if (playerDictionary.ContainsKey(player)) {
             playerDictionary[player] = result;
             CameraManager.Instance.RemoveCamera(agentCamera);
+
             if(InGameUI.Instance != null) {
                 InGameUI.Instance.RpcMethod(ReturnPlayerCount());
                 InGameUI.Instance.CreateKillLogUI(attacker,player);
             }
-            if(GameEnd()){
-                
+            if(IfGameEnd()){
+                SetPlayerData();
+                GameEnd();
             }
         }
+    }
+
+    private void GameEnd(){
+        UpdateState(GAME_STATE.LOADING);
+        InGameUI.Instance.GameEnd();
     }
 
     public void LeftPlayer(Player lefter) {
@@ -120,6 +130,27 @@ public class RoomManager : MonoBehaviourPunCallbacks{
         return count;
     }
 
+    public void UpdateKillCountAndScore(int killCount = 0,int score = 0){
+        _PV.RPC("UpdateKillCountAndScoreRPC",RpcTarget.All,killCount,score);
+        //데이터를 포톤 서버에 올려놓아야함
+    }
+    [PunRPC]
+    public void UpdateKillCountAndScoreRPC(int killCount = 0,int score = 0){
+        if(_PV.IsMine){
+            _killCount += killCount;
+            _socre += score;
+        }
+    }
+    private void SetPlayerData(){
+        string nickName = PhotonNetwork.LocalPlayer.NickName;
+        Hashtable playerProperty = new Hashtable();
+        playerProperty["SCORE"] = _socre;
+        playerProperty["KILL"] = _killCount;
+        playerProperty["RANK"] = ReturnPlayerCount();
+        playerProperty["MAXPLAYER"] = playerDictionary.Count;
+        PhotonNetwork.LocalPlayer.SetCustomProperties(playerProperty);
+    }
+
     public override void OnPlayerLeftRoom(Player otherPlayer) {
         LeftPlayer(otherPlayer);
     }
@@ -133,7 +164,7 @@ public class RoomManager : MonoBehaviourPunCallbacks{
         _currentState = state;
     }
 
-    public bool GameEnd(){
+    public bool IfGameEnd(){
         return ReturnPlayerCount() <= 1;
     }
 }
