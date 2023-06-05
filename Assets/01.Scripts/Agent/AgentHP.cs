@@ -28,7 +28,6 @@ public class AgentHP : MonoBehaviourPunCallbacks{
     protected virtual void DeadProcess(Player attacker){
         _agentAnimator.OnDead(true);
         OnDead?.Invoke();
-        RoomManager.Instance.UpdateKillCountAndScore(1,30);
         Debug.Log("DeadProcess");
     }
 }

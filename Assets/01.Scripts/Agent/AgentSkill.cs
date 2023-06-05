@@ -82,6 +82,9 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
             if (_targetCol.TryGetComponent<AgentHP>(out AgentHP agentHP)){
                 Debug.Log("Damaged");
                 Player player = PhotonNetwork.LocalPlayer;
+                if(_targetCol.gameObject.CompareTag("PLAYER")){
+                    RoomManager.Instance.UpdateKillCountAndScore(1,30);
+                }
                 agentHP.Damaged(player);
             }
         }

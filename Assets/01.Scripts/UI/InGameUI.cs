@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
-
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 public class InGameUI : MonoBehaviour {
     [SerializeField] private TMP_Text _lastPlayerCount;
     [SerializeField] private CameraNameUI _cameraNameUI;
@@ -21,6 +21,7 @@ public class InGameUI : MonoBehaviour {
         _PV = GetComponent<PhotonView>();
         _loadingText  = _loadingPanel.transform.Find("LoadingText").GetComponent<TMP_Text>();
         _loadingPanel.gameObject.SetActive(true);
+        _scorePanel.gameObject.SetActive(false);
     }
 
     public void RpcMethod(int count) {
@@ -71,25 +72,17 @@ public class InGameUI : MonoBehaviour {
 
     [PunRPC]
     public void GameEndRPC(){
+        _scorePanel.gameObject.SetActive(true);
         string provocation = _provocationData.RandomProvocation();
         _scorePanel.SetProvocationText(provocation);
-        object score;
-        object killCount;
-        object rank;
-        object maxPlayer;
 
-        if(PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("SCORE",out score)){
-            score = (int)score;
-        }
-        if(PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("KILL",out killCount)){
-            killCount = (int)killCount;
-        }
-        if(PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("SCORE",out rank)){
-            rank = (int)rank;
-        }
-        if(PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("KILL",out maxPlayer)){
-            maxPlayer = (int)maxPlayer;
-        }
+        //HASHTABLE에서 가져오는데 자꾸 NullReference 오류가 뜸
+        int killCount = (int)RoomManager.Instance.GetPlayerData().killCount;
+        int score = (int)RoomManager.Instance.GetPlayerData().score;
+        int rank = (int)RoomManager.Instance.GetPlayerData().currentRank;
+        int maxPlayer= (int)RoomManager.Instance.GetPlayerData().maxPlayer;
+
+
 
         _scorePanel.SetScoreText((int)killCount,(int)score);        
         _scorePanel.SetRankText((int)rank,(int)maxPlayer);

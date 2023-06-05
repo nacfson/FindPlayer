@@ -40,4 +40,23 @@ public class CameraManager : MonoBehaviour {
     public int GetCameraCount(){
         return _agentCameraList.Count;
     }
+
+    public int GetCameraIndex(AgentCamera agentCamera){
+        for(int i = 0;  i  < _agentCameraList.Count; i++){
+            if(_agentCameraList[i] == agentCamera){
+                return i;
+            }
+        }
+        Debug.LogError("Can't Find Correctly Index");
+        return -1;
+    }
+    public AgentCamera GetIndexToCamera(int index){
+        try{
+            return _agentCameraList[index];
+        }
+        catch{
+            Debug.LogError("Can't Find Camera by this index!");
+            return null;
+        }
+    }
 }

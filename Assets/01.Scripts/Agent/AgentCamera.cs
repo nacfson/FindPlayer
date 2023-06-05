@@ -23,7 +23,7 @@ public class AgentCamera : MonoBehaviourPunCallbacks{
     public LayerMask obstacleLayer; // 벽과 같은 장애물을 나타내는 레이어
     private bool _canRotate = true;
 
-
+    private float _cameraDistance;
 
 
     private void Awake() {
@@ -35,6 +35,8 @@ public class AgentCamera : MonoBehaviourPunCallbacks{
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        _cameraDistance = Vector3.Distance(transform.position, _followCam.transform.position);
     }
     
     private void Start() {
@@ -51,9 +53,8 @@ public class AgentCamera : MonoBehaviourPunCallbacks{
     }
 
     private void LateUpdate(){
-        bool result = Physics.Raycast(_followCam.transform.position, _followCam.transform.forward,out RaycastHit hit,10f,obstacleLayer);
+        bool result = Physics.Raycast(_followCam.transform.position, _followCam.transform.forward,out RaycastHit hit,_cameraDistance,obstacleLayer);
 
-        Debug.Log(result);
         if(result){
             _followCam.Follow = null;
             _followCam.transform.position = hit.point + _followCam.transform.forward * 0.5f;

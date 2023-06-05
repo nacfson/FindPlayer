@@ -7,7 +7,7 @@ public class ProvocationData : ScriptableObject{
     public List<string> provocations = new List<string>();
 
     public string RandomProvocation(){
-        int random = Random.Range(0,provocations.Count + 1);
+        int random = Random.Range(0,provocations.Count );
         return provocations[random];
     }
 }

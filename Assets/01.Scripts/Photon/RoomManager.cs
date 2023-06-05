@@ -13,6 +13,13 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 public enum GAME_STATE{
     MENU =0, LOADING =1, INGAME = 2
 }
+[System.Serializable]
+public class PlayerData{
+    public int score;
+    public int currentRank;
+    public int maxPlayer;
+    public int killCount;
+}
 public class RoomManager : MonoBehaviourPunCallbacks{
     public static RoomManager Instance;
     public Dictionary<Player,bool> playerDictionary = new Dictionary<Player,bool>();
@@ -20,8 +27,7 @@ public class RoomManager : MonoBehaviourPunCallbacks{
     [SerializeField] private float _loadingTime;
     [SerializeField] private int _initAICount = 50;
     private int _cameraIndex = 0;
-    private int _killCount = 0;
-    private int _socre = 0;
+    private PlayerData _playerData = new PlayerData();
     public GAME_STATE CurrentState => _currentState;
     private GAME_STATE _currentState;
     private void Awake() { 
@@ -60,6 +66,7 @@ public class RoomManager : MonoBehaviourPunCallbacks{
             InitPlayer(playerList);
             LoadingGame();
             MakeAIPlayer();
+            _playerData.maxPlayer = playerList.Count;
         }
     }
 
@@ -93,20 +100,28 @@ public class RoomManager : MonoBehaviourPunCallbacks{
     public void DeadPlayer(Player attacker, AgentCamera agentCamera,bool result = false) {
         Player player = agentCamera.GetPlayer();
         if (playerDictionary.ContainsKey(player)) {
-            playerDictionary[player] = result;
-            CameraManager.Instance.RemoveCamera(agentCamera);
+            int index = CameraManager.Instance.GetCameraIndex(agentCamera);
+            _PV.RPC("DeadPlayerRPC",RpcTarget.All,player,result,index);
 
             if(InGameUI.Instance != null) {
                 InGameUI.Instance.RpcMethod(ReturnPlayerCount());
                 InGameUI.Instance.CreateKillLogUI(attacker,player);
             }
             if(IfGameEnd()){
-                SetPlayerData();
                 GameEnd();
             }
         }
     }
 
+    [PunRPC]
+    public void DeadPlayerRPC(Player player,bool result,int cameraIndex){
+        if(_PV.IsMine){
+            _playerData.currentRank = ReturnPlayerCount();
+        }
+        playerDictionary[player] = result;
+        AgentCamera agentCamera = CameraManager.Instance.GetIndexToCamera(cameraIndex);
+        CameraManager.Instance.RemoveCamera(agentCamera);
+    }
     private void GameEnd(){
         UpdateState(GAME_STATE.LOADING);
         InGameUI.Instance.GameEnd();
@@ -137,18 +152,9 @@ public class RoomManager : MonoBehaviourPunCallbacks{
     [PunRPC]
     public void UpdateKillCountAndScoreRPC(int killCount = 0,int score = 0){
         if(_PV.IsMine){
-            _killCount += killCount;
-            _socre += score;
+            _playerData.killCount += killCount;
+            _playerData.score += score;
         }
-    }
-    private void SetPlayerData(){
-        string nickName = PhotonNetwork.LocalPlayer.NickName;
-        Hashtable playerProperty = new Hashtable();
-        playerProperty["SCORE"] = _socre;
-        playerProperty["KILL"] = _killCount;
-        playerProperty["RANK"] = ReturnPlayerCount();
-        playerProperty["MAXPLAYER"] = playerDictionary.Count;
-        PhotonNetwork.LocalPlayer.SetCustomProperties(playerProperty);
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer) {
@@ -166,5 +172,9 @@ public class RoomManager : MonoBehaviourPunCallbacks{
 
     public bool IfGameEnd(){
         return ReturnPlayerCount() <= 1;
+    }
+
+    public PlayerData GetPlayerData(){
+        return _playerData;
     }
 }
