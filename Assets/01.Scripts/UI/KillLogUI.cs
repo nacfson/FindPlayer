@@ -16,6 +16,7 @@ public class KillLogUI: MonoBehaviour {
         string result = $"{killerValue} Killed {deaderValue}";
         _killLogText.SetText(result);
     }
+
     [ContextMenu("ShowingSequence")]
     public void ShowingSequence() {
         gameObject.SetActive(true);

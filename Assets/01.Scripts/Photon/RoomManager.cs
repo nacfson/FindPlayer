@@ -125,7 +125,7 @@ public class RoomManager : MonoBehaviourPunCallbacks{
     public void DeadPlayerRPC(Player player,bool result,int cameraIndex){
         Player localPlayer = PhotonNetwork.LocalPlayer;
         if(player.NickName == localPlayer.NickName){
-            _playerData.currentRank = ReturnPlayerCount();
+            _playerData.currentRank = playerCount;
         }
         playerDictionary[player] = result;
         AgentCamera agentCamera = CameraManager.Instance.GetIndexToCamera(cameraIndex);
