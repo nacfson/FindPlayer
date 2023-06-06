@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
+using DG.Tweening;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 public class InGameUI : MonoBehaviour {
     [SerializeField] private TMP_Text _lastPlayerCount;
@@ -13,6 +14,7 @@ public class InGameUI : MonoBehaviour {
     [SerializeField] private GameObject _uiCam;
     [SerializeField] private ScorePanelUI _scorePanel;
     [SerializeField] private ProvocationData _provocationData;
+    [SerializeField] private Transform _killLogUIParent;
     private TMP_Text _loadingText;
     public static InGameUI Instance;
     private PhotonView _PV;
@@ -55,9 +57,9 @@ public class InGameUI : MonoBehaviour {
     [PunRPC]
     public void CreateKillLogUIRPC(Player killer,Player deader) {
         KillLogUI kui = Instantiate<KillLogUI>(_killLogUI, transform.position, Quaternion.identity);
-        kui.transform.position = transform.position;
+        kui.transform.SetParent(_killLogUIParent);
         kui.SetUI(killer, deader);
-        kui.transform.SetParent(this.transform);
+        kui.ShowingSequence();
     }
 
     public void SetPlayerNameUI(string nickName,bool result) {
@@ -72,17 +74,14 @@ public class InGameUI : MonoBehaviour {
 
     [PunRPC]
     public void GameEndRPC(){
-        _scorePanel.gameObject.SetActive(true);
+        _scorePanel.ShowingSequence();
         string provocation = _provocationData.RandomProvocation();
         _scorePanel.SetProvocationText(provocation);
 
-        //HASHTABLE에서 가져오는데 자꾸 NullReference 오류가 뜸
         int killCount = (int)RoomManager.Instance.GetPlayerData().killCount;
         int score = (int)RoomManager.Instance.GetPlayerData().score;
         int rank = (int)RoomManager.Instance.GetPlayerData().currentRank;
         int maxPlayer= (int)RoomManager.Instance.GetPlayerData().maxPlayer;
-
-
 
         _scorePanel.SetScoreText((int)killCount,(int)score);        
         _scorePanel.SetRankText((int)rank,(int)maxPlayer);

@@ -83,7 +83,7 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
                 Debug.Log("Damaged");
                 Player player = PhotonNetwork.LocalPlayer;
                 if(_targetCol.gameObject.CompareTag("PLAYER")){
-                    RoomManager.Instance.UpdateKillCountAndScore(1,30);
+                    RoomManager.Instance.UpdateKillCountAndScore(1,100,player.NickName);
                 }
                 agentHP.Damaged(player);
             }

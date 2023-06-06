@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-
+using DG.Tweening;
 public class ScorePanelUI : MonoBehaviour{
     private TMP_Text _provocationText;
     private TMP_Text _rankText;
@@ -15,7 +15,7 @@ public class ScorePanelUI : MonoBehaviour{
     }
 
     public void SetRankText(int playerRank, int maxRank){
-        string result = $"<bounce>#{playerRank} / maxRank<bounce>";
+        string result = $"<bounce>#{playerRank} / {maxRank}<bounce>";
         _rankText.SetText(result);
     }
 
@@ -26,5 +26,12 @@ public class ScorePanelUI : MonoBehaviour{
     public void SetScoreText(int killCount,int score){
         string result = $"처치 : {killCount} 점수 : {score}";
         _scoreText.SetText(result);
+    }
+    [ContextMenu("ShowingSequence")]
+    public void ShowingSequence() {
+        gameObject.SetActive(true);
+        Sequence sequence = DOTween.Sequence();
+        sequence.Append(transform.DOScale(Vector3.one,1f));
+        sequence.Append(transform.DOLocalMoveY(-300,1f)).SetEase(Ease.OutBounce);
     }
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
+using DG.Tweening;
 public class KillLogUI: MonoBehaviour {
     [SerializeField] private TMP_Text _killLogText;
 
@@ -15,10 +16,15 @@ public class KillLogUI: MonoBehaviour {
         string result = $"{killerValue} Killed {deaderValue}";
         _killLogText.SetText(result);
     }
-
-    public void ShowingSequence(){
-        Destroy(this.gameObject,3f);
+    [ContextMenu("ShowingSequence")]
+    public void ShowingSequence() {
+        gameObject.SetActive(true);
+        Sequence sequence = DOTween.Sequence();
+        sequence.Append(transform.DOLocalMoveX(-500f, 1.5f).SetEase(Ease.OutExpo));
+        sequence.AppendInterval(3f);
+        sequence.AppendCallback(() => Destroy(this.gameObject));
     }
+
 
 
 }
