@@ -24,7 +24,7 @@ public class AgentCamera : MonoBehaviourPunCallbacks{
     private bool _canRotate = true;
 
     private float _cameraDistance;
-
+    private GAME_STATE _currentState;
 
     private void Awake() {
         _followCam = GetComponentInChildren<CinemachineVirtualCamera>();
@@ -51,8 +51,12 @@ public class AgentCamera : MonoBehaviourPunCallbacks{
         _rotX = _followCam.transform.localRotation.eulerAngles.x;
         _rotY = _followCam.transform.localRotation.eulerAngles.y;
     }
+    private void Update() {
+        _currentState = RoomManager.Instance.CurrentState;
+    }
 
     private void LateUpdate(){
+        if (_currentState == GAME_STATE.UI || _currentState == GAME_STATE.LOADING) return;
         bool result = Physics.Raycast(_followCam.transform.position, _followCam.transform.forward,out RaycastHit hit,_cameraDistance,obstacleLayer);
 
         if(result){
@@ -67,16 +71,12 @@ public class AgentCamera : MonoBehaviourPunCallbacks{
             }
         }
     }
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(_followCam.transform.position, _followCam.transform.forward * 10f);
-    }
-
     private void OnMouseHandle(float x, float y){
         if(_PV.IsMine == false){
             return;
         }
+
+        if (_currentState == GAME_STATE.UI || _currentState == GAME_STATE.LOADING) return;
         _rotX += -y * _sensitivity * Time.deltaTime;
         _rotY += x * _sensitivity * Time.deltaTime;
 

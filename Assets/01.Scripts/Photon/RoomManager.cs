@@ -13,7 +13,7 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 using Photon.Pun.Demo.Cockpit;
 
 public enum GAME_STATE{
-    MENU =0, LOADING =1, INGAME = 2
+    MENU =0, LOADING =1, INGAME = 2,UI = 3
 }
 [System.Serializable]
 public class PlayerData{
@@ -116,7 +116,6 @@ public class RoomManager : MonoBehaviourPunCallbacks{
             Debug.LogError($"PlayerCount: {ReturnPlayerCount()}");
         }
 
-
         if (IfGameEnd()) {
             GameEnd();
         }
@@ -124,18 +123,41 @@ public class RoomManager : MonoBehaviourPunCallbacks{
     [PunRPC]
     public void DeadPlayerRPC(Player player,bool result,int cameraIndex){
         Player localPlayer = PhotonNetwork.LocalPlayer;
-        if(player.NickName == localPlayer.NickName){
-            _playerData.currentRank = playerCount;
-        }
+        SetPlayerCount(player.NickName);
+
         playerDictionary[player] = result;
         AgentCamera agentCamera = CameraManager.Instance.GetIndexToCamera(cameraIndex);
         CameraManager.Instance.RemoveCamera(agentCamera);
-        playerCount -= 1;
+    }
 
+    public void SetPlayerCount(string nickName) {
+        _PV.RPC("SetPlayerCountRPC", RpcTarget.All, nickName);
+    }
+    [PunRPC]
+    public void SetPlayerCountRPC(string nickName) {
+        string localName = PhotonNetwork.LocalPlayer.NickName;
+        if (localName == nickName) {
+            _playerData.currentRank = playerCount;
+        }
+        playerCount--;
     }
     private void GameEnd(){
         UpdateState(GAME_STATE.LOADING);
         InGameUI.Instance.GameEnd();
+
+        Player player = null;
+        foreach(var p in playerDictionary) {
+            if(p.Value == true) {
+                player = p.Key;
+            }
+        }
+
+        if (player == null) {
+            Debug.LogError("Player is Null!!!");
+        }
+        else {
+            SetPlayerCount(player.NickName);
+        }
     }
 
     public void LeftPlayer(Player lefter) {
@@ -176,8 +198,13 @@ public class RoomManager : MonoBehaviourPunCallbacks{
         LeftPlayer(otherPlayer);
     }
 
-    public void UpdateState(GAME_STATE state){
-        _PV.RPC("UpdateStateRPC",RpcTarget.All,state);
+    public void UpdateState(GAME_STATE state,bool rpc = true){
+        if (rpc == false) {
+            _currentState = state;
+        }
+        else {
+            _PV.RPC("UpdateStateRPC", RpcTarget.All, state);
+        }
     }
 
     [PunRPC]

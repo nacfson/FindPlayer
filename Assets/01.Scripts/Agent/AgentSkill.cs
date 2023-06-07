@@ -35,6 +35,8 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
     }
     private void Update() {
         if(_actionData.IsAttacking) return;
+
+
         if(_targetCol != null) {
             SettingTargetObj(false);
         }
@@ -91,7 +93,12 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
     }
     private void StartAttack(){
         if(_actionData.IsAttacking == false){
-            if(_targetCol != null) {
+            GAME_STATE currentState = RoomManager.Instance.CurrentState;
+
+            if (currentState == GAME_STATE.UI) return;
+            if (currentState == GAME_STATE.LOADING) return;
+
+            if (_targetCol != null) {
                 transform.rotation = Quaternion.LookRotation(_targetCol.transform.root.position - transform.position);
             }
             

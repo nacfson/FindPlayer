@@ -15,6 +15,8 @@ public class InGameUI : MonoBehaviour {
     [SerializeField] private ScorePanelUI _scorePanel;
     [SerializeField] private ProvocationData _provocationData;
     [SerializeField] private Transform _killLogUIParent;
+    [SerializeField] private OptionPanelUI _optionPanelUI;
+
     private TMP_Text _loadingText;
     public static InGameUI Instance;
     private PhotonView _PV;
@@ -24,8 +26,18 @@ public class InGameUI : MonoBehaviour {
         _loadingText  = _loadingPanel.transform.Find("LoadingText").GetComponent<TMP_Text>();
         _loadingPanel.gameObject.SetActive(true);
         _scorePanel.gameObject.SetActive(false);
+        _optionPanelUI.ContinueGame();
     }
-
+    private void Update() {
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+            if (_optionPanelUI.Enabled) {
+                _optionPanelUI.ContinueGame();
+            }
+            else {
+                _optionPanelUI.OpenPanel();
+            }
+        }
+    }
     public void RpcMethod(int count) {
         _PV.RPC("SetLastPlayerText", RpcTarget.All, count);
     }
@@ -87,4 +99,5 @@ public class InGameUI : MonoBehaviour {
         _scorePanel.SetRankText((int)rank,(int)maxPlayer);
         _scorePanel.gameObject.SetActive(true);
     }
+
 } 

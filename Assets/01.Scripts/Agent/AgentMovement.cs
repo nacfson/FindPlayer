@@ -50,7 +50,8 @@ public class AgentMovement : MonoBehaviourPun{
         if (_actionData.IsAttacking) {
             return;
         }
-        if(RoomManager.Instance.CurrentState == GAME_STATE.LOADING ) return;
+        GAME_STATE currentState = RoomManager.Instance.CurrentState;
+        if(currentState == GAME_STATE.LOADING  || currentState == GAME_STATE.UI) return;
         if(Input.GetKey(KeyCode.LeftShift)){
             SetRunSpeed(true);
         }

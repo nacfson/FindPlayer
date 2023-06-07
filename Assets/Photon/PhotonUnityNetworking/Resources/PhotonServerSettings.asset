@@ -54,6 +54,7 @@ MonoBehaviour:
   - GameEndRPC
   - UpdateKillCountAndScoreRPC
   - SetPlayerDataRPC
+  - SetPlayerCountRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
