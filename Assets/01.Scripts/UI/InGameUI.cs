@@ -40,8 +40,8 @@ public class InGameUI : MonoBehaviour {
             }
         }
     }
-    public void EndGameUI(){
-        _endPanelUI.ShowingSequence();
+    public void EndGameUI(float delay = 0f){
+        _endPanelUI.ShowingSequence(delay);
     }
     public void OnNextRound() {
         RoomManager.Instance.InitGame();

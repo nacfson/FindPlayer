@@ -7,6 +7,9 @@ public class ScoreBoard : MonoBehaviour{
     private TMP_Text _playerNameText;
     private TMP_Text _killCountText;
     private TMP_Text _scoreText;
+    private string _playerName;
+
+    public int score;
 
     private void Awake() {
         _playerNameText = transform.Find("PlayerNameText").GetComponent<TMP_Text>();
@@ -15,10 +18,16 @@ public class ScoreBoard : MonoBehaviour{
     }
 
     public void SetUI(Player player){
-        _playerNameText.SetText(player.NickName);
+        _playerName = player.NickName;
+        _playerNameText.SetText(_playerName);
         Hashtable hashTable = player.CustomProperties;
 
+        score = (int)hashTable["SCORE"];
         _killCountText.SetText(hashTable["KILLCOUNT"].ToString());
-        _scoreText.SetText(hashTable["SCORE"].ToString());
+        _scoreText.SetText(score.ToString());
+    }
+
+    public void WinGame() {
+        _playerNameText.SetText($"<rainb>{_playerName}<rainb>");
     }
 }

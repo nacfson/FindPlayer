@@ -181,6 +181,7 @@ public class RoomManager : MonoBehaviourPunCallbacks{
             Debug.LogError("Player is Null!!!");
         }
         else {
+            UpdateKillCountAndScore(0, 200,player.NickName);
             SetPlayerCount(player);
         }
 
@@ -200,7 +201,7 @@ public class RoomManager : MonoBehaviourPunCallbacks{
         hashtable.Add("SCORE",_playerData.score);
         PhotonNetwork.LocalPlayer.SetCustomProperties(hashtable);
 
-        InGameUI.Instance.EndGameUI();
+        InGameUI.Instance.EndGameUI(3f);
     }
     public void LeftPlayer(Player lefter) {
         if (playerDictionary.ContainsKey(lefter)) {
