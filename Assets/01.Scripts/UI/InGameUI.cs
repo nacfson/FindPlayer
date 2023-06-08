@@ -11,11 +11,12 @@ public class InGameUI : MonoBehaviour {
     [SerializeField] private CameraNameUI _cameraNameUI;
     [SerializeField] private KillLogUI _killLogUI;
     [SerializeField] private GameObject _loadingPanel;
-    [SerializeField] private GameObject _uiCam;
     [SerializeField] private ScorePanelUI _scorePanel;
     [SerializeField] private ProvocationData _provocationData;
     [SerializeField] private Transform _killLogUIParent;
     [SerializeField] private OptionPanelUI _optionPanelUI;
+    [SerializeField] private Transform _informationPanelParent;
+    [SerializeField] private InformationPanel _informationPanel;
 
     private TMP_Text _loadingText;
     public static InGameUI Instance;
@@ -38,6 +39,10 @@ public class InGameUI : MonoBehaviour {
             }
         }
     }
+
+    public void OnNextRound() {
+        RoomManager.Instance.InitGame();
+    }
     public void RpcMethod(int count) {
         _PV.RPC("SetLastPlayerText", RpcTarget.All, count);
     }
@@ -59,10 +64,9 @@ public class InGameUI : MonoBehaviour {
     [PunRPC]
     public void GameStartRPC(){
         _loadingPanel.gameObject.SetActive(false);
-        _uiCam.gameObject.SetActive(false);
+        InformationPanel ifp = Instantiate<InformationPanel>(_informationPanel,_informationPanelParent);
+        ifp.ShowingSequence("가짜 중에서 진짜 플레이어를\n 찾아내 살아남아라!",3f);
     }
-
-    
     public void CreateKillLogUI(Player killer,Player deader) {
         _PV.RPC("CreateKillLogUIRPC", RpcTarget.All, killer, deader);
     }

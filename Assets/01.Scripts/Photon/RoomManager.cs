@@ -1,4 +1,3 @@
-using System.Linq.Expressions;
 using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,10 +6,8 @@ using Photon.Realtime;
 using UnityEngine.SceneManagement;
 using Core;
 using System.Linq;
-using System;
 using System.Collections;
-using Hashtable = ExitGames.Client.Photon.Hashtable;
-using Photon.Pun.Demo.Cockpit;
+
 
 public enum GAME_STATE{
     MENU =0, LOADING =1, INGAME = 2,UI = 3
@@ -42,15 +39,6 @@ public class RoomManager : MonoBehaviourPunCallbacks{
         Instance = this;
         _PV = GetComponent<PhotonView>();
     }
-
-    public void InitPlayer(List<Player> playerList) {
-        foreach(Player player in playerList) {
-            playerDictionary.Add(player, true);
-        }
-
-        InGameUI.Instance.RpcMethod(ReturnPlayerCount());
-    }
-
     public override void OnEnable(){
         base.OnEnable();
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -74,12 +62,27 @@ public class RoomManager : MonoBehaviourPunCallbacks{
         }
     }
 
+    public void InitPlayer(List<Player> playerList) {
+        playerDictionary.Clear();
+        foreach (Player player in playerList) {
+            playerDictionary.Add(player, true);
+        }
+
+        InGameUI.Instance.RpcMethod(ReturnPlayerCount());
+    }
     private void LoadingGame(){
         if(PhotonNetwork.IsMasterClient){
             StartCoroutine(LoadGameCor());
         }
     }
 
+    public void InitGame() {
+        _PV.RPC("InitGameRPC", RpcTarget.All);
+    }
+    [PunRPC]
+    public void InitGameRPC() {
+        PhotonNetwork.LoadLevel(Define.GameSceneIndex);
+    }
     IEnumerator LoadGameCor(){
         float timer = 0f;
         while(timer < _loadingTime){
@@ -91,7 +94,6 @@ public class RoomManager : MonoBehaviourPunCallbacks{
         InGameUI.Instance.GameStart();
         UpdateState(GAME_STATE.INGAME);
     }
-
     private void MakeAIPlayer(){
         if(PhotonNetwork.IsMasterClient){
             for(int i = 0; i < _initAICount; i++) {
@@ -100,7 +102,6 @@ public class RoomManager : MonoBehaviourPunCallbacks{
             }
         }
     }
-
     public void DeadPlayer(Player attacker, AgentCamera agentCamera,bool result = false) {
         Player player = agentCamera.GetPlayer();
 
@@ -112,10 +113,7 @@ public class RoomManager : MonoBehaviourPunCallbacks{
                 InGameUI.Instance.RpcMethod(ReturnPlayerCount());
                 InGameUI.Instance.CreateKillLogUI(attacker,player);
             }
-
-            Debug.LogError($"PlayerCount: {ReturnPlayerCount()}");
         }
-
         if (IfGameEnd()) {
             GameEnd();
         }
@@ -123,27 +121,45 @@ public class RoomManager : MonoBehaviourPunCallbacks{
     [PunRPC]
     public void DeadPlayerRPC(Player player,bool result,int cameraIndex){
         Player localPlayer = PhotonNetwork.LocalPlayer;
-        SetPlayerCount(player.NickName);
-
+        bool samePlayer = localPlayer == player;
+        if (samePlayer) {
+            SetPlayerCount(player);
+        }
         playerDictionary[player] = result;
+
         AgentCamera agentCamera = CameraManager.Instance.GetIndexToCamera(cameraIndex);
+
+        //if (cameraIndex == CameraManager.Instance.currentCameraIndex && samePlayer && playerDictionary[player] == false) {
+        //    CameraManager.Instance.RemoveCamera(agentCamera);
+        //    AutoChangeCamera();
+        //}
+        //else {
+        //    CameraManager.Instance.RemoveCamera(agentCamera);
+        //}
         CameraManager.Instance.RemoveCamera(agentCamera);
     }
+    public void AutoChangeCamera() {
+        int cameraIndex = CameraManager.Instance.GetRandomCameraIndex();
 
-    public void SetPlayerCount(string nickName) {
-        _PV.RPC("SetPlayerCountRPC", RpcTarget.All, nickName);
+        CameraManager.Instance.ChangeCamera(cameraIndex);
     }
+
+    public void SetPlayerCount(Player player) {
+        _PV.RPC("SetPlayerCountRPC", RpcTarget.All, player);
+    }
+
     [PunRPC]
-    public void SetPlayerCountRPC(string nickName) {
-        string localName = PhotonNetwork.LocalPlayer.NickName;
-        if (localName == nickName) {
-            _playerData.currentRank = playerCount;
+    public void SetPlayerCountRPC(Player player) {
+        Player localPlayer = PhotonNetwork.LocalPlayer;
+
+        if (player == localPlayer) {
+            Debug.LogError($"PlayerNickName: {localPlayer.NickName}");
+            Debug.LogError($"PlayerCount: {ReturnPlayerCount()}");
+            _playerData.currentRank = ReturnPlayerCount();
         }
-        playerCount--;
     }
     private void GameEnd(){
         UpdateState(GAME_STATE.LOADING);
-        InGameUI.Instance.GameEnd();
 
         Player player = null;
         foreach(var p in playerDictionary) {
@@ -156,8 +172,10 @@ public class RoomManager : MonoBehaviourPunCallbacks{
             Debug.LogError("Player is Null!!!");
         }
         else {
-            SetPlayerCount(player.NickName);
+            SetPlayerCount(player);
         }
+
+        InGameUI.Instance.GameEnd();
     }
 
     public void LeftPlayer(Player lefter) {
@@ -168,6 +186,7 @@ public class RoomManager : MonoBehaviourPunCallbacks{
             }
         }
     }
+
     public int ReturnPlayerCount() {
         int count = 0;
         foreach(var p in playerDictionary.Values) {
@@ -193,11 +212,9 @@ public class RoomManager : MonoBehaviourPunCallbacks{
             _playerData.score += score;
         }
     }
-
     public override void OnPlayerLeftRoom(Player otherPlayer) {
         LeftPlayer(otherPlayer);
     }
-
     public void UpdateState(GAME_STATE state,bool rpc = true){
         if (rpc == false) {
             _currentState = state;
@@ -206,16 +223,13 @@ public class RoomManager : MonoBehaviourPunCallbacks{
             _PV.RPC("UpdateStateRPC", RpcTarget.All, state);
         }
     }
-
     [PunRPC]
     public void UpdateStateRPC(GAME_STATE state){
         _currentState = state;
     }
-
     public bool IfGameEnd(){
-        return playerCount <= 1;
+        return ReturnPlayerCount() <= 1;
     }
-
     public PlayerData GetPlayerData(){
         return _playerData;
     }

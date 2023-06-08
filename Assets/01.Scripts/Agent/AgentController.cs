@@ -16,7 +16,7 @@ public class AgentController : MonoBehaviour {
         _PV = GetComponent<PhotonView>();
         _actionData = transform.Find("AD").GetComponent<ActionData>();
         _agentAnimator = transform.Find("Visual").GetComponent<AgentAnimator>();
-        _agentHP = transform.Find("Collider").GetComponent<AgentHP>();
+        _agentHP = transform.GetComponent<AgentHP>();
     }
     private void Update() {
         GetMouseClickInput();

@@ -81,7 +81,7 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
         Debug.Log($"TargetName: {_targetCol}");
         if (_targetCol != null) {
             Debug.Log("TargetCol not null");
-            if (_targetCol.TryGetComponent<AgentHP>(out AgentHP agentHP)){
+            if (_targetCol.transform.parent.TryGetComponent<AgentHP>(out AgentHP agentHP)){
                 Debug.Log("Damaged");
                 Player player = PhotonNetwork.LocalPlayer;
                 if(_targetCol.gameObject.CompareTag("PLAYER")){

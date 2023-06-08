@@ -15,7 +15,7 @@ MonoBehaviour:
   AppSettings:
     AppIdRealtime: b303e61c-1482-45a2-bbc4-164c439cc0e0
     AppIdFusion: 
-    AppIdChat: 
+    AppIdChat: 5886f062-dc46-4f6f-a050-b5352ae8a786
     AppIdVoice: 
     AppVersion: 
     UseNameServer: 1
@@ -55,6 +55,8 @@ MonoBehaviour:
   - UpdateKillCountAndScoreRPC
   - SetPlayerDataRPC
   - SetPlayerCountRPC
+  - DamagedRPC
+  - InitGameRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

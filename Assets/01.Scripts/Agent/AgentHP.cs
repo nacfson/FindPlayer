@@ -13,18 +13,22 @@ public class AgentHP : MonoBehaviourPunCallbacks{
     protected AgentController _agentController;
     protected AgentCamera _agentCamera;
     protected void Awake() {
-        _agentAnimator = transform.parent.Find("Visual").GetComponent<AgentAnimator>();
-        _actionData = transform.parent.Find("AD").GetComponent<ActionData>();
-        _PV = transform.root.GetComponent<PhotonView>();
-        _cmCam = GetComponentInChildren<CinemachineVirtualCamera>();
-        _agentController = transform.parent.GetComponent<AgentController>();
-        _agentCamera = transform.parent.GetComponent<AgentCamera>();
+        _agentAnimator = transform.Find("Visual").GetComponent<AgentAnimator>();
+        _actionData = transform.Find("AD").GetComponent<ActionData>();
+        _PV = transform.GetComponent<PhotonView>();
+        //_cmCam = GetComponentInChildren<CinemachineVirtualCamera>();
+        _agentController = transform.GetComponent<AgentController>();
+        _agentCamera = transform.GetComponent<AgentCamera>();
     }
-    public void Damaged(Player attacker){
-        DeadProcess(attacker);
-
+    public void Damaged(Player attacker) {
+        _PV.RPC("DamagedRPC", RpcTarget.All, attacker);
     }
-
+    [PunRPC]
+    public void DamagedRPC(Player attacker){
+        if (_PV.IsMine) {
+            DeadProcess(attacker);
+        }
+    }
     protected virtual void DeadProcess(Player attacker){
         _agentAnimator.OnDead(true);
         OnDead?.Invoke();

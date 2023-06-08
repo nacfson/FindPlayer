@@ -9,6 +9,7 @@ public class CameraManager : MonoBehaviour {
     private List<AgentCamera> _agentCameraList = new List<AgentCamera>();
     public static CameraManager Instance;
     public PhotonView photonView;
+    public int currentCameraIndex;
 
     private void Awake() {
         Instance = this;
@@ -19,10 +20,10 @@ public class CameraManager : MonoBehaviour {
     }
     public void ChangeCamera(int cameraIndex) {
         //죽은 사람만 카메라를 바꿀 수 있도록 코드를 수정해야함.
-        Debug.LogError(cameraIndex);
+        //Debug.LogError(cameraIndex);
         AgentCamera currentCamera = _agentCameraList[cameraIndex];
-    
 
+        currentCameraIndex = cameraIndex;
         foreach(var a in _agentCameraList){
             CinemachineVirtualCamera camera = a.GetCamera();
             if(a == currentCamera){
@@ -49,6 +50,10 @@ public class CameraManager : MonoBehaviour {
         }
         Debug.LogError("Can't Find Correctly Index");
         return -1;
+    }
+    public int GetRandomCameraIndex() {
+        int ran = Random.Range(0,GetCameraCount() + 1);
+        return ran;
     }
     public AgentCamera GetIndexToCamera(int index){
         try{
