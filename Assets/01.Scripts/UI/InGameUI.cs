@@ -17,6 +17,7 @@ public class InGameUI : MonoBehaviour {
     [SerializeField] private OptionPanelUI _optionPanelUI;
     [SerializeField] private Transform _informationPanelParent;
     [SerializeField] private InformationPanel _informationPanel;
+    [SerializeField] private EndPanelUI _endPanelUI;
 
     private TMP_Text _loadingText;
     public static InGameUI Instance;
@@ -39,7 +40,9 @@ public class InGameUI : MonoBehaviour {
             }
         }
     }
-
+    public void EndGameUI(){
+        _endPanelUI.ShowingSequence();
+    }
     public void OnNextRound() {
         RoomManager.Instance.InitGame();
     }
@@ -103,5 +106,4 @@ public class InGameUI : MonoBehaviour {
         _scorePanel.SetRankText((int)rank,(int)maxPlayer);
         _scorePanel.gameObject.SetActive(true);
     }
-
-} 
+}

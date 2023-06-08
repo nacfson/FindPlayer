@@ -7,10 +7,11 @@ using UnityEngine.SceneManagement;
 using Core;
 using System.Linq;
 using System.Collections;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 
 public enum GAME_STATE{
-    MENU =0, LOADING =1, INGAME = 2,UI = 3
+    MENU =0, LOADING =1, INGAME = 2,UI = 3, END = 4
 }
 [System.Serializable]
 public class PlayerData{
@@ -25,11 +26,14 @@ public class RoomManager : MonoBehaviourPunCallbacks{
     private PhotonView _PV;
     [SerializeField] private float _loadingTime;
     [SerializeField] private int _initAICount = 50;
+    [SerializeField] private int _defineRound = 1; 
+    private int _roundCount = 0; 
     private int _cameraIndex = 0;
     public int playerCount;
     private PlayerData _playerData = new PlayerData();
     public GAME_STATE CurrentState => _currentState;
     private GAME_STATE _currentState;
+
     private void Awake() { 
         if(Instance){
             Destroy(this.gameObject);
@@ -39,10 +43,12 @@ public class RoomManager : MonoBehaviourPunCallbacks{
         Instance = this;
         _PV = GetComponent<PhotonView>();
     }
+
     public override void OnEnable(){
         base.OnEnable();
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
+
     public override void OnDisable(){
         base.OnDisable();
         SceneManager.sceneLoaded -= OnSceneLoaded;
@@ -79,6 +85,7 @@ public class RoomManager : MonoBehaviourPunCallbacks{
     public void InitGame() {
         _PV.RPC("InitGameRPC", RpcTarget.All);
     }
+
     [PunRPC]
     public void InitGameRPC() {
         PhotonNetwork.LoadLevel(Define.GameSceneIndex);
@@ -114,10 +121,11 @@ public class RoomManager : MonoBehaviourPunCallbacks{
                 InGameUI.Instance.CreateKillLogUI(attacker,player);
             }
         }
-        if (IfGameEnd()) {
-            GameEnd();
+        if (IfRoundEnd()) {
+            RoundEnd();
         }
     }
+
     [PunRPC]
     public void DeadPlayerRPC(Player player,bool result,int cameraIndex){
         Player localPlayer = PhotonNetwork.LocalPlayer;
@@ -138,6 +146,7 @@ public class RoomManager : MonoBehaviourPunCallbacks{
         //}
         CameraManager.Instance.RemoveCamera(agentCamera);
     }
+
     public void AutoChangeCamera() {
         int cameraIndex = CameraManager.Instance.GetRandomCameraIndex();
 
@@ -158,9 +167,9 @@ public class RoomManager : MonoBehaviourPunCallbacks{
             _playerData.currentRank = ReturnPlayerCount();
         }
     }
-    private void GameEnd(){
+    private void RoundEnd(){
         UpdateState(GAME_STATE.LOADING);
-
+        _roundCount++;
         Player player = null;
         foreach(var p in playerDictionary) {
             if(p.Value == true) {
@@ -176,8 +185,23 @@ public class RoomManager : MonoBehaviourPunCallbacks{
         }
 
         InGameUI.Instance.GameEnd();
-    }
 
+        if(_roundCount >= _defineRound) {
+            GameEnd();
+        }
+    }
+    public void GameEnd() {
+        _PV.RPC("GameEndRPC",RpcTarget.All);
+    }
+    [PunRPC]
+    public void GameEndRPC() {
+        Hashtable hashtable = new Hashtable();
+        hashtable.Add("KILLCOUNT",_playerData.killCount);
+        hashtable.Add("SCORE",_playerData.score);
+        PhotonNetwork.LocalPlayer.SetCustomProperties(hashtable);
+
+        InGameUI.Instance.EndGameUI();
+    }
     public void LeftPlayer(Player lefter) {
         if (playerDictionary.ContainsKey(lefter)) {
             playerDictionary[lefter] = false;
@@ -186,7 +210,6 @@ public class RoomManager : MonoBehaviourPunCallbacks{
             }
         }
     }
-
     public int ReturnPlayerCount() {
         int count = 0;
         foreach(var p in playerDictionary.Values) {
@@ -214,6 +237,9 @@ public class RoomManager : MonoBehaviourPunCallbacks{
     }
     public override void OnPlayerLeftRoom(Player otherPlayer) {
         LeftPlayer(otherPlayer);
+        if(CurrentState == GAME_STATE.INGAME || CurrentState == GAME_STATE.LOADING){
+            PhotonNetwork.LoadLevel(0);
+        }
     }
     public void UpdateState(GAME_STATE state,bool rpc = true){
         if (rpc == false) {
@@ -227,7 +253,7 @@ public class RoomManager : MonoBehaviourPunCallbacks{
     public void UpdateStateRPC(GAME_STATE state){
         _currentState = state;
     }
-    public bool IfGameEnd(){
+    public bool IfRoundEnd(){
         return ReturnPlayerCount() <= 1;
     }
     public PlayerData GetPlayerData(){
