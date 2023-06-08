@@ -18,6 +18,9 @@ public class AgentController : MonoBehaviour {
         _agentAnimator = transform.Find("Visual").GetComponent<AgentAnimator>();
         _agentHP = transform.GetComponent<AgentHP>();
     }
+    private void Start() {
+        PhotonNetwork.LocalPlayer.TagObject = this.gameObject;
+    }
     private void Update() {
         GetMouseClickInput();
     }

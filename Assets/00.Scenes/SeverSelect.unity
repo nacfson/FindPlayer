@@ -4563,6 +4563,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _loadingTime: 3.5
   _initAICount: 50
+  _defineRound: 5
   playerCount: 0
 --- !u!1 &1648324902
 GameObject:

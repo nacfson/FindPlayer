@@ -162,8 +162,6 @@ public class RoomManager : MonoBehaviourPunCallbacks{
         Player localPlayer = PhotonNetwork.LocalPlayer;
 
         if (player == localPlayer) {
-            Debug.LogError($"PlayerNickName: {localPlayer.NickName}");
-            Debug.LogError($"PlayerCount: {ReturnPlayerCount()}");
             _playerData.currentRank = ReturnPlayerCount();
         }
     }
@@ -203,11 +201,21 @@ public class RoomManager : MonoBehaviourPunCallbacks{
 
         InGameUI.Instance.EndGameUI(3f);
     }
+    //플레이어 나갔을 때 어떻게 되는지 확인하기 
+    //플레이어 오브젝트 사라지는지 카메라는 어떻게 되는지
     public void LeftPlayer(Player lefter) {
         if (playerDictionary.ContainsKey(lefter)) {
-            playerDictionary[lefter] = false;
-            if(InGameUI.Instance != null) {
+            _PV.RPC("DeadPlayerRPC", RpcTarget.All,lefter,false);
+
+            Destroy(lefter.TagObject as Object);
+            if (InGameUI.Instance != null) {
                 InGameUI.Instance.RpcMethod(ReturnPlayerCount());
+            }
+            if (IfRoundEnd()) {
+                RoundEnd();
+            }
+            if(PhotonNetwork.PlayerList.Count() <= 1) {
+                GameEnd();
             }
         }
     }

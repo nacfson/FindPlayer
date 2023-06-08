@@ -21,6 +21,7 @@ public class AgentAnimator : MonoBehaviourPun{
 
     public event Action OnAttackEndTrigger;
     public event Action OnAttackTrigger;
+    public event Action OnWalkTrigger;
 
     private void Awake() {
         _animator = GetComponent<Animator>();
@@ -65,6 +66,10 @@ public class AgentAnimator : MonoBehaviourPun{
         SetBoolAttack(false);
         _actionData.IsAttacking = false;
         OnAttackEndTrigger?.Invoke();
+    }
+    public void OnWalkAnimation() {
+        OnWalkTrigger?.Invoke();
+        Debug.Log("OnWalkAnimation");
     }
     public void OnAttack(){
         OnAttackTrigger?.Invoke();

@@ -19,6 +19,8 @@ public class AgentMovement : MonoBehaviourPun{
     protected AgentInput _agentInput;
     protected AgentAnimator _agentAnimator;
     protected float _currentSpeed;
+    protected PlayerSound _playerSound;
+
     private Transform _cameraTransform;
     protected ActionData _actionData;
 
@@ -30,6 +32,7 @@ public class AgentMovement : MonoBehaviourPun{
         _agentInput = GetComponent<AgentInput>();
         _agentAnimator = transform.Find("Visual").GetComponent<AgentAnimator>();
         _actionData = transform.Find("AD").GetComponent<ActionData>();
+        _playerSound = GetComponent<PlayerSound>();
         _currentSpeed = _movementData.Speed;
         PV = GetComponent<PhotonView>();
     }
