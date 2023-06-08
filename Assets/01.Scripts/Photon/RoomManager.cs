@@ -42,8 +42,8 @@ public class RoomManager : MonoBehaviourPunCallbacks{
         DontDestroyOnLoad(this.gameObject);
         Instance = this;
         _PV = GetComponent<PhotonView>();
+    
     }
-
     public override void OnEnable(){
         base.OnEnable();
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -203,9 +203,10 @@ public class RoomManager : MonoBehaviourPunCallbacks{
     }
     //플레이어 나갔을 때 어떻게 되는지 확인하기 
     //플레이어 오브젝트 사라지는지 카메라는 어떻게 되는지
+    //지금 한 플레이어가  나가면 View ID 관련해서 문제가 뜸 왜인지 모르겠음
     public void LeftPlayer(Player lefter) {
         if (playerDictionary.ContainsKey(lefter)) {
-            _PV.RPC("DeadPlayerRPC", RpcTarget.All,lefter,false);
+            _PV.RPC("DeadPlayerRPC", RpcTarget.All, lefter, false);
 
             Destroy(lefter.TagObject as Object);
             if (InGameUI.Instance != null) {
