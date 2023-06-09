@@ -7,21 +7,22 @@ using Photon.Realtime;
 using DG.Tweening;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 public class InGameUI : MonoBehaviour {
-    [SerializeField] private TMP_Text _lastPlayerCount;
-    [SerializeField] private CameraNameUI _cameraNameUI;
     [SerializeField] private KillLogUI _killLogUI;
+    [SerializeField] private CameraNameUI _cameraNameUI;
     [SerializeField] private GameObject _loadingPanel;
-    [SerializeField] private ScorePanelUI _scorePanel;
-    [SerializeField] private ProvocationData _provocationData;
-    [SerializeField] private Transform _killLogUIParent;
-    [SerializeField] private OptionPanelUI _optionPanelUI;
-    [SerializeField] private Transform _informationPanelParent;
-    [SerializeField] private InformationPanel _informationPanel;
     [SerializeField] private EndPanelUI _endPanelUI;
+    [SerializeField] private ScorePanelUI _scorePanel;
+    [SerializeField] private OptionPanelUI _optionPanelUI;
+    [SerializeField] private ProvocationData _provocationData;
+    [SerializeField] private InformationPanel _informationPanel;
+    [SerializeField] private Transform _informationPanelParent;
+    [SerializeField] private Transform _killLogUIParent;
 
+    [SerializeField] private TMP_Text _lastPlayerCount;
     private TMP_Text _loadingText;
     public static InGameUI Instance;
     private PhotonView _PV;
+    
     private void Awake() {
         Instance = this;
         _PV = GetComponent<PhotonView>();
@@ -30,6 +31,7 @@ public class InGameUI : MonoBehaviour {
         _scorePanel.gameObject.SetActive(false);
         _optionPanelUI.ContinueGame();
     }
+
     private void Update() {
         if (Input.GetKeyDown(KeyCode.Escape)) {
             if (_optionPanelUI.Enabled) {
@@ -43,8 +45,11 @@ public class InGameUI : MonoBehaviour {
     public void EndGameUI(float delay = 0f){
         _endPanelUI.ShowingSequence(delay);
     }
-    public void OnNextRound() {
-        RoomManager.Instance.InitGame();
+
+    public void OnNextRound(float delay = 0f) {
+        Sequence sequence = DOTween.Sequence();
+        sequence.AppendInterval(delay);
+        sequence.AppendCallback(() => RoomManager.Instance.InitGame());
     }
     public void RpcMethod(int count) {
         _PV.RPC("SetLastPlayerText", RpcTarget.All, count);
@@ -105,5 +110,6 @@ public class InGameUI : MonoBehaviour {
         _scorePanel.SetScoreText((int)killCount,(int)score);        
         _scorePanel.SetRankText((int)rank,(int)maxPlayer);
         _scorePanel.gameObject.SetActive(true);
+        OnNextRound(10f);
     }
 }

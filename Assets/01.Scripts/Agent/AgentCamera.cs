@@ -59,17 +59,17 @@ public class AgentCamera : MonoBehaviourPunCallbacks{
         if (_currentState == GAME_STATE.UI || _currentState == GAME_STATE.LOADING) return;
         bool result = Physics.Raycast(_followCam.transform.position, _followCam.transform.forward,out RaycastHit hit,_cameraDistance,obstacleLayer);
 
-        if(result){
-            _followCam.Follow = null;
-            _followCam.transform.position = hit.point + _followCam.transform.forward * 0.5f;
-            _canRotate = false;
-        }
-        else{
-            if(_followCam.Follow == null){
-                _followCam.Follow = this.transform;
-                _canRotate = true;
-            }
-        }
+        // if(result){
+        //     _followCam.Follow = null;
+        //     _followCam.transform.position = hit.point + _followCam.transform.forward * 0.5f;
+        //     _canRotate = false;
+        // }
+        // else{
+        //     if(_followCam.Follow == null){
+        //         _followCam.Follow = this.transform;
+        //         _canRotate = true;
+        //     }
+        // }
     }
     private void OnMouseHandle(float x, float y){
         if(_PV.IsMine == false){

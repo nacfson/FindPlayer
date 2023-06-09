@@ -127,15 +127,13 @@ public class RoomManager : MonoBehaviourPunCallbacks{
     }
 
     [PunRPC]
-    public void DeadPlayerRPC(Player player,bool result,int cameraIndex){
+    public void DeadPlayerRPC(Player player,bool result,int cameraIndex = 1024){
         Player localPlayer = PhotonNetwork.LocalPlayer;
         bool samePlayer = localPlayer == player;
         if (samePlayer) {
             SetPlayerCount(player);
         }
         playerDictionary[player] = result;
-
-        AgentCamera agentCamera = CameraManager.Instance.GetIndexToCamera(cameraIndex);
 
         //if (cameraIndex == CameraManager.Instance.currentCameraIndex && samePlayer && playerDictionary[player] == false) {
         //    CameraManager.Instance.RemoveCamera(agentCamera);
@@ -144,7 +142,11 @@ public class RoomManager : MonoBehaviourPunCallbacks{
         //else {
         //    CameraManager.Instance.RemoveCamera(agentCamera);
         //}
-        CameraManager.Instance.RemoveCamera(agentCamera);
+
+        if(cameraIndex != 1024) {
+            AgentCamera agentCamera = CameraManager.Instance.GetIndexToCamera(cameraIndex);
+            CameraManager.Instance.RemoveCamera(agentCamera);
+        }
     }
 
     public void AutoChangeCamera() {
@@ -199,16 +201,18 @@ public class RoomManager : MonoBehaviourPunCallbacks{
         hashtable.Add("SCORE",_playerData.score);
         PhotonNetwork.LocalPlayer.SetCustomProperties(hashtable);
 
-        InGameUI.Instance.EndGameUI(3f);
+        InGameUI.Instance.EndGameUI(7f);
     }
     //플레이어 나갔을 때 어떻게 되는지 확인하기 
     //플레이어 오브젝트 사라지는지 카메라는 어떻게 되는지
     //지금 한 플레이어가  나가면 View ID 관련해서 문제가 뜸 왜인지 모르겠음
     public void LeftPlayer(Player lefter) {
         if (playerDictionary.ContainsKey(lefter)) {
-            _PV.RPC("DeadPlayerRPC", RpcTarget.All, lefter, false);
+            if(_PV != null) {
+                _PV.RPC("DeadPlayerRPC", RpcTarget.All, lefter, false,1024);
+            }
 
-            Destroy(lefter.TagObject as Object);
+            //Destroy(lefter.TagObject as Object);
             if (InGameUI.Instance != null) {
                 InGameUI.Instance.RpcMethod(ReturnPlayerCount());
             }
@@ -220,6 +224,7 @@ public class RoomManager : MonoBehaviourPunCallbacks{
             }
         }
     }
+
     public int ReturnPlayerCount() {
         int count = 0;
         foreach(var p in playerDictionary.Values) {
@@ -247,9 +252,9 @@ public class RoomManager : MonoBehaviourPunCallbacks{
     }
     public override void OnPlayerLeftRoom(Player otherPlayer) {
         LeftPlayer(otherPlayer);
-        if(CurrentState == GAME_STATE.INGAME || CurrentState == GAME_STATE.LOADING){
-            PhotonNetwork.LoadLevel(0);
-        }
+        //if(CurrentState == GAME_STATE.INGAME || CurrentState == GAME_STATE.LOADING){
+        //    PhotonNetwork.LoadLevel(0);
+        //}
     }
     public void UpdateState(GAME_STATE state,bool rpc = true){
         if (rpc == false) {
