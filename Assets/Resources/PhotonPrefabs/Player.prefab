@@ -396,6 +396,7 @@ GameObject:
   - component: {fileID: 748773676092366573}
   - component: {fileID: 2299289955808715463}
   - component: {fileID: 7350830235968054657}
+  - component: {fileID: 3738808355596977185}
   m_Layer: 6
   m_Name: Player
   m_TagString: PLAYER
@@ -802,6 +803,22 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!114 &3738808355596977185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 430032871078137241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25f281143b72db047bc589ef2e3c917f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agentAnimator: {fileID: 0}
+  agentMovement: {fileID: 0}
+  agentController: {fileID: 0}
+  agentSkill: {fileID: 0}
 --- !u!1 &430032872414379850
 GameObject:
   m_ObjectHideFlags: 0

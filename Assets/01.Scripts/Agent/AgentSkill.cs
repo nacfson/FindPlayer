@@ -11,6 +11,7 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
     protected AgentAnimator _agentAnimator;
     protected ActionData _actionData;
     protected AgentMovement _agentMovement;
+    protected AgentHighlighting _agentHighlighting;
     protected Collider _targetCol;
     protected PhotonView _PV;
 
@@ -20,18 +21,22 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
 
     [SerializeField] protected Material _originMat;
     protected Collider _col;
+    protected List<SkinnedMeshRenderer> _skins = new List<SkinnedMeshRenderer>();
     private void Awake() {
         _agentInput = GetComponent<AgentInput>();
         _col = transform.Find("Collider").GetComponent<Collider>();
         _agentAnimator = transform.Find("Visual").GetComponent<AgentAnimator>();
         _actionData = transform.Find("AD").GetComponent<ActionData>();
         _agentMovement = GetComponent<AgentMovement>();
+        _agentHighlighting = transform.Find("Collider").GetComponent<AgentHighlighting>();
         _PV = GetComponent<PhotonView>();
     }
 
     private void Start() {
         _agentInput.OnAttackKeyPress += StartAttack;
         _agentAnimator.OnAttackTrigger += Attack;
+        
+        _agentAnimator.transform.GetComponentsInChildren<SkinnedMeshRenderer>(_skins);
     }
     private void Update() {
         if(_actionData.IsAttacking) return;
@@ -50,7 +55,7 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
     public void SettingTargetObj(bool result) {
         if (_PV.IsMine) {
             if (result) {
-                _targetCol.transform.GetComponent<AgentHighlighting>().SetMaterial(0.02f);
+                _targetCol.transform.GetComponent<AgentHighlighting>().SetMaterial(0.03f);
             }
             else {
                 _targetCol.transform.GetComponent<AgentHighlighting>().SetMaterial(0f);
@@ -106,6 +111,34 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
             _agentAnimator.SetBoolAttack(true);
             _agentAnimator.SetTriggerAttack();
             _agentMovement.SetRunSpeed(false);
+        }
+    }
+
+    public void InvisibleItem(bool result){
+        _PV.RPC("InvisibleItemRPC",RpcTarget.All,result);
+        if(result){
+            _agentHighlighting.SetMaterial(0.03f);
+        }
+        else{
+            _agentHighlighting.SetMaterial(0f);
+        }
+    }
+    [PunRPC]
+    public void InvisibleItemRPC(bool result){
+        Action<float> action = delegate(float value) {
+            foreach(var skin in _skins){
+                List<Material> materials = new List<Material>();
+                skin.GetMaterials(materials);
+                Color color = materials[0].color;
+                color.a = value;
+                materials[0].color = color;
+            }
+        };
+        if(result){
+            action(1f);
+        }
+        else{
+            action(0f);
         }
     }
 }

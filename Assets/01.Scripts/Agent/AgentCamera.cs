@@ -16,6 +16,7 @@ public class AgentCamera : MonoBehaviourPunCallbacks{
     private float _rotX;
     private float _rotY;
     private CinemachineVirtualCamera _followCam;
+    private Camera _cam;
     private AgentInput _agentInput;
     private PhotonView _PV;
     private ActionData _actionData;
@@ -28,6 +29,7 @@ public class AgentCamera : MonoBehaviourPunCallbacks{
 
     private void Awake() {
         _followCam = GetComponentInChildren<CinemachineVirtualCamera>();
+        _cam = GetComponentInChildren<Camera>();
         _agentInput = GetComponent<AgentInput>();
         _PV = GetComponent<PhotonView>();
         _actionData = transform.Find("AD").GetComponent<ActionData>();
@@ -64,6 +66,7 @@ public class AgentCamera : MonoBehaviourPunCallbacks{
             Vector3 clampValue = hit.point + _followCam.transform.forward * 0.2f;
             clampValue.y = Mathf.Clamp(clampValue.y,1.6f,3f);
             _followCam.transform.position = clampValue;
+            _cam.transform.position = clampValue;
             Debug.Log($"ClampValue: {clampValue}");
             Debug.Log(_followCam.transform.position);
             //_canRotate = false;
@@ -75,6 +78,7 @@ public class AgentCamera : MonoBehaviourPunCallbacks{
             }
         }
     }
+
     private void OnMouseHandle(float x, float y){
         if(_PV.IsMine == false){
             return;
