@@ -51,25 +51,29 @@ public class AgentCamera : MonoBehaviourPunCallbacks{
         _rotX = _followCam.transform.localRotation.eulerAngles.x;
         _rotY = _followCam.transform.localRotation.eulerAngles.y;
     }
-    private void Update() {
-        _currentState = RoomManager.Instance.CurrentState;
-    }
 
-    private void LateUpdate(){
+    private void Update(){
+        _currentState = RoomManager.Instance.CurrentState;
+
         if (_currentState == GAME_STATE.UI || _currentState == GAME_STATE.LOADING) return;
         bool result = Physics.Raycast(_followCam.transform.position, _followCam.transform.forward,out RaycastHit hit,_cameraDistance,obstacleLayer);
 
-        // if(result){
-        //     _followCam.Follow = null;
-        //     _followCam.transform.position = hit.point + _followCam.transform.forward * 0.5f;
-        //     _canRotate = false;
-        // }
-        // else{
-        //     if(_followCam.Follow == null){
-        //         _followCam.Follow = this.transform;
-        //         _canRotate = true;
-        //     }
-        // }
+        if(result){
+            _followCam.Follow = null;
+            
+            Vector3 clampValue = hit.point + _followCam.transform.forward * 0.2f;
+            clampValue.y = Mathf.Clamp(clampValue.y,1.6f,3f);
+            _followCam.transform.position = clampValue;
+            Debug.Log($"ClampValue: {clampValue}");
+            Debug.Log(_followCam.transform.position);
+            //_canRotate = false;
+        }
+        else{
+            if(_followCam.Follow == null){
+                _followCam.Follow = this.transform;
+                //_canRotate = true;
+            }
+        }
     }
     private void OnMouseHandle(float x, float y){
         if(_PV.IsMine == false){

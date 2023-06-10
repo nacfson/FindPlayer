@@ -13,7 +13,7 @@ public class AgentAnimator : MonoBehaviourPun{
     protected readonly int _runBoolHash = Animator.StringToHash("IS_RUN");
     protected readonly int _deadHash = Animator.StringToHash("DEAD");
     protected readonly int _deadBoolHash = Animator.StringToHash("IS_DEAD");
-
+    protected readonly int _jumpBoolHash = Animator.StringToHash("IS_JUMP");
     protected Animator _animator;
     protected ActionData _actionData;
 
@@ -50,6 +50,9 @@ public class AgentAnimator : MonoBehaviourPun{
         else{
             _animator.ResetTrigger(_deadHash);
         }
+    }
+    public void IsJump(bool result){
+        _animator.SetBool(_jumpBoolHash,result);
     }
     public void IsDead(bool result) {
         _animator.SetBool(_deadBoolHash, result);

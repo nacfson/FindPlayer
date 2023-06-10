@@ -69,6 +69,7 @@ public class AgentMovement : MonoBehaviourPun{
         }
         else if(_controller.isGrounded == true){
             _agentAnimator.OnJump(false);
+            _agentAnimator.IsJump(false);
         }
 
         Vector3 cameraForward = Vector3.Scale(_cameraTransform.forward, new Vector3(1, 0, 1)).normalized;
@@ -118,6 +119,7 @@ public class AgentMovement : MonoBehaviourPun{
     public void Jump(){
         if(_controller.isGrounded){
             _agentAnimator.OnJump(true);
+            _agentAnimator.IsJump(true);
             _verticalSpeed = _movementData.JumpHeight * 0.2f;
         }
     }

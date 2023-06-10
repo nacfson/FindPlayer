@@ -32,6 +32,12 @@ public class EnemyController : MonoBehaviour{
         }
     }
     void Update(){
+        if(RoomManager.Instance.CurrentState == GAME_STATE.LOADING) {
+            _navMeshAgent.enabled = false;
+        }
+        else{
+            _navMeshAgent.enabled = true;
+        }
         bool result = Vector3.Distance(transform.position , _navMeshAgent.destination) < 0.1f;
         _actionData.IsArrived = result;
     }
