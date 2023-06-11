@@ -118,20 +118,19 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
         _PV.RPC("InvisibleItemRPC",RpcTarget.All,result);
         Action<float> action = delegate (float value) {
             foreach (var skin in _skins) {
-                List<Material> materials = new List<Material>();
-                skin.GetMaterials(materials);
-                Color color = materials[0].color;
-                color.a = value;
-                materials[0].color = color;
-                //_agentHighlighting.SetMaterial(0f);
-                //if(materials.Count > 1) {
-                //    MaterialPropertyBlock propertyBlock = new MaterialPropertyBlock();
-                //    skin.GetPropertyBlock(propertyBlock);
+                //List<Material> materials = new List<Material>();
+                //skin.GetMaterials(materials);
+                //Color color = materials[0].color;
+                //color.a = value;
+                //materials[0].color = color;
 
-                //    Color outlineColor = propertyBlock.GetColor("_OutlineColor");
-                //    outlineColor.a = value;
-                //    propertyBlock.SetColor("_OutlineColor", outlineColor);
-                //}
+                MaterialPropertyBlock matProp = new MaterialPropertyBlock();
+                skin.GetPropertyBlock(matProp);
+
+                matProp.SetFloat("_Opacity", value);
+                skin.SetPropertyBlock(matProp);
+                Debug.LogError("InvisibleItem");
+                _agentHighlighting.AddMaterial(result);
             }
         };
         if (result) {
