@@ -27,7 +27,7 @@ public class AgentMovement : MonoBehaviourPun{
     public PhotonView PV;
     [SerializeField]
     protected float _rotateSpeed = 30f;
-    private void Awake() {
+    protected virtual void Awake() {
         _controller = GetComponent<CharacterController>();
         _agentInput = GetComponent<AgentInput>();
         _agentAnimator = transform.Find("Visual").GetComponent<AgentAnimator>();
@@ -36,7 +36,7 @@ public class AgentMovement : MonoBehaviourPun{
         _currentSpeed = _movementData.Speed;
         PV = GetComponent<PhotonView>();
     }
-    private void Start() {
+    protected virtual void Start() {
         _agentInput.OnMovementKeyPress += SetMovementVelocity;
         _agentInput.OnJumpKeyPress += Jump;
         _cameraTransform = Define.MainCam.transform;
@@ -46,7 +46,7 @@ public class AgentMovement : MonoBehaviourPun{
         }
     }
     //속도 자연스럽게
-    private void FixedUpdate(){
+    protected virtual void FixedUpdate(){
         if(PV.IsMine == false) {
             return;
         }

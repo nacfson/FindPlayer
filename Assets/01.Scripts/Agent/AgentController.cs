@@ -12,7 +12,7 @@ public class AgentController : MonoBehaviour {
     protected AgentHP _agentHP;
     protected int _cameraIndex = 0;
 
-    private void Awake() {
+    protected virtual void Awake() {
         _PV = GetComponent<PhotonView>();
         _actionData = transform.Find("AD").GetComponent<ActionData>();
         _agentAnimator = transform.Find("Visual").GetComponent<AgentAnimator>();
@@ -24,7 +24,7 @@ public class AgentController : MonoBehaviour {
     private void Update() {
         GetMouseClickInput();
     }
-    private void GetMouseClickInput() {
+    protected virtual void GetMouseClickInput() {
         if (_PV.IsMine == false) return;
         if (_actionData.IsDead) {
             if (Input.GetMouseButtonDown(0)) {

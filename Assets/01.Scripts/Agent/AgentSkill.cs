@@ -22,7 +22,7 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
     [SerializeField] protected Material _originMat;
     protected Collider _col;
     protected List<SkinnedMeshRenderer> _skins = new List<SkinnedMeshRenderer>();
-    private void Awake() {
+    protected virtual void Awake() {
         _agentInput = GetComponent<AgentInput>();
         _col = transform.Find("Collider").GetComponent<Collider>();
         _agentAnimator = transform.Find("Visual").GetComponent<AgentAnimator>();
@@ -32,13 +32,13 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
         _PV = GetComponent<PhotonView>();
     }
 
-    private void Start() {
+    protected void Start() {
         _agentInput.OnAttackKeyPress += StartAttack;
         _agentAnimator.OnAttackTrigger += Attack;
         
         _agentAnimator.transform.GetComponentsInChildren<SkinnedMeshRenderer>(_skins);
     }
-    private void Update() {
+    protected void Update() {
         if(_actionData.IsAttacking) return;
 
 
@@ -82,7 +82,7 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
         return closestCollider;
     }
 
-    private void Attack(){
+    protected virtual void Attack(){
         Debug.Log($"TargetName: {_targetCol}");
         if (_targetCol != null) {
             Debug.Log("TargetCol not null");
@@ -96,7 +96,7 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
             }
         }
     }
-    private void StartAttack(){
+    protected virtual void StartAttack(){
         if(_actionData.IsAttacking == false){
             GAME_STATE currentState = RoomManager.Instance.CurrentState;
 

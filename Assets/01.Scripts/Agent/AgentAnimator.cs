@@ -23,7 +23,7 @@ public class AgentAnimator : MonoBehaviourPun{
     public event Action OnAttackTrigger;
     public event Action OnWalkTrigger;
 
-    private void Awake() {
+    protected virtual void Awake() {
         _animator = GetComponent<Animator>();
         _actionData = transform.parent.Find("AD").GetComponent<ActionData>();
         PV = transform.parent.GetComponent<PhotonView>();

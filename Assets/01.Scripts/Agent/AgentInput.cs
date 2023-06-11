@@ -20,7 +20,7 @@ public class AgentInput : MonoBehaviour{
 
     private void Awake() {
         _actionData = transform.Find("AD").GetComponent<ActionData>();
-        _PV = GetComponent<PhotonView>();
+        //_PV = GetComponent<PhotonView>();
     }
     private void Update() {
 
