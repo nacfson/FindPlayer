@@ -64,20 +64,24 @@ public class InGameUI : MonoBehaviour {
     public void GameStart(){
         _PV.RPC("GameStartRPC",RpcTarget.All);
     }
+    
     [PunRPC]
     public void SetLoadingTextRPC(string value){
         _loadingPanel.gameObject.SetActive(true);
         _loadingText.SetText(value);
     }
+
     [PunRPC]
     public void GameStartRPC(){
         _loadingPanel.gameObject.SetActive(false);
         InformationPanel ifp = Instantiate<InformationPanel>(_informationPanel,_informationPanelParent);
         ifp.ShowingSequence("가짜 중에서 진짜 플레이어를\n 찾아내 살아남아라!",3f);
     }
+
     public void CreateKillLogUI(Player killer,Player deader) {
         _PV.RPC("CreateKillLogUIRPC", RpcTarget.All, killer, deader);
     }
+
     [PunRPC]
     public void CreateKillLogUIRPC(Player killer,Player deader) {
         KillLogUI kui = Instantiate<KillLogUI>(_killLogUI, transform.position, Quaternion.identity);

@@ -185,10 +185,12 @@ public class RoomManager : MonoBehaviourPunCallbacks{
             SetPlayerCount(player);
         }
 
-        InGameUI.Instance.GameEnd();
 
         if(_roundCount >= _defineRound) {
             GameEnd();
+        }
+        else {
+            InGameUI.Instance.GameEnd();
         }
     }
     public void GameEnd() {
@@ -205,7 +207,6 @@ public class RoomManager : MonoBehaviourPunCallbacks{
     }
     //플레이어 나갔을 때 어떻게 되는지 확인하기 
     //플레이어 오브젝트 사라지는지 카메라는 어떻게 되는지
-    //지금 한 플레이어가  나가면 View ID 관련해서 문제가 뜸 왜인지 모르겠음
     public void LeftPlayer(Player lefter) {
         if (playerDictionary.ContainsKey(lefter)) {
             if(_PV != null) {

@@ -8,6 +8,9 @@
         },
         {
             "m_Id": "0888c9ca9dd14b57b7f9129ce89f547a"
+        },
+        {
+            "m_Id": "3772a6bd97864643a6392af82d1a8eeb"
         }
     ],
     "m_Keywords": [],
@@ -365,9 +368,9 @@
     "m_Hidden": false,
     "m_Value": {
         "r": 1.0,
-        "g": 0.0,
-        "b": 0.0,
-        "a": 0.0
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
     },
     "isMainColor": false,
     "m_ColorMode": 0
@@ -455,6 +458,28 @@
         "z": 0.0,
         "w": 0.0
     }
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Internal.BooleanShaderProperty",
+    "m_ObjectId": "3772a6bd97864643a6392af82d1a8eeb",
+    "m_Guid": {
+        "m_GuidSerialized": "9e43609d-9b58-45ec-a0f5-86fbe5dbb521"
+    },
+    "m_Name": "CanSee",
+    "m_DefaultRefNameVersion": 1,
+    "m_RefNameGeneratedByDisplayName": "CanSee",
+    "m_DefaultReferenceName": "_CanSee",
+    "m_OverrideReferenceName": "",
+    "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
+    "m_Precision": 0,
+    "overrideHLSLDeclaration": false,
+    "hlslDeclarationOverride": 0,
+    "m_Hidden": false,
+    "m_Value": false
 }
 
 {
@@ -1250,7 +1275,7 @@
     "m_SurfaceType": 0,
     "m_ZTestMode": 4,
     "m_ZWriteControl": 0,
-    "m_AlphaMode": 0,
+    "m_AlphaMode": 2,
     "m_RenderFace": 1,
     "m_AlphaClip": false,
     "m_CastShadows": true,
@@ -1270,6 +1295,9 @@
         },
         {
             "m_Id": "0888c9ca9dd14b57b7f9129ce89f547a"
+        },
+        {
+            "m_Id": "3772a6bd97864643a6392af82d1a8eeb"
         }
     ]
 }

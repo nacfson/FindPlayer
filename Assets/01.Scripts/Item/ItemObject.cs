@@ -18,8 +18,8 @@ public class ItemObject : MonoBehaviour{
             }
         }
     }
-    private void OnDrawGizmos() {
-        Gizmos.color = Color.green;
-        Gizmos.DrawRay(_getTransform.position,Vector3.up * 10f);
-    }
+    //private void OnDrawGizmos() {
+    //    Gizmos.color = Color.green;
+    //    Gizmos.DrawRay(_getTransform.position, Vector3.up * 10f);
+    //}
 }
