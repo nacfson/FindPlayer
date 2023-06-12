@@ -135,15 +135,16 @@ public class RoomManager : MonoBehaviourPunCallbacks{
         }
         playerDictionary[player] = result;
 
-        //if (cameraIndex == CameraManager.Instance.currentCameraIndex && samePlayer && playerDictionary[player] == false) {
-        //    CameraManager.Instance.RemoveCamera(agentCamera);
-        //    AutoChangeCamera();
-        //}
-        //else {
-        //    CameraManager.Instance.RemoveCamera(agentCamera);
-        //}
 
-        if(cameraIndex != 1024) {
+        if (cameraIndex == CameraManager.Instance.currentCameraIndex && samePlayer && playerDictionary[player] == false) {
+            CameraManager.Instance.RemoveCamera(agentCamera);
+            AutoChangeCamera();
+        }
+        else {
+            CameraManager.Instance.RemoveCamera(agentCamera);
+        }
+
+        if (cameraIndex != 1024) {
             AgentCamera agentCamera = CameraManager.Instance.GetIndexToCamera(cameraIndex);
             CameraManager.Instance.RemoveCamera(agentCamera);
         }

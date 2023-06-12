@@ -13,6 +13,7 @@ public class AgentCamera : MonoBehaviourPunCallbacks{
     [SerializeField] private float _sensitivity = 30f;
     [SerializeField] private float _clampAngle = 70f;
 
+
     private float _rotX;
     private float _rotY;
     private CinemachineVirtualCamera _followCam;
@@ -24,7 +25,6 @@ public class AgentCamera : MonoBehaviourPunCallbacks{
     public LayerMask obstacleLayer; // 벽과 같은 장애물을 나타내는 레이어
     private bool _canRotate = true;
 
-    private float _cameraDistance;
     private GAME_STATE _currentState;
 
     private void Awake() {
@@ -38,7 +38,6 @@ public class AgentCamera : MonoBehaviourPunCallbacks{
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        _cameraDistance = Vector3.Distance(transform.Find("Visual").position, _followCam.transform.position);
     }
     
     private void Start() {
@@ -58,25 +57,7 @@ public class AgentCamera : MonoBehaviourPunCallbacks{
         _currentState = RoomManager.Instance.CurrentState;
 
         if (_currentState == GAME_STATE.UI || _currentState == GAME_STATE.LOADING) return;
-        bool result = Physics.Raycast(_followCam.transform.position, _followCam.transform.forward,out RaycastHit hit,_cameraDistance,obstacleLayer);
-
-        if (result){
-            _followCam.Follow = null;
-            Vector3 cameraToPlayer = hit.collider.transform.position - _followCam.transform.position;
-
-            _followCam.m_Lens.FieldOfView = 40f;
-            _followCam.transform.position = hit.point - cameraToPlayer.normalized * 2f;
-            //_followCam.transform.position = clampValue;
-            //_cam.transform.position = clampValue;
-        }
-        else{
-            if(_followCam.Follow == null){
-                _followCam.Follow = this.transform;
-                _followCam.m_Lens.FieldOfView = 60f;
-                _followCam.transform.position = transform.position;
-
-            }
-        }
+        //bool result = Physics.Raycast(_followCam.transform.position, _followCam.transform.forward,out RaycastHit hit,_cameraDistance,obstacleLayer);
     }
 
     private void OnMouseHandle(float x, float y){

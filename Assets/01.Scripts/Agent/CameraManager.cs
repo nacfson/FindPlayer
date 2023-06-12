@@ -51,10 +51,12 @@ public class CameraManager : MonoBehaviour {
         Debug.LogError("Can't Find Correctly Index");
         return -1;
     }
+
     public int GetRandomCameraIndex() {
         int ran = Random.Range(0,GetCameraCount() + 1);
         return ran;
     }
+
     public AgentCamera GetIndexToCamera(int index){
         try{
             return _agentCameraList[index];
