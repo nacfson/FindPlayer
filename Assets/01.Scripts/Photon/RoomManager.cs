@@ -74,7 +74,7 @@ public class RoomManager : MonoBehaviourPunCallbacks{
             playerDictionary.Add(player, true);
         }
 
-        InGameUI.Instance.RpcMethod(ReturnPlayerCount());
+        InGameUI.Instance.SetLastPlayerText(ReturnPlayerCount());
     }
     private void LoadingGame(){
         if(PhotonNetwork.IsMasterClient){
@@ -117,7 +117,7 @@ public class RoomManager : MonoBehaviourPunCallbacks{
             _PV.RPC("DeadPlayerRPC",RpcTarget.All,player,result,index);
 
             if(InGameUI.Instance != null) {
-                InGameUI.Instance.RpcMethod(ReturnPlayerCount());
+                InGameUI.Instance.SetLastPlayerText(ReturnPlayerCount());
                 InGameUI.Instance.CreateKillLogUI(attacker,player);
             }
         }
@@ -135,24 +135,18 @@ public class RoomManager : MonoBehaviourPunCallbacks{
         }
         playerDictionary[player] = result;
 
-
-        if (cameraIndex == CameraManager.Instance.currentCameraIndex && samePlayer && playerDictionary[player] == false) {
-            CameraManager.Instance.RemoveCamera(agentCamera);
-            AutoChangeCamera();
-        }
-        else {
-            CameraManager.Instance.RemoveCamera(agentCamera);
-        }
-
         if (cameraIndex != 1024) {
             AgentCamera agentCamera = CameraManager.Instance.GetIndexToCamera(cameraIndex);
+            AutoChangeCamera(cameraIndex);
             CameraManager.Instance.RemoveCamera(agentCamera);
         }
     }
 
-    public void AutoChangeCamera() {
-        int cameraIndex = CameraManager.Instance.GetRandomCameraIndex();
-
+    public void AutoChangeCamera(int cameraIndex) {
+        int changeIndex = CameraManager.Instance.GetRandomCameraIndex();
+        while(cameraIndex == CameraManager.Instance.GetRandomCameraIndex()) {
+            changeIndex = CameraManager.Instance.GetRandomCameraIndex();
+        }
         CameraManager.Instance.ChangeCamera(cameraIndex);
     }
 
@@ -216,7 +210,7 @@ public class RoomManager : MonoBehaviourPunCallbacks{
 
             //Destroy(lefter.TagObject as Object);
             if (InGameUI.Instance != null) {
-                InGameUI.Instance.RpcMethod(ReturnPlayerCount());
+                InGameUI.Instance.SetLastPlayerText(ReturnPlayerCount());
             }
             if (IfRoundEnd()) {
                 RoundEnd();

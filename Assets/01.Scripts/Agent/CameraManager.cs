@@ -22,7 +22,7 @@ public class CameraManager : MonoBehaviour {
         //죽은 사람만 카메라를 바꿀 수 있도록 코드를 수정해야함.
         //Debug.LogError(cameraIndex);
         AgentCamera currentCamera = _agentCameraList[cameraIndex];
-
+        
         currentCameraIndex = cameraIndex;
         foreach(var a in _agentCameraList){
             CinemachineVirtualCamera camera = a.GetCamera();
@@ -35,9 +35,11 @@ public class CameraManager : MonoBehaviour {
         }
         InGameUI.Instance.SetPlayerNameUI(currentCamera.GetPlayer().NickName, true);
     }
+
     public void RemoveCamera(AgentCamera agentCamera) {
         _agentCameraList.Remove(agentCamera);
     }
+
     public int GetCameraCount(){
         return _agentCameraList.Count;
     }

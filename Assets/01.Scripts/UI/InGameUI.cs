@@ -55,11 +55,11 @@ public class InGameUI : MonoBehaviour {
         sequence.AppendInterval(delay);
         sequence.AppendCallback(() => RoomManager.Instance.InitGame());
     }
-    public void RpcMethod(int count) {
-        _PV.RPC("SetLastPlayerText", RpcTarget.All, count);
+    public void SetLastPlayerText(int count) {
+        _PV.RPC("SetLastPlayerTextRPC", RpcTarget.All, count);
     }
     [PunRPC]
-    public void SetLastPlayerText(int count) {
+    public void SetLastPlayerTextRPC(int count) {
         _lastPlayerCount.SetText(count.ToString());
     }
     public void SetLoadingText(string value){
