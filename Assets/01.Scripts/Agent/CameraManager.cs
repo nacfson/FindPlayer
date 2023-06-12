@@ -28,12 +28,13 @@ public class CameraManager : MonoBehaviour {
             CinemachineVirtualCamera camera = a.GetCamera();
             if(a == currentCamera){
                 camera.enabled = true;
+                a.PlayerNameUI.ShowText(true);
             }
-            else{
+            else {
                 camera.enabled = false;
+                a.PlayerNameUI.ShowText(false);
             }
         }
-        InGameUI.Instance.SetPlayerNameUI(currentCamera.GetPlayer().NickName, true);
     }
 
     public void RemoveCamera(AgentCamera agentCamera) {

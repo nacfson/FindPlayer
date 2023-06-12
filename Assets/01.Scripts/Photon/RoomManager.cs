@@ -137,17 +137,8 @@ public class RoomManager : MonoBehaviourPunCallbacks{
 
         if (cameraIndex != 1024) {
             AgentCamera agentCamera = CameraManager.Instance.GetIndexToCamera(cameraIndex);
-            AutoChangeCamera(cameraIndex);
             CameraManager.Instance.RemoveCamera(agentCamera);
         }
-    }
-
-    public void AutoChangeCamera(int cameraIndex) {
-        int changeIndex = CameraManager.Instance.GetRandomCameraIndex();
-        while(cameraIndex == CameraManager.Instance.GetRandomCameraIndex()) {
-            changeIndex = CameraManager.Instance.GetRandomCameraIndex();
-        }
-        CameraManager.Instance.ChangeCamera(cameraIndex);
     }
 
     public void SetPlayerCount(Player player) {

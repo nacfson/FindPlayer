@@ -19,6 +19,10 @@ public class AgentCamera : MonoBehaviourPunCallbacks{
     private CinemachineVirtualCamera _followCam;
     private Camera _cam;
     private AgentInput _agentInput;
+
+    private PlayerNameUI _playerNameUI;
+    public PlayerNameUI PlayerNameUI => _playerNameUI;
+
     private PhotonView _PV;
     private ActionData _actionData;
     public Player player;
@@ -32,6 +36,7 @@ public class AgentCamera : MonoBehaviourPunCallbacks{
         _cam = GetComponentInChildren<Camera>();
         _agentInput = GetComponent<AgentInput>();
         _PV = GetComponent<PhotonView>();
+        _playerNameUI = GetComponent<PlayerNameUI>();
         _actionData = transform.Find("AD").GetComponent<ActionData>();
         player = PhotonNetwork.LocalPlayer;
 
