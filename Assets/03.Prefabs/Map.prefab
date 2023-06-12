@@ -497,6 +497,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: InvisibleItem
       objectReference: {fileID: 0}
+    - target: {fileID: 6490775529587527987, guid: cb74d3fb6b25bca4cbbe04d434264240,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7327185463954733488, guid: cb74d3fb6b25bca4cbbe04d434264240,
         type: 3}
       propertyPath: sceneViewId

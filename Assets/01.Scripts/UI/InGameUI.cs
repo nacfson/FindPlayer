@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Photon.Pun;
+using System;
 using Photon.Realtime;
 using DG.Tweening;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
@@ -17,9 +18,12 @@ public class InGameUI : MonoBehaviour {
     [SerializeField] private InformationPanel _informationPanel;
     [SerializeField] private Transform _informationPanelParent;
     [SerializeField] private Transform _killLogUIParent;
+    [SerializeField] private ClockUI _clockUI;
 
     [SerializeField] private TMP_Text _lastPlayerCount;
     private TMP_Text _loadingText;
+
+    public event Action OnClockEnd;
     public static InGameUI Instance;
     private PhotonView _PV;
     
@@ -88,6 +92,12 @@ public class InGameUI : MonoBehaviour {
         kui.transform.SetParent(_killLogUIParent);
         kui.SetUI(killer, deader);
         kui.ShowingSequence();
+    }
+    public void SetClockUI(float currentValue, float maxValue,bool result = true) {
+        if(result == false) {
+            OnClockEnd?.Invoke();
+        }
+        _clockUI.SetUI(currentValue, maxValue,result);
     }
 
     public void SetPlayerNameUI(string nickName,bool result) {

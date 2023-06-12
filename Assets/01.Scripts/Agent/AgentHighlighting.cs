@@ -25,22 +25,15 @@ public class AgentHighlighting : MonoBehaviour {
         }
     }
 
-    public void AddMaterial(bool result) {
-        Action<bool> action = delegate (bool result) {
+    public void AddMaterial(float value) {
+        Action<float> action = delegate (float value) {
             foreach(SkinnedMeshRenderer m in _meshRendererList) {
-                if(m.materials.Length > 1) {
-                    if (result) {
-                        List<Material> materials = m.materials.ToList();
-                        materials.Add(_outlineMaterial);
-                        m.materials = materials.ToArray();
-                    }
-                    else {
-                        Destroy(m.materials[1]);
-                    }
-                }
-                
+                MaterialPropertyBlock mp = new MaterialPropertyBlock();
+                m.GetPropertyBlock(mp);
+                mp.SetFloat("_LineOpacity", value);
+                m.SetPropertyBlock(mp);
             }
         };
-        action(result);
+        action(value);
     }
 }

@@ -60,21 +60,21 @@ public class AgentCamera : MonoBehaviourPunCallbacks{
         if (_currentState == GAME_STATE.UI || _currentState == GAME_STATE.LOADING) return;
         bool result = Physics.Raycast(_followCam.transform.position, _followCam.transform.forward,out RaycastHit hit,_cameraDistance,obstacleLayer);
 
-        if(result){
+        if (result){
             _followCam.Follow = null;
-            
-            Vector3 clampValue = hit.point + _followCam.transform.forward * 0.2f;
-            clampValue.y = Mathf.Clamp(clampValue.y,1.6f,3f);
-            _followCam.transform.position = clampValue;
-            _cam.transform.position = clampValue;
-            Debug.Log($"ClampValue: {clampValue}");
-            Debug.Log(_followCam.transform.position);
-            //_canRotate = false;
+            Vector3 cameraToPlayer = hit.collider.transform.position - _followCam.transform.position;
+
+            _followCam.m_Lens.FieldOfView = 40f;
+            _followCam.transform.position = hit.point - cameraToPlayer.normalized * 2f;
+            //_followCam.transform.position = clampValue;
+            //_cam.transform.position = clampValue;
         }
         else{
             if(_followCam.Follow == null){
                 _followCam.Follow = this.transform;
-                //_canRotate = true;
+                _followCam.m_Lens.FieldOfView = 60f;
+                _followCam.transform.position = transform.position;
+
             }
         }
     }
