@@ -41,7 +41,6 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
     protected void Update() {
         if(_actionData.IsAttacking) return;
 
-
         if(_targetCol != null) {
             SettingTargetObj(false);
         }
@@ -83,11 +82,11 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
     }
 
     protected virtual void Attack(){
-        Debug.Log($"TargetName: {_targetCol}");
+        //Debug.Log($"TargetName: {_targetCol}");
         if (_targetCol != null) {
-            Debug.Log("TargetCol not null");
+            //Debug.Log("TargetCol not null");
             if (_targetCol.transform.parent.TryGetComponent<AgentHP>(out AgentHP agentHP)){
-                Debug.Log("Damaged");
+                //Debug.Log("Damaged");
                 Player player = PhotonNetwork.LocalPlayer;
                 if(_targetCol.gameObject.CompareTag("PLAYER")){
                     RoomManager.Instance.UpdateKillCountAndScore(1,100,player.NickName);
@@ -129,7 +128,7 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
 
                 matProp.SetFloat("_Opacity", value);
                 skin.SetPropertyBlock(matProp);
-                Debug.LogError("InvisibleItem");
+                //Debug.LogError("InvisibleItem");
                 _agentHighlighting.AddMaterial(result);
             }
         };
@@ -145,11 +144,16 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
     public void InvisibleItemRPC(bool result){
         Action<float> action = delegate(float value) {
             foreach(var skin in _skins){
-                List<Material> materials = new List<Material>();
-                skin.GetMaterials(materials);
-                Color color = materials[0].color;
-                color.a = value;
-                materials[0].color = color;
+                // List<Material> materials = new List<Material>();
+                // skin.GetMaterials(materials);
+                // Color color = materials[0].color;
+                // color.a = value;
+                // materials[0].color = color;
+                MaterialPropertyBlock matProp = new MaterialPropertyBlock();
+                skin.GetPropertyBlock(matProp);
+
+                matProp.SetFloat("_Opacity", value);
+                skin.SetPropertyBlock(matProp);
             }
         };
         if(result){

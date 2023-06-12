@@ -38,7 +38,7 @@ public class AgentCamera : MonoBehaviourPunCallbacks{
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        _cameraDistance = Vector3.Distance(transform.position, _followCam.transform.position);
+        _cameraDistance = Vector3.Distance(transform.Find("Visual").position, _followCam.transform.position);
     }
     
     private void Start() {

@@ -72,7 +72,7 @@ public class AgentAnimator : MonoBehaviourPun{
     }
     public void OnWalkAnimation() {
         OnWalkTrigger?.Invoke();
-        Debug.Log("OnWalkAnimation");
+        //Debug.Log("OnWalkAnimation");
     }
     public void OnAttack(){
         OnAttackTrigger?.Invoke();

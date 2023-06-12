@@ -914,9 +914,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.27744612
-  m_Height: 1
+  m_Height: 1.0168394
   m_Direction: 1
-  m_Center: {x: 0.018834919, y: 0.46614575, z: 0}
+  m_Center: {x: 0.018834919, y: 0.279195, z: 0}
 --- !u!114 &2635922658796364937
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1040,6 +1040,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2236237030686087061, guid: b10fec9bba2b7eb4285c00cedd56af11,
         type: 3}
+      propertyPath: m_LightProbeUsage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2236237030686087061, guid: b10fec9bba2b7eb4285c00cedd56af11,
+        type: 3}
+      propertyPath: m_UpdateWhenOffscreen
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2236237030686087061, guid: b10fec9bba2b7eb4285c00cedd56af11,
+        type: 3}
       propertyPath: m_Materials.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -1053,6 +1063,41 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 2100000, guid: 6acb74df3a3b7ea44b45cf2cac5cf67c, type: 2}
+    - target: {fileID: 3336566718992791482, guid: b10fec9bba2b7eb4285c00cedd56af11,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3336566718992791482, guid: b10fec9bba2b7eb4285c00cedd56af11,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3336566718992791482, guid: b10fec9bba2b7eb4285c00cedd56af11,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3336566718992791482, guid: b10fec9bba2b7eb4285c00cedd56af11,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3336566718992791482, guid: b10fec9bba2b7eb4285c00cedd56af11,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3336566718992791482, guid: b10fec9bba2b7eb4285c00cedd56af11,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3336566718992791482, guid: b10fec9bba2b7eb4285c00cedd56af11,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3505068965197213699, guid: b10fec9bba2b7eb4285c00cedd56af11,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -1078,6 +1123,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 2100000, guid: 6acb74df3a3b7ea44b45cf2cac5cf67c, type: 2}
+    - target: {fileID: 4698911140009236731, guid: b10fec9bba2b7eb4285c00cedd56af11,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.15
+      objectReference: {fileID: 0}
     - target: {fileID: 5433269313094510252, guid: b10fec9bba2b7eb4285c00cedd56af11,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -1088,6 +1138,41 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 5f28ffdda9341c4469ed12332881e9d3, type: 2}
+    - target: {fileID: 6352827182127179263, guid: b10fec9bba2b7eb4285c00cedd56af11,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6352827182127179263, guid: b10fec9bba2b7eb4285c00cedd56af11,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6352827182127179263, guid: b10fec9bba2b7eb4285c00cedd56af11,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6352827182127179263, guid: b10fec9bba2b7eb4285c00cedd56af11,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6352827182127179263, guid: b10fec9bba2b7eb4285c00cedd56af11,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6352827182127179263, guid: b10fec9bba2b7eb4285c00cedd56af11,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6352827182127179263, guid: b10fec9bba2b7eb4285c00cedd56af11,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7402483750096178387, guid: b10fec9bba2b7eb4285c00cedd56af11,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -1145,6 +1230,12 @@ MonoBehaviour:
   - Type: 9
     SynchronizeType: 2
     Name: DEAD
+  - Type: 4
+    SynchronizeType: 0
+    Name: IS_DEAD
+  - Type: 4
+    SynchronizeType: 0
+    Name: IS_JUMP
   m_SynchronizeLayers:
   - SynchronizeType: 2
     LayerIndex: 0
