@@ -4563,7 +4563,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _loadingTime: 3.5
-  _initAICount: 50
+  _initAICount: 32
   _defineRound: 5
   playerCount: 0
 --- !u!1 &1648324902
@@ -6453,6 +6453,7 @@ MonoBehaviour:
   IsRotating: 0
   IsDead: 0
   CanMove: 0
+  IsPenalty: 0
 --- !u!1 &6368373494233394301
 GameObject:
   m_ObjectHideFlags: 0

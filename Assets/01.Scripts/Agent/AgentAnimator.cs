@@ -14,14 +14,19 @@ public class AgentAnimator : MonoBehaviourPun{
     protected readonly int _deadHash = Animator.StringToHash("DEAD");
     protected readonly int _deadBoolHash = Animator.StringToHash("IS_DEAD");
     protected readonly int _jumpBoolHash = Animator.StringToHash("IS_JUMP");
+    protected readonly int _penaltyHash = Animator.StringToHash("PENALTY");
+    protected readonly int _penaltyBoolHash =Animator.StringToHash("IS_PENALTY");
+
     protected Animator _animator;
     protected ActionData _actionData;
-
+ 
     public PhotonView PV;
 
     public event Action OnAttackEndTrigger;
     public event Action OnAttackTrigger;
     public event Action OnWalkTrigger;
+    public event Action OnPenaltyStartTrigger;
+    public event Action OnPenaltyEndTrigger;
 
     protected virtual void Awake() {
         _animator = GetComponent<Animator>();
@@ -34,7 +39,17 @@ public class AgentAnimator : MonoBehaviourPun{
     public void SetBoolRun(bool result){
         _animator.SetBool(_runBoolHash,result);
     }
-
+    public void SetPeanlty(bool result){
+        if(result){
+            _animator.SetTrigger(_penaltyHash);
+        }
+        else{
+            _animator.ResetTrigger(_penaltyHash);
+        }
+    }
+    public void SetBoolPenalty(bool result){
+        _animator.SetBool(_penaltyBoolHash,result);
+    }
     public void OnJump(bool result){
         if(result){
             _animator.SetTrigger(_jumpHash);
@@ -69,6 +84,18 @@ public class AgentAnimator : MonoBehaviourPun{
         SetBoolAttack(false);
         _actionData.IsAttacking = false;
         OnAttackEndTrigger?.Invoke();
+    }
+    public void OnPenaltyEnd(){
+        SetPeanlty(false);
+        SetBoolPenalty(false);
+        _actionData.IsPenalty = false;
+
+        OnPenaltyEndTrigger?.Invoke();
+    }
+    public void OnPenaltyStart(){
+        SetBoolPenalty(true);
+        _actionData.IsPenalty = true;
+        OnPenaltyStartTrigger?.Invoke();
     }
     public void OnWalkAnimation() {
         OnWalkTrigger?.Invoke();

@@ -91,6 +91,9 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
                 if(_targetCol.gameObject.CompareTag("PLAYER")){
                     RoomManager.Instance.UpdateKillCountAndScore(1,100,player.NickName);
                 }
+                else{
+                    _agentAnimator.SetPeanlty(true);
+                }
                 agentHP.Damaged(player);
             }
         }

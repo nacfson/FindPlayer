@@ -53,10 +53,14 @@ public class AgentCamera : MonoBehaviourPunCallbacks{
         string nickName = PhotonNetwork.LocalPlayer.NickName;
         CameraManager.Instance.AddCamera(this);
 
-
         _rotX = _followCam.transform.localRotation.eulerAngles.x;
         _rotY = _followCam.transform.localRotation.eulerAngles.y;
+        if(_PV.IsMine){
+            _playerNameUI.ShowText(true);
+        }
     }
+
+
 
     private void Update(){
         _currentState = RoomManager.Instance.CurrentState;
@@ -64,7 +68,7 @@ public class AgentCamera : MonoBehaviourPunCallbacks{
         if (_currentState == GAME_STATE.UI || _currentState == GAME_STATE.LOADING) return;
         //bool result = Physics.Raycast(_followCam.transform.position, _followCam.transform.forward,out RaycastHit hit,_cameraDistance,obstacleLayer);
     }
-
+    
     private void OnMouseHandle(float x, float y){
         if(_PV.IsMine == false){
             return;

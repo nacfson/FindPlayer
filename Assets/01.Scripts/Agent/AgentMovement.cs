@@ -50,7 +50,7 @@ public class AgentMovement : MonoBehaviourPun{
         if(PV.IsMine == false) {
             return;
         }
-        if (_actionData.IsAttacking) {
+        if (_actionData.IsAttacking || _actionData.IsPenalty) {
             return;
         }
         GAME_STATE currentState = RoomManager.Instance.CurrentState;

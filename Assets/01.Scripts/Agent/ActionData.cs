@@ -10,4 +10,5 @@ public class ActionData : MonoBehaviour{
     public bool IsRotating;
     public bool IsDead;
     public bool CanMove;
+    public bool IsPenalty;
 }

@@ -202,8 +202,6 @@ public class RoomManager : MonoBehaviourPunCallbacks{
             if(_PV != null) {
                 _PV.RPC("DeadPlayerRPC", RpcTarget.All, lefter, false,1024);
             }
-
-            //Destroy(lefter.TagObject as Object);
             if (InGameUI.Instance != null) {
                 InGameUI.Instance.SetLastPlayerText(ReturnPlayerCount());
             }

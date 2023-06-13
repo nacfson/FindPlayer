@@ -28,12 +28,11 @@ public class CameraManager : MonoBehaviour {
             CinemachineVirtualCamera camera = a.GetCamera();
             if(a == currentCamera){
                 camera.enabled = true;
-                a.PlayerNameUI.ShowText(true);
             }
             else {
                 camera.enabled = false;
-                a.PlayerNameUI.ShowText(false);
             }
+            a.PlayerNameUI.ShowText(true);
         }
     }
 

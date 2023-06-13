@@ -278,6 +278,7 @@ MonoBehaviour:
   IsRotating: 0
   IsDead: 0
   CanMove: 0
+  IsPenalty: 0
 --- !u!1 &8396855442095193014
 GameObject:
   m_ObjectHideFlags: 0
