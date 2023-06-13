@@ -17,15 +17,16 @@ public class AgentHighlighting : MonoBehaviour {
         //Debug.LogError(_meshRendererList.Count);
     }
 
-    public void SetMaterial(float value) {
+    public void SetMaterial(float value,Color color) {
         foreach(var m in _meshRendererList) {
             Material[] mats = m.materials;
             mats[mats.Length - 1].SetFloat("_LineThickness", value);
+            mats[mats.Length - 1].SetColor("_OutlineColor", color);
             m.materials = mats;
         }
     }
 
-    public void AddMaterial(float value) {
+    public void SetMaterialOpacity(float value) {
         Action<float> action = delegate (float value) {
             foreach(SkinnedMeshRenderer m in _meshRendererList) {
                 MaterialPropertyBlock mp = new MaterialPropertyBlock();
@@ -36,4 +37,6 @@ public class AgentHighlighting : MonoBehaviour {
         };
         action(value);
     }
+
+
 }

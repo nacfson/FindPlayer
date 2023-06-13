@@ -54,10 +54,10 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
     public void SettingTargetObj(bool result) {
         if (_PV.IsMine) {
             if (result) {
-                _targetCol.transform.GetComponent<AgentHighlighting>().SetMaterial(0.03f);
+                _targetCol.transform.GetComponent<AgentHighlighting>().SetMaterial(0.03f,Color.white);
             }
             else {
-                _targetCol.transform.GetComponent<AgentHighlighting>().SetMaterial(0f);
+                _targetCol.transform.GetComponent<AgentHighlighting>().SetMaterial(0f,Color.white);
             }
         }
     }
@@ -117,7 +117,7 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
 
     public void InvisibleItem(bool result){
         _PV.RPC("InvisibleItemRPC",RpcTarget.All,result);
-        //≈ı∏Ì¿Ã µ«¥¬ ∑Œ¡˜
+        //Ìà¨Î™ÖÏù¥ ÎêòÎäî Î°úÏßÅ
     }
 
     [PunRPC]
@@ -130,14 +130,14 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
                 matProp.SetFloat("_Opacity", value);
                 skin.SetPropertyBlock(matProp);
                 //Debug.LogError("InvisibleItem");
-                _agentHighlighting.AddMaterial(Mathf.Round(value));
+                _agentHighlighting.SetMaterialOpacity(Mathf.Round(value));
             }
         };
         if (_PV.IsMine) {
-            if (result) {
+            if(result){
                 action(1f);
             }
-            else {
+            else{
                 action(0.3f);
             }
         }
@@ -147,6 +147,20 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
             }
             else {
                 action(0f);
+            }
+        }
+    }
+    public void SilhouetteItem(bool result){
+        _PV.RPC("SilhouetteItemRPC",RpcTarget.All,result);
+    }
+    [PunRPC]
+    public void SilhouetteItemRPC(bool result){
+        if(_PV.IsMine){
+            if(result){
+                _agentHighlighting.SetMaterial(0.05f,Color.red);
+            }
+            else{
+                _agentHighlighting.SetMaterial(0f,Color.white);
             }
         }
     }

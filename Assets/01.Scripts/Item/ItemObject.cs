@@ -4,7 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 
 public class ItemObject : MonoBehaviour{
-    public Item item;
+    [HideInInspector] public Item item;
     private Transform _getTransform;
     [SerializeField] private LayerMask _layerMask;
     [SerializeField] protected ParticleSystem _useParticle;
@@ -16,6 +16,7 @@ public class ItemObject : MonoBehaviour{
         _getTransform = this.transform;
         _particle = GetComponent<ParticleSystem>();
         _character = transform.Find("Character").gameObject;
+        item = GetComponent<Item>();
         StartCoroutine(CheckColliderCor());
     }
     IEnumerator CheckColliderCor(){

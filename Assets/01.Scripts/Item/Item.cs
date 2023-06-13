@@ -5,6 +5,7 @@ using Photon.Pun;
 
 public abstract class Item : MonoBehaviour{
     protected PhotonView _PV;
+    protected bool _canUse = true;
 
     public abstract void UseItem(AgentItem agentItem);
 

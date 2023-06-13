@@ -18,22 +18,21 @@ public class PlayerNameUI : MonoBehaviour {
         string playerName = PhotonNetwork.LocalPlayer.NickName;
         SetPlayerName(playerName);
     }
+
     private void Update() {
         _playerNameText.transform.rotation = Quaternion.LookRotation(_followCam.transform.forward);
     }
+
     public void SetPlayerName(string playerName) {
         _PV.RPC("SetPlayerNameRPC", RpcTarget.All, playerName);
     }
+
     [PunRPC]
     public void SetPlayerNameRPC(string playerName) {
-        if (_PV.IsMine) {
-            _playerNameText.SetText(playerName);
-        }
+        _playerNameText.SetText(playerName);
     }
 
     public void ShowText(bool result) {
         _playerNameText.gameObject.SetActive(result);
     }
-
-
 }

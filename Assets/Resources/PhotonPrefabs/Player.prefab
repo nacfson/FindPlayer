@@ -852,6 +852,7 @@ MonoBehaviour:
   agentMovement: {fileID: 0}
   agentController: {fileID: 0}
   agentSkill: {fileID: 0}
+  collider: {fileID: 0}
 --- !u!114 &296443231583659421
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -4,7 +4,6 @@ using UnityEngine;
 using Photon.Pun;
 public class InvisibleItem : Item{
     [SerializeField] private float _invisibleTime = 10f;
-    private bool _canUse = true;
 
     public override void UseItem(AgentItem agentItem){
         if(_canUse == false) return;
@@ -13,7 +12,6 @@ public class InvisibleItem : Item{
     }
 
     IEnumerator Invisible(AgentItem agentItem){
-
         float timer = 0f;
         _canUse = false;
         agentItem.agentSkill.InvisibleItem(false);

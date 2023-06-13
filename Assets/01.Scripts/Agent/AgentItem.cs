@@ -9,6 +9,7 @@ public class AgentItem : MonoBehaviour{
     public AgentMovement agentMovement;
     public AgentController agentController;
     public AgentSkill agentSkill;
+    public Collider collider;
     private PhotonView _PV;
 
     void Awake(){
@@ -16,6 +17,7 @@ public class AgentItem : MonoBehaviour{
         agentAnimator = transform.Find("Visual").GetComponent<AgentAnimator>();
         agentMovement = GetComponent<AgentMovement>();
         agentController = GetComponent<AgentController>();
+        collider = transform.Find("Collider").GetComponent<Collider>();
 
         _PV = GetComponent<PhotonView>();
     }

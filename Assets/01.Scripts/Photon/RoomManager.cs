@@ -9,7 +9,6 @@ using System.Linq;
 using System.Collections;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
-
 public enum GAME_STATE{
     MENU =0, LOADING =1, INGAME = 2,UI = 3, END = 4
 }
@@ -101,6 +100,7 @@ public class RoomManager : MonoBehaviourPunCallbacks{
         InGameUI.Instance.GameStart();
         UpdateState(GAME_STATE.INGAME);
     }
+
     private void MakeAIPlayer(){
         if(PhotonNetwork.IsMasterClient){
             for(int i = 0; i < _initAICount; i++) {
@@ -109,6 +109,7 @@ public class RoomManager : MonoBehaviourPunCallbacks{
             }
         }
     }
+
     public void DeadPlayer(Player attacker, AgentCamera agentCamera,bool result = false) {
         Player player = agentCamera.GetPlayer();
 
@@ -153,6 +154,7 @@ public class RoomManager : MonoBehaviourPunCallbacks{
             _playerData.currentRank = ReturnPlayerCount();
         }
     }
+
     private void RoundEnd(){
         UpdateState(GAME_STATE.LOADING);
         _roundCount++;
@@ -179,9 +181,11 @@ public class RoomManager : MonoBehaviourPunCallbacks{
             InGameUI.Instance.GameEnd();
         }
     }
+
     public void GameEnd() {
         _PV.RPC("GameEndRPC",RpcTarget.All);
     }
+
     [PunRPC]
     public void GameEndRPC() {
         Hashtable hashtable = new Hashtable();

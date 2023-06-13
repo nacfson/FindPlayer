@@ -22,7 +22,7 @@ public class EndPanelUI : MonoBehaviour {
 
         Sequence sequence = DOTween.Sequence();
         sequence.AppendInterval(delay);
-        sequence.Append(transform.DOLocalMove(_targetOffset, 0.3f)).SetEase(Ease.OutBounce);
+        sequence.Append(transform.DOLocalMove(_targetOffset, 0.3f)).SetEase(Ease.OutBack);
         sequence.AppendCallback(()=>{
             foreach(Player player in PhotonNetwork.PlayerList){
                 AddScoreBoardItem(player);
