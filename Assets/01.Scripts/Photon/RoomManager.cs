@@ -26,6 +26,7 @@ public class RoomManager : MonoBehaviourPunCallbacks{
     [SerializeField] private float _loadingTime;
     [SerializeField] private int _initAICount = 50;
     [SerializeField] private int _defineRound = 1; 
+    [SerializeField] private ItemObjectListSO _itemObjectList;
     private int _roundCount = 0; 
     private int _cameraIndex = 0;
     public int playerCount;
@@ -99,6 +100,7 @@ public class RoomManager : MonoBehaviourPunCallbacks{
         }
         InGameUI.Instance.GameStart();
         UpdateState(GAME_STATE.INGAME);
+        CreateItem();
     }
 
     private void MakeAIPlayer(){
@@ -135,12 +137,32 @@ public class RoomManager : MonoBehaviourPunCallbacks{
             SetPlayerCount(player);
         }
         playerDictionary[player] = result;
+        CreateItem();
 
         if (cameraIndex != 1024) {
             AgentCamera agentCamera = CameraManager.Instance.GetIndexToCamera(cameraIndex);
             CameraManager.Instance.RemoveCamera(agentCamera);
         }
     }
+
+    public void CreateItem(){
+        _PV.RPC("CreateItemRPC",RpcTarget.All);
+    }
+
+
+    [PunRPC]
+    public void CreateItemRPC(){
+        if(_PV.IsMine){
+            WayPoint wayPoint = GameManager.Instance.RandomWayPoint();
+            Vector3 pos = wayPoint.ReturnPos();
+
+            string itemName = _itemObjectList.GetRandomItem().gameObject.name;
+            GameObject obj = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs",itemName),pos,Quaternion.identity);
+            obj.transform.position = pos;
+            obj.gameObject.SetActive(true);
+        }
+    }
+
 
     public void SetPlayerCount(Player player) {
         _PV.RPC("SetPlayerCountRPC", RpcTarget.All, player);
@@ -158,7 +180,9 @@ public class RoomManager : MonoBehaviourPunCallbacks{
     private void RoundEnd(){
         UpdateState(GAME_STATE.LOADING);
         _roundCount++;
+
         Player player = null;
+
         foreach(var p in playerDictionary) {
             if(p.Value == true) {
                 player = p.Key;
@@ -178,7 +202,8 @@ public class RoomManager : MonoBehaviourPunCallbacks{
             GameEnd();
         }
         else {
-            InGameUI.Instance.GameEnd();
+
+            InGameUI.Instance.GameEnd(player);
         }
     }
 
@@ -195,6 +220,7 @@ public class RoomManager : MonoBehaviourPunCallbacks{
 
         InGameUI.Instance.EndGameUI(7f);
     }
+
     //플레이어 나갔을 때 어떻게 되는지 확인하기 
     //플레이어 오브젝트 사라지는지 카메라는 어떻게 되는지
     public void LeftPlayer(Player lefter) {

@@ -27,6 +27,7 @@ public class ScorePanelUI : MonoBehaviour{
         string result = $"처치 : {killCount} 점수 : {score}";
         _scoreText.SetText(result);
     }
+    
     [ContextMenu("ShowingSequence")]
     public void ShowingSequence() {
         gameObject.SetActive(true);

@@ -15,6 +15,7 @@ public class InGameUI : MonoBehaviour {
     [SerializeField] private ScorePanelUI _scorePanel;
     [SerializeField] private OptionPanelUI _optionPanelUI;
     [SerializeField] private ProvocationData _provocationData;
+    [SerializeField] private ProvocationData _winProvocationData;
     [SerializeField] private InformationPanel _informationPanel;
     [SerializeField] private Transform _informationPanelParent;
     [SerializeField] private Transform _killLogUIParent;
@@ -106,14 +107,19 @@ public class InGameUI : MonoBehaviour {
             _cameraNameUI.SetPlayerText(nickName);
         }
     }
-    public void GameEnd(){
-        _PV.RPC("GameEndRPC",RpcTarget.All);
+    public void GameEnd(Player player){
+        _PV.RPC("GameEndRPC",RpcTarget.All,player);
     }
 
     [PunRPC]
-    public void GameEndRPC(){
+    public void GameEndRPC(Player player){
         _scorePanel.ShowingSequence();
+        Player localPlayer = PhotonNetwork.LocalPlayer;
+
         string provocation = _provocationData.RandomProvocation();
+        if(localPlayer == player){ 
+            provocation = _winProvocationData.RandomProvocation();
+        }
         _scorePanel.SetProvocationText(provocation);
 
         int killCount = (int)RoomManager.Instance.GetPlayerData().killCount;

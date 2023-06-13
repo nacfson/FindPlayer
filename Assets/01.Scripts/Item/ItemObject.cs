@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using Photon.Pun;
 
+[RequireComponent(typeof(PhotonView))]
 public class ItemObject : MonoBehaviour{
     [HideInInspector] public Item item;
     private Transform _getTransform;
     [SerializeField] private LayerMask _layerMask;
     [SerializeField] protected ParticleSystem _useParticle;
+    protected PhotonView _PV;
 
     protected ParticleSystem _particle;
     private GameObject _character;
@@ -17,6 +20,7 @@ public class ItemObject : MonoBehaviour{
         _particle = GetComponent<ParticleSystem>();
         _character = transform.Find("Character").gameObject;
         item = GetComponent<Item>();
+        _PV = GetComponent<PhotonView>();
         StartCoroutine(CheckColliderCor());
     }
     IEnumerator CheckColliderCor(){

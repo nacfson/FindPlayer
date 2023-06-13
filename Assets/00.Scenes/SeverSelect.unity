@@ -4564,7 +4564,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _loadingTime: 3.5
   _initAICount: 32
-  _defineRound: 5
+  _defineRound: 2
+  _itemObjectList: {fileID: 11400000, guid: 5fac4f78ea285714cbb1b8c3898ce285, type: 2}
   playerCount: 0
 --- !u!1 &1648324902
 GameObject:
