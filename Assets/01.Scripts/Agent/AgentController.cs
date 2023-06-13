@@ -11,19 +11,18 @@ public class AgentController : MonoBehaviour {
     protected AgentAnimator _agentAnimator;
     protected AgentHP _agentHP;
     protected int _cameraIndex = 0;
-
+    
     protected virtual void Awake() {
         _PV = GetComponent<PhotonView>();
         _actionData = transform.Find("AD").GetComponent<ActionData>();
         _agentAnimator = transform.Find("Visual").GetComponent<AgentAnimator>();
         _agentHP = transform.GetComponent<AgentHP>();
     }
-    private void Start() {
-        PhotonNetwork.LocalPlayer.TagObject = this.gameObject;
-    }
-    private void Update() {
+
+    protected void Update() {
         GetMouseClickInput();
     }
+
     protected virtual void GetMouseClickInput() {
         if (_PV.IsMine == false) return;
         if (_actionData.IsDead) {
@@ -33,10 +32,11 @@ public class AgentController : MonoBehaviour {
             }
         }
     }
+
     public void MethodRpc() {
         _PV.RPC("OnDeadRpc", RpcTarget.All, true);
     }
-
+    
     [PunRPC]
     public void OnDeadRpc(bool result) {
         if (_PV.IsMine) {
@@ -47,5 +47,4 @@ public class AgentController : MonoBehaviour {
             CameraManager.Instance.ChangeCamera(_cameraIndex);
         }
     }
-
 }
