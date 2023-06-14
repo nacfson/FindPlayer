@@ -107,12 +107,12 @@ public class InGameUI : MonoBehaviour {
             _cameraNameUI.SetPlayerText(nickName);
         }
     }
-    public void GameEnd(Player player){
-        _PV.RPC("GameEndRPC",RpcTarget.All,player);
+    public void GameEnd(Player player,bool gameEnd = false){
+        _PV.RPC("GameEndRPC",RpcTarget.All,player,gameEnd);
     }
 
     [PunRPC]
-    public void GameEndRPC(Player player){
+    public void GameEndRPC(Player player,bool gameEnd = false){
         _scorePanel.ShowingSequence();
         Player localPlayer = PhotonNetwork.LocalPlayer;
 
@@ -130,6 +130,8 @@ public class InGameUI : MonoBehaviour {
         _scorePanel.SetScoreText((int)killCount,(int)score);        
         _scorePanel.SetRankText((int)rank,(int)maxPlayer);
         _scorePanel.gameObject.SetActive(true);
-        OnNextRound(10f);
+        if(gameEnd == false){
+            OnNextRound(10f);
+        }
     }
 }

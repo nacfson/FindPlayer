@@ -197,13 +197,11 @@ public class RoomManager : MonoBehaviourPunCallbacks{
             SetPlayerCount(player);
         }
 
-
         if(_roundCount >= _defineRound) {
             GameEnd();
         }
         else {
-
-            InGameUI.Instance.GameEnd(player);
+            InGameUI.Instance.GameEnd(player,true);
         }
     }
 

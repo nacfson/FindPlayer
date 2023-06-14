@@ -4,40 +4,47 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
+[RequireComponent(typeof(AudioSource))]
 public class PlayerSound : MonoBehaviourPun{
-    public AudioClip soundClip;
+    [SerializeField] private AudioClipSO _audioSO;
+    [SerializeField] private string _walkClipName;
+    [SerializeField] private string _invisibleClipName;
+
     public float maxDistance = 10f;
 
-    private AudioSource audioSource;
+    private AudioSource _audioSource;
     private AgentAnimator _agentAnimator;
 
-    [SerializeField] private AudioClip _walkSound;
-
-
     private void Awake() {
-        audioSource = GetComponent<AudioSource>();
+        _audioSource = GetComponent<AudioSource>();
         _agentAnimator = transform.Find("Visual").GetComponent<AgentAnimator>();
     }
+
     private void Start() {
         _agentAnimator.OnWalkTrigger += PlayWalkSound;
     }
+    
+    public void PlayWalkSound() {
+        PlaySound(_walkClipName);
+    }
+    public void PlayInvisibleSound(){
+        PlaySound(_invisibleClipName);
+    }
 
-    private void PlaySound(bool others = true) {
-        audioSource.clip = soundClip;
-        audioSource.Play();
-
+    public void PlaySound(string clipName,bool others = true) {
+        _audioSource.clip = _audioSO.GetAudioClipByName(clipName);
+        _audioSource.Play();
+        //Debug.LogError(_audioSource.clip.name);
         // RPC를 사용하여 다른 플레이어에게도 소리를 전달
         if (others) {
-            photonView.RPC("PlaySoundRPC", RpcTarget.Others);
+            photonView.RPC("PlaySoundRPC", RpcTarget.Others,clipName);
         }
     }
-    public void PlayWalkSound() {
-        PlaySound();
+    
+    [PunRPC]
+    public void PlaySoundRPC(string clipName) {
+        _audioSource.clip = _audioSO.GetAudioClipByName(clipName);
+        _audioSource.Play();
     }
 
-    [PunRPC]
-    private void PlaySoundRPC() {
-        audioSource.clip = soundClip;
-        audioSource.Play();
-    }
 }

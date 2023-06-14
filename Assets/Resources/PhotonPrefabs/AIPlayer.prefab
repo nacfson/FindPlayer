@@ -60,7 +60,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _visualTransform: {fileID: 8290325319320301338}
-  _outlineMaterial: {fileID: 0}
 --- !u!1 &8396855441330308998
 GameObject:
   m_ObjectHideFlags: 0

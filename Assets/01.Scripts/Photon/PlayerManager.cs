@@ -18,6 +18,14 @@ public class PlayerManager : MonoBehaviour{
     private void CreateController(){
         Debug.Log("Instantiated Player Controller");
         Vector3 pos = GameManager.Instance.RandomWayPoint().ReturnPos();
-        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs","Player"),pos,Quaternion.identity);
+        GameObject obj = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs","Player"),pos,Quaternion.identity);
+        string name = PhotonNetwork.LocalPlayer.NickName;
+        obj.name = name;
+        _PV.RPC("SetGameObjectNameRPC",RpcTarget.All,name);
     }
+
+    [PunRPC]
+    public void SetGameObjectNameRPC(string playerName){
+        gameObject.name = playerName;
+    } 
 }

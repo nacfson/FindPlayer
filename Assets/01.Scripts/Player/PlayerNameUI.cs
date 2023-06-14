@@ -8,27 +8,25 @@ public class PlayerNameUI : MonoBehaviour {
     private CinemachineVirtualCamera _followCam;
     private TMP_Text _playerNameText;
     private PhotonView _PV;
-
+    
     private void Awake() {
         _followCam = GetComponentInChildren<CinemachineVirtualCamera>();
         _playerNameText = transform.Find("PlayerName").GetComponent<TMP_Text>();
         _PV = GetComponent<PhotonView>();
     }
+
     private void Start() {
-        string playerName = PhotonNetwork.LocalPlayer.NickName;
+        string playerName = this.gameObject.name;
         SetPlayerName(playerName);
     }
 
     private void Update() {
-        _playerNameText.transform.rotation = Quaternion.LookRotation(_followCam.transform.forward);
+        if(gameObject.activeSelf == true){
+            _playerNameText.transform.rotation = Quaternion.LookRotation(_followCam.transform.forward);
+        }
     }
 
     public void SetPlayerName(string playerName) {
-        _PV.RPC("SetPlayerNameRPC", RpcTarget.All, playerName);
-    }
-
-    [PunRPC]
-    public void SetPlayerNameRPC(string playerName) {
         _playerNameText.SetText(playerName);
     }
 

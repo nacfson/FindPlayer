@@ -14,6 +14,7 @@ public class InvisibleItem : Item{
     IEnumerator Invisible(AgentItem agentItem){
         float timer = 0f;
         _canUse = false;
+        agentItem.playerSound.PlayInvisibleSound();
         agentItem.agentSkill.InvisibleItem(false);
         while(timer < _invisibleTime){
             timer += Time.deltaTime;

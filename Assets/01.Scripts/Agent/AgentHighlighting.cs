@@ -9,12 +9,9 @@ public class AgentHighlighting : MonoBehaviour {
     protected List<SkinnedMeshRenderer> _meshRendererList;
     [SerializeField] private Transform _visualTransform;
 
-    [SerializeField] private Material _outlineMaterial;
-
     private void Awake() {
         _meshRendererList = new List<SkinnedMeshRenderer>();
         _visualTransform.GetComponentsInChildren<SkinnedMeshRenderer>(_meshRendererList);
-        //Debug.LogError(_meshRendererList.Count);
     }
 
     public void SetMaterial(float value,Color color) {
