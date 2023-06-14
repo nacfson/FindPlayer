@@ -1,8 +1,10 @@
+using System.Net;
 using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using DG.Tweening;
 using UnityEngine.SceneManagement;
 using Core;
 using System.Linq;
@@ -12,6 +14,7 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 public enum GAME_STATE{
     MENU =0, LOADING =1, INGAME = 2,UI = 3, END = 4
 }
+
 [System.Serializable]
 public class PlayerData{
     public int score;
@@ -19,6 +22,7 @@ public class PlayerData{
     public int maxPlayer;
     public int killCount;
 }
+
 public class RoomManager : MonoBehaviourPunCallbacks{
     public static RoomManager Instance;
     public Dictionary<Player,bool> playerDictionary = new Dictionary<Player,bool>();
@@ -27,6 +31,8 @@ public class RoomManager : MonoBehaviourPunCallbacks{
     [SerializeField] private int _initAICount = 50;
     [SerializeField] private int _defineRound = 1; 
     [SerializeField] private ItemObjectListSO _itemObjectList;
+    private bool _gameEnd = false;
+
     private int _roundCount = 0; 
     private int _cameraIndex = 0;
     public int playerCount;
@@ -66,6 +72,20 @@ public class RoomManager : MonoBehaviourPunCallbacks{
             _playerData.maxPlayer = playerList.Count;
             playerCount = playerList.Count;
         }
+        else if(scene.buildIndex == Define.RoomIndex && _gameEnd == true){
+            MenuManager.Instance.OpenMenu("room");
+        }
+    }
+
+    private void ChangeCanEnterRoom(bool canEnter){
+        Hashtable options = new Hashtable();
+        if(options.ContainsKey("CAN_ENTER")){
+            options["CAN_ENTER"] = canEnter;
+        }
+        else{
+            options.Add("CAN_ENTER",canEnter);
+        }
+        PhotonNetwork.CurrentRoom.SetCustomProperties(options);
     }
 
     public void InitPlayer(List<Player> playerList) {
@@ -90,6 +110,16 @@ public class RoomManager : MonoBehaviourPunCallbacks{
     public void InitGameRPC() {
         PhotonNetwork.LoadLevel(Define.GameSceneIndex);
     }
+
+    public void ReturnToRoom(){
+        _PV.RPC("ReturnToRoomRPC",RpcTarget.All);
+    }
+
+    [PunRPC]
+    public void ReturnToRoomRPC(){
+        PhotonNetwork.LoadLevel(Define.RoomIndex);
+    } 
+
     IEnumerator LoadGameCor(){
         float timer = 0f;
         while(timer < _loadingTime){
@@ -199,14 +229,16 @@ public class RoomManager : MonoBehaviourPunCallbacks{
 
         if(_roundCount >= _defineRound) {
             GameEnd();
+            InGameUI.Instance.GameEnd(player,true);
         }
         else {
-            InGameUI.Instance.GameEnd(player,true);
+            InGameUI.Instance.GameEnd(player);
         }
     }
 
     public void GameEnd() {
         _PV.RPC("GameEndRPC",RpcTarget.All);
+
     }
 
     [PunRPC]
@@ -217,6 +249,7 @@ public class RoomManager : MonoBehaviourPunCallbacks{
         PhotonNetwork.LocalPlayer.SetCustomProperties(hashtable);
 
         InGameUI.Instance.EndGameUI(7f);
+        _gameEnd = true;
     }
 
     //플레이어 나갔을 때 어떻게 되는지 확인하기 

@@ -19,7 +19,7 @@ public class EndPanelUI : MonoBehaviour {
 
     [ContextMenu("ShowingSequence")]
     public void ShowingSequence(float delay =  0f) {
-
+        gameObject.SetActive(true);
         Sequence sequence = DOTween.Sequence();
         sequence.AppendInterval(delay);
         sequence.Append(transform.DOLocalMove(_targetOffset, 0.3f)).SetEase(Ease.OutBack);
@@ -39,6 +39,12 @@ public class EndPanelUI : MonoBehaviour {
                 }
             }
             bestPlayer.WinGame();
+            Sequence sequence2 = DOTween.Sequence();
+                sequence2.AppendInterval(5f);
+                sequence2.AppendCallback(() => {
+                Application.Quit();
+            });
         });
+
     }
 }

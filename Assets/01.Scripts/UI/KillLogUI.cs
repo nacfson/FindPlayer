@@ -21,12 +21,9 @@ public class KillLogUI: MonoBehaviour {
     public void ShowingSequence() {
         gameObject.SetActive(true);
         Sequence sequence = DOTween.Sequence();
-        sequence.Append(transform.DOLocalMoveX(-500f, 1.5f).SetEase(Ease.OutExpo));
+        sequence.Append(transform.DOLocalMoveX(-800f, 3f).SetEase(Ease.OutExpo));
         sequence.AppendInterval(3f);
         sequence.AppendCallback(() => Destroy(this.gameObject));
     }
-
-
-
 }
 

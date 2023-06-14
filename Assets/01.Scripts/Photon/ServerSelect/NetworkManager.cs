@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Linq;
 using System;
 using System.Collections;
@@ -8,9 +9,12 @@ using Photon.Realtime;
 using UnityEngine.UI;
 using TMPro;
 using Random = UnityEngine.Random;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class NetworkManager : MonoBehaviourPunCallbacks{
     public static NetworkManager Instance;
+
+    public Dictionary<RoomInfo, bool> roomDictionary = new Dictionary<RoomInfo, bool>();
     [SerializeField] private Transform _canvas;
     [SerializeField] private TMP_InputField _roomNameInputField;
     [SerializeField] private TMP_InputField _nickNameInputField;
@@ -22,6 +26,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks{
     [SerializeField] private GameObject _playerListItemPrefab;
     [SerializeField] private GameObject _startGameButton;
     [SerializeField] private int _maxPlayerCount = 10;
+    private PhotonView _PV;
 
     private bool _selectedName; 
     private Button _startButton;
@@ -30,6 +35,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks{
         Instance = this;
         
         _selectedName = false;
+        _PV = GetComponent<PhotonView>();
         Debug.Log("Connecting To Master");
         PhotonNetwork.ConnectUsingSettings();
     }
@@ -59,9 +65,14 @@ public class NetworkManager : MonoBehaviourPunCallbacks{
         }
         PhotonNetwork.CreateRoom(_roomNameInputField.text);
         MenuManager.Instance.OpenMenu("loading");
+
     }
 
     public override void OnJoinedRoom(){
+        if(PhotonNetwork.IsMasterClient){
+            RoomInfo roomInfo = PhotonNetwork.CurrentRoom;
+            SetEnterRoom(roomInfo,true);
+        }
         MenuManager.Instance.OpenMenu("room");
         _roomNameText.SetText(PhotonNetwork.CurrentRoom.Name);
 
@@ -103,18 +114,32 @@ public class NetworkManager : MonoBehaviourPunCallbacks{
             Destroy(trans.gameObject);
         }
         for (int i = 0; i < roomList.Count; i++) {
+            bool canEnter = true;
+            if(roomDictionary.ContainsKey(roomList[i])){
+                canEnter = roomDictionary[roomList[i]];
+            }
             if (roomList[i].RemovedFromList) {
                 continue;
             }
             if(roomList[i].PlayerCount >= _maxPlayerCount) {
-                Instantiate(_roomListItemPrefab, _roomListContent).GetComponent<RoomListItem>().SetUp(roomList[i],_maxPlayerCount,false);
+                Instantiate(_roomListItemPrefab, _roomListContent)
+                    .GetComponent<RoomListItem>().SetUp(roomList[i],_maxPlayerCount,false);
                 continue;
             }
-            Instantiate(_roomListItemPrefab, _roomListContent).GetComponent<RoomListItem>().SetUp(roomList[i], _maxPlayerCount);
+            Instantiate(_roomListItemPrefab, _roomListContent).GetComponent<RoomListItem>().SetUp(roomList[i], _maxPlayerCount,canEnter);
         }
     }
     public override void OnPlayerEnteredRoom(Player newPlayer){
         Instantiate(_playerListItemPrefab,_playerListContent).GetComponent<PlayerListItem>().SetUp(newPlayer);
     }
 
+    public void SetEnterRoom(RoomInfo roomInfo, bool canEnter){
+        if(roomDictionary.ContainsKey(roomInfo)){
+            roomDictionary[roomInfo] = canEnter;
+        }
+        else{
+            roomDictionary.Add(roomInfo,canEnter);
+        }
+
+    }
 }

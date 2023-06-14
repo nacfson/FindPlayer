@@ -130,6 +130,7 @@ public class InGameUI : MonoBehaviour {
         _scorePanel.SetScoreText((int)killCount,(int)score);        
         _scorePanel.SetRankText((int)rank,(int)maxPlayer);
         _scorePanel.gameObject.SetActive(true);
+
         if(gameEnd == false){
             OnNextRound(10f);
         }
