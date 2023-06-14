@@ -26,6 +26,7 @@ public class PlayerData{
 public class RoomManager : MonoBehaviourPunCallbacks{
     public static RoomManager Instance;
     public Dictionary<Player,bool> playerDictionary = new Dictionary<Player,bool>();
+
     private PhotonView _PV;
     [SerializeField] private float _loadingTime;
     [SerializeField] private int _initAICount = 50;
@@ -77,17 +78,6 @@ public class RoomManager : MonoBehaviourPunCallbacks{
         }
     }
 
-    private void ChangeCanEnterRoom(bool canEnter){
-        Hashtable options = new Hashtable();
-        if(options.ContainsKey("CAN_ENTER")){
-            options["CAN_ENTER"] = canEnter;
-        }
-        else{
-            options.Add("CAN_ENTER",canEnter);
-        }
-        PhotonNetwork.CurrentRoom.SetCustomProperties(options);
-    }
-
     public void InitPlayer(List<Player> playerList) {
         playerDictionary.Clear();
         foreach (Player player in playerList) {
@@ -121,6 +111,8 @@ public class RoomManager : MonoBehaviourPunCallbacks{
     } 
 
     IEnumerator LoadGameCor(){
+        PhotonNetwork.CurrentRoom.IsVisible = false;
+
         float timer = 0f;
         while(timer < _loadingTime){
             timer += Time.deltaTime;
@@ -131,6 +123,7 @@ public class RoomManager : MonoBehaviourPunCallbacks{
         InGameUI.Instance.GameStart();
         UpdateState(GAME_STATE.INGAME);
         CreateItem();
+
     }
 
     private void MakeAIPlayer(){
@@ -314,6 +307,11 @@ public class RoomManager : MonoBehaviourPunCallbacks{
     public void UpdateStateRPC(GAME_STATE state){
         _currentState = state;
     }
+    public void SetEnterRoom(RoomInfo roomInfo, bool canEnter) {
+        string roomName = roomInfo.Name;
+        _PV.RPC("SetEnterRoomRPC", RpcTarget.All,roomName,canEnter);
+    }
+
     public bool IfRoundEnd(){
         return ReturnPlayerCount() <= 1;
     }

@@ -1,7 +1,4 @@
-using System.ComponentModel;
 using System.Linq;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
@@ -14,7 +11,8 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 public class NetworkManager : MonoBehaviourPunCallbacks{
     public static NetworkManager Instance;
 
-    public Dictionary<RoomInfo, bool> roomDictionary = new Dictionary<RoomInfo, bool>();
+    public List<RoomInfo> roomListNet = new List<RoomInfo>();
+
     [SerializeField] private Transform _canvas;
     [SerializeField] private TMP_InputField _roomNameInputField;
     [SerializeField] private TMP_InputField _nickNameInputField;
@@ -65,18 +63,15 @@ public class NetworkManager : MonoBehaviourPunCallbacks{
         }
         PhotonNetwork.CreateRoom(_roomNameInputField.text);
         MenuManager.Instance.OpenMenu("loading");
-
     }
 
     public override void OnJoinedRoom(){
-        if(PhotonNetwork.IsMasterClient){
-            RoomInfo roomInfo = PhotonNetwork.CurrentRoom;
-            SetEnterRoom(roomInfo,true);
-        }
+        RoomInfo roomInfo = PhotonNetwork.CurrentRoom;
+        RoomManager.Instance.SetEnterRoom(roomInfo,true);
         MenuManager.Instance.OpenMenu("room");
         _roomNameText.SetText(PhotonNetwork.CurrentRoom.Name);
-
-
+        
+        PhotonNetwork.CurrentRoom.IsVisible = true;
         Player[] players = PhotonNetwork.PlayerList;
 
         foreach(Transform child in _playerListContent){
@@ -110,14 +105,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks{
         MenuManager.Instance.OpenMenu("title");
     }
     public override void OnRoomListUpdate(List<RoomInfo> roomList){
+        roomListNet = roomList;
         foreach(Transform trans in _roomListContent){
             Destroy(trans.gameObject);
         }
         for (int i = 0; i < roomList.Count; i++) {
-            bool canEnter = true;
-            if(roomDictionary.ContainsKey(roomList[i])){
-                canEnter = roomDictionary[roomList[i]];
-            }
             if (roomList[i].RemovedFromList) {
                 continue;
             }
@@ -126,20 +118,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks{
                     .GetComponent<RoomListItem>().SetUp(roomList[i],_maxPlayerCount,false);
                 continue;
             }
-            Instantiate(_roomListItemPrefab, _roomListContent).GetComponent<RoomListItem>().SetUp(roomList[i], _maxPlayerCount,canEnter);
+            Instantiate(_roomListItemPrefab, _roomListContent).GetComponent<RoomListItem>().SetUp(roomList[i], _maxPlayerCount);
         }
     }
+
     public override void OnPlayerEnteredRoom(Player newPlayer){
         Instantiate(_playerListItemPrefab,_playerListContent).GetComponent<PlayerListItem>().SetUp(newPlayer);
     }
 
-    public void SetEnterRoom(RoomInfo roomInfo, bool canEnter){
-        if(roomDictionary.ContainsKey(roomInfo)){
-            roomDictionary[roomInfo] = canEnter;
-        }
-        else{
-            roomDictionary.Add(roomInfo,canEnter);
-        }
 
-    }
 }
