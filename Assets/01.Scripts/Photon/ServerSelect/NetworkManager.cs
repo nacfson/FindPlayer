@@ -56,15 +56,20 @@ public class NetworkManager : MonoBehaviourPunCallbacks{
         //MenuManager.Instance.OpenMenu("title");
         Debug.Log("On Joined Lobby");
         PhotonNetwork.NickName = _mainUI.GetText();
+        _mainUI.SetPlayerNameText(PhotonNetwork.NickName);
         _selectedName = true;
+        _mainUI.OpenRoomMenu();
     }
 
-    public void CreateRoom(){
-        if(string.IsNullOrEmpty(_roomNameInputField.text)){
-            return;
+    public void CreateRoom(string roomName = null){
+        // if(string.IsNullOrEmpty(_roomNameInputField.text)){
+        //     return;
+        // }
+        if(roomName == null){
+            roomName = $"RoomName: {Random.Range(1000,9999)}";
         }
-        PhotonNetwork.CreateRoom(_roomNameInputField.text);
-        MenuManager.Instance.OpenMenu("loading");
+        PhotonNetwork.CreateRoom(roomName);
+        //MenuManager.Instance.OpenMenu("loading");
     }
 
     public override void OnJoinedRoom(){
@@ -106,21 +111,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks{
         MenuManager.Instance.OpenMenu("title");
     }
     public override void OnRoomListUpdate(List<RoomInfo> roomList){
-        roomListNet = roomList;
-        foreach(Transform trans in _roomListContent){
-            Destroy(trans.gameObject);
-        }
-        for (int i = 0; i < roomList.Count; i++) {
-            if (roomList[i].RemovedFromList) {
-                continue;
-            }
-            if(roomList[i].PlayerCount >= _maxPlayerCount) {
-                Instantiate(_roomListItemPrefab, _roomListContent)
-                    .GetComponent<RoomListItem>().SetUp(roomList[i],_maxPlayerCount,false);
-                continue;
-            }
-            Instantiate(_roomListItemPrefab, _roomListContent).GetComponent<RoomListItem>().SetUp(roomList[i], _maxPlayerCount);
-        }
+        Debug.Log("OnRoomListUpdate");
+        _mainUI.CreateRoomBtn(roomList,_maxPlayerCount);
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer){
