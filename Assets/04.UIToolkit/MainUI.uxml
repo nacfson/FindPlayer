@@ -1,8 +1,9 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="PlayerName" src="project://database/Assets/04.UIToolkit/PlayerName.uxml?fileID=9197481963319205126&amp;guid=0797eb0987d802e4ab74382fbd3c9651&amp;type=3#PlayerName" />
     <Style src="project://database/Assets/04.UIToolkit/hover.uss?fileID=7433441132597879392&amp;guid=e1d498d0137c7204cac4121d462a2c1c&amp;type=3#hover" />
     <ui:VisualElement style="width: 100%; height: 100%;">
         <ui:VisualElement name="TitleMenu" picking-mode="Ignore" class="titleMenu active">
-            <ui:VisualElement name="Title" picking-mode="Ignore" style="width: 100%; height: 100%;">
+            <ui:VisualElement name="Title" picking-mode="Ignore" style="width: 100%; height: 100%; -unity-font: initial;">
                 <ui:Label text="나는 AI다" display-tooltip-when-elided="true" name="TitleLabel" class="titleLabel" style="-unity-font: url(&apos;project://database/Assets/09.Fonts/210%20%EC%BD%A4%ED%93%A8%ED%83%80%EC%84%B8%ED%83%81R.ttf?fileID=12800000&amp;guid=9c06efb3022f1d4488d225cdb4371336&amp;type=3#210 콤퓨타세탁R&apos;);" />
             </ui:VisualElement>
             <ui:Button text="&#10;" display-tooltip-when-elided="true" name="StartBtn" class="menuBtn" style="bottom: 39px; right: 0; left: auto; transform-origin: right; position: absolute;">
@@ -12,8 +13,15 @@
         </ui:VisualElement>
         <ui:VisualElement name="RoomMenu" class="titleMenu" style="height: 1080px; visibility: visible; width: 100%; top: 0;">
             <ui:Button text="방 만들기" display-tooltip-when-elided="true" name="CreateRoomBtn" class="playBtn" />
-            <ui:ScrollView name="RoomView" style="position: absolute; right: 232px; width: 392px; height: 555px; bottom: 308px; border-top-left-radius: 30px; border-bottom-left-radius: 30px; border-top-right-radius: 30px; border-bottom-right-radius: 30px; background-color: rgba(212, 212, 212, 0.73); -unity-font: url(&apos;project://database/Assets/09.Fonts/210%20%EC%BD%A4%ED%93%A8%ED%83%80%EC%84%B8%ED%83%81R.ttf?fileID=12800000&amp;guid=9c06efb3022f1d4488d225cdb4371336&amp;type=3#210 콤퓨타세탁R&apos;); padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; justify-content: space-around; -unity-background-image-tint-color: rgb(255, 255, 255); border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0;" />
+            <ui:ScrollView name="RoomView" class="scrollView" />
             <ui:Label text="PlayerName" display-tooltip-when-elided="true" name="NameLabel" style="top: 36px; right: 88px; width: 253px; position: absolute; height: 30px; -unity-text-align: middle-center; -unity-font-style: bold; -unity-font: url(&apos;project://database/Assets/09.Fonts/210%20%EC%BD%A4%ED%93%A8%ED%83%80%EC%84%B8%ED%83%81R.ttf?fileID=12800000&amp;guid=9c06efb3022f1d4488d225cdb4371336&amp;type=3#210 콤퓨타세탁R&apos;); font-size: 59px;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="LoadingMenu" class="titleMenu" />
+        <ui:VisualElement name="InRoomMenu" class="titleMenu">
+            <ui:ScrollView name="PlayerView" class="scrollView">
+                <ui:Instance template="PlayerName" name="PlayerName" />
+            </ui:ScrollView>
+            <ui:Button text="Button" display-tooltip-when-elided="true" name="PlayBtn" class="roomBtn" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

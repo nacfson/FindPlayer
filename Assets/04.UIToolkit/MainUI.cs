@@ -13,6 +13,9 @@ public class MainUI : MonoBehaviour {
     private TextField _nameField;
     private Label _playerNameLabel;
     private VisualElement _roomBtnContainer;
+    private VisualElement _playerMenuContainer;
+
+    private VisualElement _inRoomMenu;
     private VisualElement _roomMenu;
     private VisualElement _titleMenu;
 
@@ -24,6 +27,7 @@ public class MainUI : MonoBehaviour {
         VisualElement root = _uiDocument.rootVisualElement;
         _titleMenu = root.Q<VisualElement>("TitleMenu");
         _roomMenu = root.Q<VisualElement>("RoomMenu");
+        _inRoomMenu = root.Q<VisualElement>("InRoomMenu");
 
         Button startBtn = _titleMenu.Q<Button>("StartBtn");
 
@@ -36,12 +40,12 @@ public class MainUI : MonoBehaviour {
         Button roomBtn = _roomMenu.Q<Button>("CreateRoomBtn");
         roomBtn.RegisterCallback<ClickEvent>(e=>{
             NetworkManager.Instance.CreateRoom();
-            Debug.Log("CreateRoom");
         });
-        _roomBtnContainer = root.Q<VisualElement>("RoomView");
+        _roomBtnContainer = _roomMenu.Q<VisualElement>("RoomView");
+        _playerMenuContainer = _inRoomMenu.Q<VisualElement>("PlayerView");
 
-        _playerNameLabel = root.Q<Label>("NameLabel");
-        _nameField = root.Q<TextField>("NameField");
+        _playerNameLabel = _roomMenu.Q<Label>("NameLabel");
+        _nameField = _titleMenu.Q<TextField>("NameField");
     }
 
     public void OpenRoomMenu(bool isRoom = true) {
@@ -54,23 +58,36 @@ public class MainUI : MonoBehaviour {
             _titleMenu.AddToClassList("active");
         }
     }
+    public void OpenInRoomMenu(bool isRoom = true) {
+        if (isRoom) {
+            _titleMenu.RemoveFromClassList("active");
+            _inRoomMenu.AddToClassList("active");
+        }
+        else {
+            _roomMenu.RemoveFromClassList("active");
+            _inRoomMenu.AddToClassList("active");
+        }
+    }
 
     public void CreateRoomBtn(List<RoomInfo> roomList,int maxPlayerCount){
         Action<RoomInfo,bool> createBtn = delegate (RoomInfo roomInfo,bool visible){
             VisualElement roomBtn = _roomBtn.Instantiate();
             Button roomButton = roomBtn.Q<Button>("RoomBtn");
+            _roomBtnContainer.Add(roomButton);
+            Debug.LogError($"RoomName: {roomInfo.Name}");
             roomButton.text = $"{roomInfo.Name} {roomInfo.PlayerCount} / {maxPlayerCount}";
             roomButton.visible = true;
-            Debug.Log("CreatedRoomButton");
             roomButton.RegisterCallback<ClickEvent>(e =>{
                 NetworkManager.Instance.JoinRoom(roomInfo);
             });
         };
-        for(int i = 0; i < _roomBtnContainer.childCount; i++){
-            _roomBtnContainer[i].RemoveFromHierarchy();
-        }
+        //for (int i = 0; i < _roomBtnContainer.childCount; i++) {
+        //    _roomBtnContainer[i].RemoveFromHierarchy();
+        //}
+        Debug.LogError($"Count: {roomList.Count}");
         for (int i = 0; i < roomList.Count; i++) {
             if (roomList[i].RemovedFromList) {
+                Debug.LogError("Continued");
                 continue;
             }
             if(roomList[i].PlayerCount >= maxPlayerCount) {
@@ -80,7 +97,9 @@ public class MainUI : MonoBehaviour {
             createBtn(roomList[i],true);
         }
     }
+    public void CreatePlayerName(RoomInfo roomInfo) {
 
+    }
     public string GetText() {
         return _nameField.text;
     }

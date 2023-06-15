@@ -99,20 +99,54 @@
 }
 
 .roomBtn {
-    height: 57px;
-    border-top-left-radius: 24px;
-    border-bottom-left-radius: 24px;
-    border-top-right-radius: 24px;
-    border-bottom-right-radius: 24px;
+    height: 108px;
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
     transition-property: scale;
     transition-duration: 0.4s;
     background-color: rgb(255, 255, 255);
     -unity-font: url('project://database/Assets/09.Fonts/210%20%EC%BD%A4%ED%93%A8%ED%83%80%EC%84%B8%ED%83%81R.ttf?fileID=12800000&guid=9c06efb3022f1d4488d225cdb4371336&type=3#210 콤퓨타세탁R');
     font-size: 27px;
     -unity-font-style: bold;
+    width: 439px;
+    position: absolute;
+    right: 10%;
+    bottom: 10%;
 }
 
 .roomBtn:hover {
     background-color: rgb(156, 156, 156);
     scale: 0.9 0.9;
+}
+
+.scrollView {
+    position: absolute;
+    right: 232px;
+    bottom: 308px;
+    width: 392px;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    height: 555px;
+    background-color: rgba(207, 207, 207, 0.89);
+    padding-left: 9px;
+    padding-right: 9px;
+    padding-top: 9px;
+    padding-bottom: 9px;
+}
+
+.nameLabel {
+    background-color: rgba(178, 178, 178, 255);
+    border-top-left-radius: 11px;
+    border-bottom-left-radius: 11px;
+    border-top-right-radius: 11px;
+    border-bottom-right-radius: 11px;
+    height: 42px;
+    -unity-font: url('project://database/Assets/09.Fonts/210%20%EC%BD%A4%ED%93%A8%ED%83%80%EC%84%B8%ED%83%81R.ttf?fileID=12800000&guid=9c06efb3022f1d4488d225cdb4371336&type=3#210 콤퓨타세탁R');
+    -unity-text-align: middle-center;
+    -unity-font-style: bold;
+    font-size: 30px;
 }

@@ -69,24 +69,26 @@ public class NetworkManager : MonoBehaviourPunCallbacks{
             roomName = $"RoomName: {Random.Range(1000,9999)}";
         }
         PhotonNetwork.CreateRoom(roomName);
+        Debug.Log($"RoomName: {roomName}");
         //MenuManager.Instance.OpenMenu("loading");
     }
 
+    //JoinRoom 했을 때 플레이어 이름 뜨도록 만들어야함
     public override void OnJoinedRoom(){
+        _mainUI.OpenInRoomMenu();
         RoomInfo roomInfo = PhotonNetwork.CurrentRoom;
-        MenuManager.Instance.OpenMenu("room");
-        _roomNameText.SetText(PhotonNetwork.CurrentRoom.Name);
-        
-        PhotonNetwork.CurrentRoom.IsVisible = true;
-        Player[] players = PhotonNetwork.PlayerList;
+        _mainUI.CreatePlayerName(roomInfo);
 
-        foreach(Transform child in _playerListContent){
-            Destroy(child.gameObject);
-        }
-        for(int i =0 ; i< players.Count(); i++){
-            Instantiate(_playerListItemPrefab,_playerListContent).GetComponent<PlayerListItem>().SetUp(players[i]);
-        }
-        _startGameButton.SetActive(PhotonNetwork.IsMasterClient);
+        //PhotonNetwork.CurrentRoom.IsVisible = true;
+        //Player[] players = PhotonNetwork.PlayerList;
+
+        //foreach (Transform child in _playerListContent) {
+        //    Destroy(child.gameObject);
+        //}
+        //for (int i = 0; i < players.Count(); i++) {
+        //    Instantiate(_playerListItemPrefab, _playerListContent).GetComponent<PlayerListItem>().SetUp(players[i]);
+        //}
+        //_startGameButton.SetActive(PhotonNetwork.IsMasterClient);
     }
     public override void OnMasterClientSwitched(Player newMasterClient){
         _startGameButton.SetActive(PhotonNetwork.IsMasterClient);
@@ -118,6 +120,4 @@ public class NetworkManager : MonoBehaviourPunCallbacks{
     public override void OnPlayerEnteredRoom(Player newPlayer){
         Instantiate(_playerListItemPrefab,_playerListContent).GetComponent<PlayerListItem>().SetUp(newPlayer);
     }
-
-
 }
