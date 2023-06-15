@@ -21,7 +21,7 @@ public class PlayerManager : MonoBehaviour{
         GameObject obj = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs","Player"),pos,Quaternion.identity);
         string name = PhotonNetwork.LocalPlayer.NickName;
         obj.name = name;
-        _PV.RPC("SetGameObjectNameRPC",RpcTarget.All,name);
+        _PV.RPC("SetGameObjectNameRPC", RpcTarget.All,name);
     }
 
     [PunRPC]

@@ -101,12 +101,6 @@ public class InGameUI : MonoBehaviour {
         _clockUI.SetUI(currentValue, maxValue,result);
     }
 
-    public void SetPlayerNameUI(string nickName,bool result) {
-        _cameraNameUI.gameObject.SetActive(result);
-        if (result) {
-            _cameraNameUI.SetPlayerText(nickName);
-        }
-    }
     public void GameEnd(Player player,bool gameEnd = false){
         _PV.RPC("GameEndRPC",RpcTarget.All,player,gameEnd);
     }

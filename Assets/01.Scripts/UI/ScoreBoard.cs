@@ -19,15 +19,15 @@ public class ScoreBoard : MonoBehaviour{
 
     public void SetUI(Player player){
         _playerName = player.NickName;
-        _playerNameText.SetText(_playerName);
+        _playerNameText.SetText($"닉네임: {_playerName}");
         Hashtable hashTable = player.CustomProperties;
 
         score = (int)hashTable["SCORE"];
-        _killCountText.SetText(hashTable["KILLCOUNT"].ToString());
-        _scoreText.SetText(score.ToString());
+        _killCountText.SetText($"킬: {hashTable["KILLCOUNT"]}");
+        _scoreText.SetText($"점수: {score}");
     }
 
     public void WinGame() {
-        _playerNameText.SetText($"<rainb>{_playerName}<rainb>");
+        _playerNameText.SetText($"1등: <rainb>{_playerName}<rainb>");
     }
 }

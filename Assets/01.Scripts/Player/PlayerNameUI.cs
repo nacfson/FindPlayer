@@ -16,8 +16,8 @@ public class PlayerNameUI : MonoBehaviour {
     }
 
     private void Start() {
-        string playerName = this.gameObject.name;
-        SetPlayerName(playerName);
+        string playerName = _PV.Owner.NickName;
+        _PV.RPC("SetPlayerNameRPC", RpcTarget.All, playerName);
     }
 
     private void Update() {
@@ -26,10 +26,10 @@ public class PlayerNameUI : MonoBehaviour {
         }
     }
 
-    public void SetPlayerName(string playerName) {
+    [PunRPC]
+    public void SetPlayerNameRPC(string playerName) {
         _playerNameText.SetText(playerName);
     }
-
     public void ShowText(bool result) {
         _playerNameText.gameObject.SetActive(result);
     }

@@ -35,6 +35,6 @@ public class ScorePanelUI : MonoBehaviour{
         Cursor.visible = true;
         Sequence sequence = DOTween.Sequence();
         sequence.Append(transform.DOScale(Vector3.one,1f));
-        sequence.Append(transform.DOLocalMoveY(-300,1f)).SetEase(Ease.OutBounce);
+        sequence.Append(transform.DOLocalMoveY(-300,3f)).SetEase(Ease.OutBounce);
     }
 }

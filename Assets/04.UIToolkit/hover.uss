@@ -1,0 +1,107 @@
+.menuBtn {
+    width: 664px;
+    height: 164px;
+    transition-property: all;
+    transition-duration: 0.4s;
+    border-top-left-radius: 70px;
+    border-bottom-left-radius: 70px;
+    bottom: auto;
+    right: auto;
+    transform-origin: right;
+    background-color: rgba(255, 255, 255, 0.84);
+}
+
+.menuBtn:hover {
+    width: 700px;
+    height: 190px;
+    flex-grow: 1;
+}
+
+.titleMenu {
+    flex-grow: 1;
+    background-color: rgba(144, 144, 144, 0.41);
+    position: absolute;
+    left: 100%;
+    transition-duration: 1s;
+}
+
+.playBtn {
+    width: 439px;
+    height: 108px;
+    font-size: 39px;
+    -unity-font-style: bold;
+    -unity-font: url('project://database/Assets/09.Fonts/210%20%EC%BD%A4%ED%93%A8%ED%83%80%EC%84%B8%ED%83%81R.ttf?fileID=12800000&guid=9c06efb3022f1d4488d225cdb4371336&type=3#210 콤퓨타세탁R');
+    -unity-text-align: middle-left;
+    padding-left: 66px;
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+    position: absolute;
+    right: 10%;
+    bottom: 10%;
+    background-color: rgb(206, 219, 123);
+    transition-duration: 0.4s;
+}
+
+.playBtn:hover {
+    width: 450px;
+    height: 120px;
+}
+
+.inputField {
+    -unity-font: url('project://database/Assets/09.Fonts/210%20%EC%BD%A4%ED%93%A8%ED%83%80%EC%84%B8%ED%83%81R.ttf?fileID=12800000&guid=9c06efb3022f1d4488d225cdb4371336&type=3#210 콤퓨타세탁R');
+    font-size: 30px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    position: absolute;
+    right: 10%;
+    bottom: 25%;
+    transition-property: scale;
+    transition-duration: 0.4s;
+    scale: 1.5 1.5;
+    -unity-font-style: normal;
+}
+
+.titleMenu.active {
+    position: absolute;
+    left: 0;
+}
+
+.inputField:hover {
+    scale: 1.6 1.6;
+}
+
+.titleLabel {
+    position: absolute;
+    bottom: 50%;
+    right: 50%;
+    -unity-text-align: middle-center;
+    font-size: 290px;
+    white-space: nowrap;
+    width: 0;
+    height: 0;
+    -unity-font: url('project://database/Assets/09.Fonts/DdangFontsTTF/%EB%95%85%EC%8A%A4%EB%B6%80%EB%8C%80%EC%B0%8C%EA%B0%9C%20Bold.ttf?fileID=12800000&guid=24a9c13f8b4b2294daa81d17d7cce46e&type=3#땅스부대찌개 Bold');
+    -unity-text-outline-color: rgba(0, 0, 0, 255);
+    -unity-text-outline-width: 7px;
+    color: rgba(255, 0, 0, 255);
+    -unity-font-style: bold;
+    text-shadow: 7.8px 19.3px 2.4px rgba(0, 0, 0, 255);
+}
+
+.roomBtn {
+    height: 57px;
+    border-top-left-radius: 24px;
+    border-bottom-left-radius: 24px;
+    border-top-right-radius: 24px;
+    border-bottom-right-radius: 24px;
+    transition-property: scale;
+    transition-duration: 0.4s;
+}
+
+.roomBtn:hover {
+    background-color: rgba(156, 156, 156, 255);
+    scale: 0.9 0.9;
+}

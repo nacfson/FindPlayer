@@ -36,8 +36,10 @@ public class PlayerSound : MonoBehaviourPun{
         _audioSource.Play();
         //Debug.LogError(_audioSource.clip.name);
         // RPC를 사용하여 다른 플레이어에게도 소리를 전달
+
+        //그런데 플레이어가 거리에 따라 소리의 크기가 다르게 전달 받아야되는데 이렇게 되면 그냥 기존 소리 그대로 전달 받게 됨
         if (others) {
-            photonView.RPC("PlaySoundRPC", RpcTarget.Others,clipName);
+            photonView.RPC("PlaySoundRPC", RpcTarget.All,clipName);
         }
     }
     

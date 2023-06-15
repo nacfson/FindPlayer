@@ -241,7 +241,7 @@ public class RoomManager : MonoBehaviourPunCallbacks{
         hashtable.Add("SCORE",_playerData.score);
         PhotonNetwork.LocalPlayer.SetCustomProperties(hashtable);
 
-        InGameUI.Instance.EndGameUI(7f);
+        InGameUI.Instance.EndGameUI(12f);
         _gameEnd = true;
     }
 
@@ -280,9 +280,6 @@ public class RoomManager : MonoBehaviourPunCallbacks{
 
     [PunRPC]
     public void UpdateKillCountAndScoreRPC(int killCount = 1,int score = 100,string nickName= null){
-        //죽인 사람이 자기 자신이라면 점수와 킬 카운트를 올려줌
-
-        //죽은애가 점수 오르는거 고쳐야함 //죽임 당한애가 점수가 오름 이거 왜이럼 ?
         Player localPlayer = PhotonNetwork.LocalPlayer;
         if(nickName == localPlayer.NickName) {
             _playerData.killCount += killCount;
@@ -291,9 +288,6 @@ public class RoomManager : MonoBehaviourPunCallbacks{
     }
     public override void OnPlayerLeftRoom(Player otherPlayer) {
         LeftPlayer(otherPlayer);
-        //if(CurrentState == GAME_STATE.INGAME || CurrentState == GAME_STATE.LOADING){
-        //    PhotonNetwork.LoadLevel(0);
-        //}
     }
     public void UpdateState(GAME_STATE state,bool rpc = true){
         if (rpc == false) {
@@ -306,10 +300,6 @@ public class RoomManager : MonoBehaviourPunCallbacks{
     [PunRPC]
     public void UpdateStateRPC(GAME_STATE state){
         _currentState = state;
-    }
-    public void SetEnterRoom(RoomInfo roomInfo, bool canEnter) {
-        string roomName = roomInfo.Name;
-        _PV.RPC("SetEnterRoomRPC", RpcTarget.All,roomName,canEnter);
     }
 
     public bool IfRoundEnd(){

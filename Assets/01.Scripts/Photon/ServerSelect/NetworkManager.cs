@@ -24,6 +24,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks{
     [SerializeField] private GameObject _playerListItemPrefab;
     [SerializeField] private GameObject _startGameButton;
     [SerializeField] private int _maxPlayerCount = 10;
+    [SerializeField] private MainUI _mainUI;
     private PhotonView _PV;
 
     private bool _selectedName; 
@@ -37,6 +38,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks{
         Debug.Log("Connecting To Master");
         PhotonNetwork.ConnectUsingSettings();
     }
+
     public override void OnConnectedToMaster(){
         Debug.Log("On Connected To Master");
         if(_selectedName == false){
@@ -47,13 +49,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks{
 
     public void JoinLobby() {
         PhotonNetwork.JoinLobby(TypedLobby.Default);
-        MenuManager.Instance.OpenMenu("loading");
+         //MenuManager.Instance.OpenMenu("loading");
     }
 
     public override void OnJoinedLobby(){
-        MenuManager.Instance.OpenMenu("title");
+        //MenuManager.Instance.OpenMenu("title");
         Debug.Log("On Joined Lobby");
-        PhotonNetwork.NickName = _nickNameInputField.text;
+        PhotonNetwork.NickName = _mainUI.GetText();
         _selectedName = true;
     }
 
@@ -67,7 +69,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks{
 
     public override void OnJoinedRoom(){
         RoomInfo roomInfo = PhotonNetwork.CurrentRoom;
-        RoomManager.Instance.SetEnterRoom(roomInfo,true);
         MenuManager.Instance.OpenMenu("room");
         _roomNameText.SetText(PhotonNetwork.CurrentRoom.Name);
         

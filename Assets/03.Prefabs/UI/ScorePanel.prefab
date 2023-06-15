@@ -68,8 +68,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uC774 \uC815\uB3C4\uBC16\uC5D0 \uBABB \uD558\uC2DC\uB098\uC694?"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f2cd6d95c6bea0149b451bacbc76df17, type: 2}
-  m_sharedMaterial: {fileID: -7856237766488067280, guid: f2cd6d95c6bea0149b451bacbc76df17,
+  m_fontAsset: {fileID: 11400000, guid: 44916e540ec3efd4383b7493849ec576, type: 2}
+  m_sharedMaterial: {fileID: -3488789006414744641, guid: 44916e540ec3efd4383b7493849ec576,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -206,8 +206,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: '#3 / 4 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f2cd6d95c6bea0149b451bacbc76df17, type: 2}
-  m_sharedMaterial: {fileID: -7856237766488067280, guid: f2cd6d95c6bea0149b451bacbc76df17,
+  m_fontAsset: {fileID: 11400000, guid: 44916e540ec3efd4383b7493849ec576, type: 2}
+  m_sharedMaterial: {fileID: -3488789006414744641, guid: 44916e540ec3efd4383b7493849ec576,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -555,8 +555,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uCC98\uCE58 : 1 \uC810\uC218 : 30"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f2cd6d95c6bea0149b451bacbc76df17, type: 2}
-  m_sharedMaterial: {fileID: -7856237766488067280, guid: f2cd6d95c6bea0149b451bacbc76df17,
+  m_fontAsset: {fileID: 11400000, guid: 44916e540ec3efd4383b7493849ec576, type: 2}
+  m_sharedMaterial: {fileID: -3488789006414744641, guid: 44916e540ec3efd4383b7493849ec576,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
