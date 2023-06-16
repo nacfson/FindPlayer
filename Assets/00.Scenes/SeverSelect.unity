@@ -1619,7 +1619,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 523498226}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1657,6 +1657,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _roomBtn: {fileID: 9197481963319205126, guid: a09d15cb6a838af4e94ecc254acac6ba,
+    type: 3}
+  _playerName: {fileID: 9197481963319205126, guid: 0797eb0987d802e4ab74382fbd3c9651,
     type: 3}
 --- !u!1 &530084789
 GameObject:

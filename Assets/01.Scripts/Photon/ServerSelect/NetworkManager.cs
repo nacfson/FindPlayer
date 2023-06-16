@@ -76,22 +76,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks{
     //JoinRoom 했을 때 플레이어 이름 뜨도록 만들어야함
     public override void OnJoinedRoom(){
         _mainUI.OpenInRoomMenu();
+        Player[] players = PhotonNetwork.PlayerList;
         RoomInfo roomInfo = PhotonNetwork.CurrentRoom;
-        _mainUI.CreatePlayerName(roomInfo);
-
-        //PhotonNetwork.CurrentRoom.IsVisible = true;
-        //Player[] players = PhotonNetwork.PlayerList;
-
-        //foreach (Transform child in _playerListContent) {
-        //    Destroy(child.gameObject);
-        //}
-        //for (int i = 0; i < players.Count(); i++) {
-        //    Instantiate(_playerListItemPrefab, _playerListContent).GetComponent<PlayerListItem>().SetUp(players[i]);
-        //}
-        //_startGameButton.SetActive(PhotonNetwork.IsMasterClient);
+        _mainUI.CreatePlayerName(roomInfo,players);
+        _mainUI.StartButtonEnabled(PhotonNetwork.IsMasterClient);
     }
     public override void OnMasterClientSwitched(Player newMasterClient){
-        _startGameButton.SetActive(PhotonNetwork.IsMasterClient);
+        _mainUI.StartButtonEnabled(PhotonNetwork.IsMasterClient);
     }
     public override void OnCreateRoomFailed(short returnCode, string message){
         string text = $"Room Creation Failed {message}" ;
@@ -118,6 +109,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks{
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer){
+        _mainUI.AddName(newPlayer);
         Instantiate(_playerListItemPrefab,_playerListContent).GetComponent<PlayerListItem>().SetUp(newPlayer);
     }
 }
