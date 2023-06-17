@@ -10,6 +10,7 @@ using Core;
 using System.Linq;
 using System.Collections;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+using static UnityEngine.Rendering.DebugUI;
 
 public enum GAME_STATE{
     MENU =0, LOADING =1, INGAME = 2,UI = 3, END = 4
@@ -32,6 +33,8 @@ public class RoomManager : MonoBehaviourPunCallbacks{
     [SerializeField] private int _initAICount = 50;
     [SerializeField] private int _defineRound = 1; 
     [SerializeField] private ItemObjectListSO _itemObjectList;
+
+
     private bool _gameEnd = false;
 
     private int _roundCount = 0; 
@@ -83,8 +86,6 @@ public class RoomManager : MonoBehaviourPunCallbacks{
         foreach (Player player in playerList) {
             playerDictionary.Add(player, true);
         }
-
-        InGameUI.Instance.SetLastPlayerText(ReturnPlayerCount());
     }
     private void LoadingGame(){
         if(PhotonNetwork.IsMasterClient){
@@ -117,13 +118,15 @@ public class RoomManager : MonoBehaviourPunCallbacks{
         while(timer < _loadingTime){
             timer += Time.deltaTime;
             string value = ((int)(_loadingTime - timer)).ToString();
-            InGameUI.Instance.SetLoadingText(value);
+            //InGameUI.Instance.SetLoadingText(value);
+            GameUI.Instance.SetLoadingText(value,true);
             yield return null;
         }
         InGameUI.Instance.GameStart();
         UpdateState(GAME_STATE.INGAME);
+        GameUI.Instance.SetLoadingText("3", false);
         CreateItem();
-
+        GameUI.Instance.SetLastPlayerText(ReturnPlayerCount().ToString());
     }
 
     private void MakeAIPlayer(){
@@ -143,7 +146,8 @@ public class RoomManager : MonoBehaviourPunCallbacks{
             _PV.RPC("DeadPlayerRPC",RpcTarget.All,player,result,index);
 
             if(InGameUI.Instance != null) {
-                InGameUI.Instance.SetLastPlayerText(ReturnPlayerCount());
+                GameUI.Instance.SetLastPlayerText(ReturnPlayerCount().ToString());
+
                 InGameUI.Instance.CreateKillLogUI(attacker,player);
             }
         }
@@ -253,7 +257,8 @@ public class RoomManager : MonoBehaviourPunCallbacks{
                 _PV.RPC("DeadPlayerRPC", RpcTarget.All, lefter, false,1024);
             }
             if (InGameUI.Instance != null) {
-                InGameUI.Instance.SetLastPlayerText(ReturnPlayerCount());
+                GameUI.Instance.SetLastPlayerText(ReturnPlayerCount().ToString());
+
             }
             if (IfRoundEnd()) {
                 RoundEnd();

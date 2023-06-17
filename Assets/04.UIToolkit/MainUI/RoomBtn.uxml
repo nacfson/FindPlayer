@@ -1,0 +1,3 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:Button text="Button" display-tooltip-when-elided="true" name="RoomBtn" style="-unity-font: url(&apos;project://database/Assets/09.Fonts/210%20%EC%BD%A4%ED%93%A8%ED%83%80%EC%84%B8%ED%83%81R.ttf?fileID=12800000&amp;guid=9c06efb3022f1d4488d225cdb4371336&amp;type=3#210 콤퓨타세탁R&apos;); -unity-font-style: bold; font-size: 20px;" />
+</ui:UXML>

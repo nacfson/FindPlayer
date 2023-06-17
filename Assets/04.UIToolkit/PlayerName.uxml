@@ -1,3 +1,0 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <ui:Label text="Label" display-tooltip-when-elided="true" name="PlayerName" class="nameLabel" style="-unity-font-definition: url(&apos;project://database/Assets/09.Fonts/210%20%EC%BD%A4%ED%93%A8%ED%83%80%EC%84%B8%ED%83%81R%20SDF%201.asset?fileID=11400000&amp;guid=58a9052674fd8424aba65a760159f21f&amp;type=2#210 콤퓨타세탁R SDF 1&apos;); font-size: 20px; -unity-font-style: bold; -unity-text-align: middle-center; visibility: visible; display: flex; overflow: visible;" />
-</ui:UXML>

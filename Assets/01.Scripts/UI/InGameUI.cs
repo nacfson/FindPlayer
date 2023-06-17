@@ -31,9 +31,9 @@ public class InGameUI : MonoBehaviour {
     private void Awake() {
         Instance = this;
         _PV = GetComponent<PhotonView>();
-        _loadingText  = _loadingPanel.transform.Find("LoadingText").GetComponent<TMP_Text>();
-        _loadingPanel.gameObject.SetActive(true);
-        _scorePanel.gameObject.SetActive(false);
+        //_loadingText  = _loadingPanel.transform.Find("LoadingText").GetComponent<TMP_Text>();
+        //_loadingPanel.gameObject.SetActive(true);
+        //_scorePanel.gameObject.SetActive(false);
         _optionPanelUI.ContinueGame();
     }
 

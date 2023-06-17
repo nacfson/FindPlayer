@@ -16,6 +16,8 @@ public class AgentCamera : MonoBehaviourPunCallbacks{
 
     private float _rotX;
     private float _rotY;
+
+    private Transform _parent;
     private CinemachineVirtualCamera _followCam;
     private Camera _cam;
     private AgentInput _agentInput;
@@ -39,7 +41,7 @@ public class AgentCamera : MonoBehaviourPunCallbacks{
         _playerNameUI = GetComponent<PlayerNameUI>();
         _actionData = transform.Find("AD").GetComponent<ActionData>();
         player = PhotonNetwork.LocalPlayer;
-
+        _parent = transform.Find("RotationHelper");
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
@@ -80,7 +82,7 @@ public class AgentCamera : MonoBehaviourPunCallbacks{
 
         _rotX = Mathf.Clamp(_rotX,0f,_clampAngle);
         Quaternion rot = Quaternion.Euler(_rotX,_rotY,0);
-        _followCam.transform.rotation = rot;
+        _parent.transform.rotation = rot;
     }
     public CinemachineVirtualCamera GetCamera(){
         return _followCam;

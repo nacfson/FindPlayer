@@ -1,0 +1,36 @@
+.menu {
+    overflow: visible;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: auto;
+    top: auto;
+    bottom: 100%;
+    transition-duration: 0.5s;
+}
+
+.lastPeople {
+    width: 389px;
+    height: 114px;
+    background-color: rgb(164, 46, 96);
+    border-top-left-radius: 58px;
+    border-bottom-left-radius: 58px;
+    border-top-right-radius: 58px;
+    border-bottom-right-radius: 58px;
+    border-left-color: rgb(255, 255, 255);
+    border-right-color: rgb(255, 255, 255);
+    border-top-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(255, 255, 255);
+    border-left-width: 8px;
+    border-right-width: 8px;
+    border-top-width: 8px;
+    border-bottom-width: 8px;
+    -unity-font-definition: url('project://database/Assets/09.Fonts/210%20%EC%BD%A4%ED%93%A8%ED%83%80%EC%84%B8%ED%83%81R%20SDF%201.asset?fileID=11400000&guid=58a9052674fd8424aba65a760159f21f&type=2#210 콤퓨타세탁R SDF 1');
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+}
+
+.menu.active {
+    bottom: 0;
+    position: absolute;
+}
