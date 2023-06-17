@@ -9,6 +9,9 @@ using UnityEditor;
 
 public class GameUI : MonoBehaviour {
     private UIDocument _uiDoucment;
+    [SerializeField] private VisualTreeAsset _scoreMenu;
+
+
     private PhotonView _PV;
     public static GameUI Instance;
 

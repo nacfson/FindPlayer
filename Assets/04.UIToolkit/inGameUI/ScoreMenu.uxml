@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement name="ScoreMenu" class="scoreMenu" style="flex-direction: row;">
+        <ui:Label text="PlayerName" display-tooltip-when-elided="true" name="NameLabel" class="scoreLabel" />
+        <ui:Label text="Score" display-tooltip-when-elided="true" name="ScoreLabel" class="scoreLabel" />
+        <ui:Label text="KIll" display-tooltip-when-elided="true" name="KillCountLabel" class="scoreLabel" />
+    </ui:VisualElement>
+</ui:UXML>

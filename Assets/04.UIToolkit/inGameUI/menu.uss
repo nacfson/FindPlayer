@@ -131,3 +131,35 @@
 .scale.active {
     scale: 1 1;
 }
+
+.scoreMenu {
+    -unity-font-definition: url('project://database/Assets/09.Fonts/210%20%EC%BD%A4%ED%93%A8%ED%83%80%EC%84%B8%ED%83%81R%20SDF%201.asset?fileID=11400000&guid=58a9052674fd8424aba65a760159f21f&type=2#210 콤퓨타세탁R SDF 1');
+    -unity-font-style: bold;
+    background-color: rgba(217, 211, 211, 0.89);
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    flex-grow: 1;
+    flex-direction: column;
+    flex-shrink: 1;
+    flex-basis: auto;
+    height: 79px;
+    width: 92%;
+    margin-left: 26px;
+    margin-right: 26px;
+    margin-top: 26px;
+    margin-bottom: 26px;
+}
+
+.scoreLabel {
+    -unity-font-definition: url('project://database/Assets/09.Fonts/210%20%EC%BD%A4%ED%93%A8%ED%83%80%EC%84%B8%ED%83%81R%20SDF%201.asset?fileID=11400000&guid=58a9052674fd8424aba65a760159f21f&type=2#210 콤퓨타세탁R SDF 1');
+    -unity-font-style: bold;
+    -unity-text-align: middle-left;
+    font-size: 20px;
+    flex-grow: 1;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}

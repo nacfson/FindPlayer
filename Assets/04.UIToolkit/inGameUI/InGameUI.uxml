@@ -1,4 +1,5 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="ScoreMenu" src="project://database/Assets/04.UIToolkit/inGameUI/ScoreMenu.uxml?fileID=9197481963319205126&amp;guid=ed28a9ff5174d1b49b778dda72692bcb&amp;type=3#ScoreMenu" />
     <Style src="project://database/Assets/04.UIToolkit/inGameUI/menu.uss?fileID=7433441132597879392&amp;guid=3cfef3a834c4a784fafd37f93e6c0a39&amp;type=3#menu" />
     <ui:VisualElement picking-mode="Ignore" style="flex-grow: 1;">
         <ui:VisualElement name="OptionMenu" picking-mode="Ignore" class="menu" style="transition-duration: 0s; background-color: rgba(82, 82, 82, 0.8);">
@@ -23,6 +24,11 @@
         </ui:VisualElement>
         <ui:VisualElement name="LoadingMenu" picking-mode="Ignore" class="menu active" style="background-color: rgba(0, 0, 0, 0.72);">
             <ui:Label text="3&#10;" display-tooltip-when-elided="true" name="LoadingLabel" style="position: absolute; top: 40%; left: 48%; font-size: 153px; -unity-font-style: bold; -unity-font-definition: url(&apos;project://database/Assets/09.Fonts/210%20%EC%BD%A4%ED%93%A8%ED%83%80%EC%84%B8%ED%83%81R%20SDF%201.asset?fileID=11400000&amp;guid=58a9052674fd8424aba65a760159f21f&amp;type=2#210 콤퓨타세탁R SDF 1&apos;); color: rgb(255, 255, 255);" />
+        </ui:VisualElement>
+        <ui:VisualElement name="ScoreBoardMenu" class="menu" style="background-color: rgb(195, 195, 195);">
+            <ui:ScrollView style="border-top-left-radius: 71px; border-bottom-left-radius: 71px; border-top-right-radius: 71px; border-bottom-right-radius: 71px; background-color: rgba(0, 0, 0, 0.7); width: 30%; height: 70%; position: absolute; left: 40%; top: 10%; flex-grow: 1;">
+                <ui:Instance template="ScoreMenu" name="ScoreMenu" />
+            </ui:ScrollView>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
