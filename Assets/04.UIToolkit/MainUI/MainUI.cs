@@ -101,8 +101,6 @@ public class MainUI : MonoBehaviour {
         });
         _optionOKBtn.RegisterCallback<ClickEvent>(e => {
             UISoundManager.Instance.PlayClickAudio(() => Application.Quit());
-
-            
         });
         _optionNOBtn.RegisterCallback<ClickEvent>(e => {
             UISoundManager.Instance.PlayClickAudio();

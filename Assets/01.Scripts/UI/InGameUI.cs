@@ -37,16 +37,6 @@ public class InGameUI : MonoBehaviour {
         _optionPanelUI.ContinueGame();
     }
 
-    private void Update() {
-        if (Input.GetKeyDown(KeyCode.Escape)) {
-            if (_optionPanelUI.Enabled) {
-                _optionPanelUI.ContinueGame();
-            }
-            else {
-                _optionPanelUI.OpenPanel();
-            }
-        }
-    }
     public void EndGameUI(float delay = 0f){
         _endPanelUI.ShowingSequence(delay);
     }
@@ -78,7 +68,7 @@ public class InGameUI : MonoBehaviour {
 
     [PunRPC]
     public void GameStartRPC(){
-        _loadingPanel.gameObject.SetActive(false);
+        //_loadingPanel.gameObject.SetActive(false);
         InformationPanel ifp = Instantiate<InformationPanel>(_informationPanel,_informationPanelParent);
         ifp.ShowingSequence("가짜 중에서 진짜 플레이어를\n 찾아내 살아남아라!",3f);
     }

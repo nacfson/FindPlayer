@@ -1,13 +1,27 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/04.UIToolkit/inGameUI/menu.uss?fileID=7433441132597879392&amp;guid=3cfef3a834c4a784fafd37f93e6c0a39&amp;type=3#menu" />
     <ui:VisualElement picking-mode="Ignore" style="flex-grow: 1;">
-        <ui:VisualElement name="OptionMenu" class="menu" />
-        <ui:VisualElement name="InGameMenu" class="menu active">
+        <ui:VisualElement name="OptionMenu" picking-mode="Ignore" class="menu" style="transition-duration: 0s; background-color: rgba(82, 82, 82, 0.8);">
+            <ui:VisualElement name="SelectMenu" class="selectMenu">
+                <ui:VisualElement name="SelectInMenu" class="selectMenu in active">
+                    <ui:Label text="정말 게임을 종료하시겠습니까?" display-tooltip-when-elided="true" name="InLabel" style="-unity-font-definition: url(&apos;project://database/Assets/09.Fonts/210%20%EC%BD%A4%ED%93%A8%ED%83%80%EC%84%B8%ED%83%81R%20SDF%201.asset?fileID=11400000&amp;guid=58a9052674fd8424aba65a760159f21f&amp;type=2#210 콤퓨타세탁R SDF 1&apos;); top: 41%; -unity-text-align: middle-center; font-size: 24px;" />
+                </ui:VisualElement>
+                <ui:Label text="게임 종료" display-tooltip-when-elided="true" name="TitleLabel" style="position: absolute; top: 15%; left: 10%; -unity-font-definition: url(&apos;project://database/Assets/09.Fonts/210%20%EC%BD%A4%ED%93%A8%ED%83%80%EC%84%B8%ED%83%81R%20SDF%201.asset?fileID=11400000&amp;guid=58a9052674fd8424aba65a760159f21f&amp;type=2#210 콤퓨타세탁R SDF 1&apos;); -unity-font-style: bold; font-size: 32px;" />
+                <ui:Button text="OK" display-tooltip-when-elided="true" name="OKBtn" class="playBtn select" style="bottom: -38%; position: absolute; right: 0;" />
+                <ui:Button text="NO" display-tooltip-when-elided="true" name="NOBtn" class="playBtn select" style="bottom: -38%; position: absolute; right: 27%; color: rgb(0, 0, 0); background-color: rgb(197, 108, 98);" />
+            </ui:VisualElement>
+            <ui:VisualElement name="OptionPanel" picking-mode="Ignore" class="selectMenu scale" style="background-color: rgb(255, 255, 255); width: 432px; height: 486px; left: 38%;">
+                <ui:Label text="설정" display-tooltip-when-elided="true" name="OptionLabel" style="-unity-text-align: middle-center; -unity-font-style: bold; font-size: 58px; -unity-font-definition: url(&apos;project://database/Assets/09.Fonts/210%20%EC%BD%A4%ED%93%A8%ED%83%80%EC%84%B8%ED%83%81R%20SDF%201.asset?fileID=11400000&amp;guid=58a9052674fd8424aba65a760159f21f&amp;type=2#210 콤퓨타세탁R SDF 1&apos;); left: 0; top: 4%;" />
+                <ui:Button text="게임으로" display-tooltip-when-elided="true" name="ContinueBtn" class="menuBtn" style="background-color: rgb(158, 221, 103); -unity-font-definition: url(&apos;project://database/Assets/09.Fonts/210%20%EC%BD%A4%ED%93%A8%ED%83%80%EC%84%B8%ED%83%81R%20SDF%201.asset?fileID=11400000&amp;guid=58a9052674fd8424aba65a760159f21f&amp;type=2#210 콤퓨타세탁R SDF 1&apos;); -unity-font-style: normal; font-size: 44px;" />
+                <ui:Button text="타이틀로" display-tooltip-when-elided="true" name="TitleBtn" class="menuBtn" style="background-color: rgb(190, 83, 83); -unity-font-definition: url(&apos;project://database/Assets/09.Fonts/210%20%EC%BD%A4%ED%93%A8%ED%83%80%EC%84%B8%ED%83%81R%20SDF%201.asset?fileID=11400000&amp;guid=58a9052674fd8424aba65a760159f21f&amp;type=2#210 콤퓨타세탁R SDF 1&apos;); -unity-font-style: normal; font-size: 44px;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="InGameMenu" picking-mode="Ignore" class="menu active" style="color: rgb(96, 96, 96);">
             <ui:VisualElement name="LastPeople" picking-mode="Ignore" class="lastPeople" style="position: absolute; left: 40%; top: 8%;">
                 <ui:Label text="남은 인원" display-tooltip-when-elided="true" name="LastPeopleLabel" style="font-size: 36px; top: 29%; color: rgb(255, 255, 255);" />
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement name="LoadingMenu" class="menu active" style="background-color: rgba(0, 0, 0, 0.72);">
+        <ui:VisualElement name="LoadingMenu" picking-mode="Ignore" class="menu active" style="background-color: rgba(0, 0, 0, 0.72);">
             <ui:Label text="3&#10;" display-tooltip-when-elided="true" name="LoadingLabel" style="position: absolute; top: 40%; left: 48%; font-size: 153px; -unity-font-style: bold; -unity-font-definition: url(&apos;project://database/Assets/09.Fonts/210%20%EC%BD%A4%ED%93%A8%ED%83%80%EC%84%B8%ED%83%81R%20SDF%201.asset?fileID=11400000&amp;guid=58a9052674fd8424aba65a760159f21f&amp;type=2#210 콤퓨타세탁R SDF 1&apos;); color: rgb(255, 255, 255);" />
         </ui:VisualElement>
     </ui:VisualElement>

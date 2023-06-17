@@ -151,10 +151,12 @@ public class RoomManager : MonoBehaviourPunCallbacks{
                 InGameUI.Instance.CreateKillLogUI(attacker,player);
             }
         }
+
         if (IfRoundEnd()) {
             RoundEnd();
         }
     }
+
 
     [PunRPC]
     public void DeadPlayerRPC(Player player,bool result,int cameraIndex = 1024){
@@ -175,7 +177,6 @@ public class RoomManager : MonoBehaviourPunCallbacks{
     public void CreateItem(){
         _PV.RPC("CreateItemRPC",RpcTarget.All);
     }
-
 
     [PunRPC]
     public void CreateItemRPC(){
@@ -249,7 +250,8 @@ public class RoomManager : MonoBehaviourPunCallbacks{
         _gameEnd = true;
     }
 
-    //플레이어 나갔을 때 어떻게 되는지 확인하기 
+
+    //플레이어 나갔을 때 어떻게 되는지 확인하기
     //플레이어 오브젝트 사라지는지 카메라는 어떻게 되는지
     public void LeftPlayer(Player lefter) {
         if (playerDictionary.ContainsKey(lefter)) {

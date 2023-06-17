@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using Photon.Pun;
+using Photon.Pun.Demo.Cockpit;
 
 [RequireComponent(typeof(PhotonView))]
 public class ItemObject : MonoBehaviour{
@@ -25,6 +26,7 @@ public class ItemObject : MonoBehaviour{
     }
     IEnumerator CheckColliderCor(){
         while (true) {
+            if (RoomManager.Instance.CurrentState == GAME_STATE.LOADING) yield return null;
             Collider[] cols = Physics.OverlapSphere(_getTransform.position, 0.8f, _layerMask);
 
             if (cols.Length > 0) {
