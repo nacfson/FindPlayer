@@ -26,10 +26,10 @@
     -unity-font: url('project://database/Assets/09.Fonts/210%20%EC%BD%A4%ED%93%A8%ED%83%80%EC%84%B8%ED%83%81R.ttf?fileID=12800000&guid=9c06efb3022f1d4488d225cdb4371336&type=3#210 콤퓨타세탁R');
     -unity-text-align: middle-left;
     padding-left: 66px;
-    border-top-left-radius: 50px;
-    border-bottom-left-radius: 50px;
-    border-top-right-radius: 50px;
-    border-bottom-right-radius: 50px;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
     position: absolute;
     right: 10%;
     bottom: 10%;
@@ -38,8 +38,8 @@
 }
 
 .playBtn:hover {
-    width: 450px;
-    height: 120px;
+    background-color: rgb(176, 176, 176);
+    scale: 0.9 0.9;
 }
 
 .inputField {
@@ -125,7 +125,7 @@
     position: absolute;
     right: 232px;
     bottom: 308px;
-    width: 392px;
+    width: 582px;
     border-top-left-radius: 30px;
     border-bottom-left-radius: 30px;
     border-top-right-radius: 30px;
@@ -149,8 +149,71 @@
     -unity-text-align: middle-center;
     -unity-font-style: bold;
     font-size: 30px;
+    bottom: 10%;
+    left: 10%;
+    position: absolute;
 }
 
 * {
     -unity-font-definition: url('project://database/Assets/09.Fonts/210%20%EC%BD%A4%ED%93%A8%ED%83%80%EC%84%B8%ED%83%81R%20SDF%201.asset?fileID=11400000&guid=58a9052674fd8424aba65a760159f21f&type=2#210 콤퓨타세탁R SDF 1');
+}
+
+.sqaureButton {
+    width: 125px;
+    height: 125px;
+    border-top-left-radius: 34px;
+    border-bottom-left-radius: 34px;
+    border-top-right-radius: 34px;
+    border-bottom-right-radius: 34px;
+    font-size: 24px;
+    -unity-font-style: bold;
+    transition-duration: 0.4s;
+}
+
+.sqaureButton:hover {
+    scale: 0.9 0.9;
+}
+
+.sqaureButton.exit {
+    right: 2%;
+    bottom: auto;
+    position: absolute;
+    top: 2%;
+}
+
+.optionMenu {
+    scale: 1 0;
+    background-color: rgb(58, 57, 57);
+}
+
+.optionMenu.active {
+    scale: 1 1;
+}
+
+.selectMenu {
+    position: absolute;
+    top: 30%;
+    width: 704px;
+    left: 30%;
+    height: 286px;
+    background-color: rgb(250, 250, 250);
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+}
+
+.selectMenu.in {
+    background-color: rgb(203, 219, 205);
+    width: 669px;
+    height: 147px;
+    left: 3%;
+    bottom: auto;
+    top: 40%;
+}
+
+.playBtn.select {
+    width: 206px;
+    height: 89px;
+    scale: 0.7 0.7;
 }

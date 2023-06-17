@@ -80,6 +80,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks{
         RoomInfo roomInfo = PhotonNetwork.CurrentRoom;
         _mainUI.CreatePlayerName(roomInfo,players);
         _mainUI.StartButtonEnabled(PhotonNetwork.IsMasterClient);
+        _mainUI.SetRoomNameText(roomInfo.Name);
     }
     public override void OnMasterClientSwitched(Player newMasterClient){
         _mainUI.StartButtonEnabled(PhotonNetwork.IsMasterClient);
@@ -97,11 +98,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks{
         PhotonNetwork.LoadLevel(1); //Scene Index
     }
     public void LeaveRoom(){
+        Debug.Log("LeftRoom");
         PhotonNetwork.LeaveRoom();
-        MenuManager.Instance.OpenMenu("loading");
     }
     public override void OnLeftRoom(){
-        MenuManager.Instance.OpenMenu("title");
+        Debug.Log("OnLeftRoom");
+        _mainUI.OpenInRoomMenu(false);
     }
     public override void OnRoomListUpdate(List<RoomInfo> roomList){
         Debug.Log("OnRoomListUpdate");
