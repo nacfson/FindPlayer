@@ -10,13 +10,17 @@ public class PlayerSound : MonoBehaviourPun{
     [SerializeField] private string _walkClipName;
     [SerializeField] private string _invisibleClipName;
 
-    public float maxDistance = 10f;
+    public float maxDistance = 10f; // 최대 거리
+    public float minVolume = 0.1f; // 최소 소리 크기
+    public float maxVolume = 1f; // 최대 소리 크기
 
     private AudioSource _audioSource;
+    private PhotonView _PV;
     private AgentAnimator _agentAnimator;
 
     private void Awake() {
-        _audioSource = GetComponent<AudioSource>();
+        _PV = GetComponent<PhotonView>();
+        _audioSource = _PV.GetComponent<AudioSource>();
         _agentAnimator = transform.Find("Visual").GetComponent<AgentAnimator>();
     }
 
@@ -39,13 +43,19 @@ public class PlayerSound : MonoBehaviourPun{
 
         //그런데 플레이어가 거리에 따라 소리의 크기가 다르게 전달 받아야되는데 이렇게 되면 그냥 기존 소리 그대로 전달 받게 됨
         if (others) {
-            photonView.RPC("PlaySoundRPC", RpcTarget.All,clipName);
+            photonView.RPC("PlaySoundRPC", RpcTarget.All,clipName,transform.position);
         }
     }
     
     [PunRPC]
-    public void PlaySoundRPC(string clipName) {
+    public void PlaySoundRPC(string clipName,Vector3 startPos) {
         _audioSource.clip = _audioSO.GetAudioClipByName(clipName);
+
+
+        _audioSource.spatialBlend = 1f;
+        float distance = Vector3.Distance(transform.position, startPos);
+        float volume = Mathf.Lerp(maxVolume, minVolume, distance / maxDistance);
+        _audioSource.volume = volume;
         _audioSource.Play();
     }
 

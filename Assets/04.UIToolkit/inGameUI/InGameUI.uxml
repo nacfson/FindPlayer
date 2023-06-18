@@ -20,7 +20,9 @@
             <ui:VisualElement name="LastPeople" picking-mode="Ignore" class="lastPeople" style="position: absolute; left: 40%; top: 8%; border-top-left-radius: 48px; border-bottom-left-radius: 48px; border-top-right-radius: 48px; border-bottom-right-radius: 48px; scale: 0.8 0.8;">
                 <ui:Label text="남은 인원" display-tooltip-when-elided="true" name="LastPeopleLabel" style="font-size: 36px; top: 26%; color: rgb(255, 255, 255);" />
             </ui:VisualElement>
-            <ui:ScrollView name="KillLogView" style="flex-grow: 1; height: 70%; width: 30%; right: 0; position: absolute; top: 30%; transition-duration: 0.5s;" />
+            <ui:ScrollView name="KillLogView" style="flex-grow: 1; height: 70%; width: 30%; right: 0; position: absolute; top: 30%; transition-duration: 0.5s;">
+                <ui:VisualElement class="killLogUI" />
+            </ui:ScrollView>
         </ui:VisualElement>
         <ui:VisualElement name="LoadingMenu" picking-mode="Ignore" class="menu" style="background-color: rgba(0, 0, 0, 0.72);">
             <ui:Label text="3&#10;" display-tooltip-when-elided="true" name="LoadingLabel" style="position: absolute; top: 40%; left: 48%; font-size: 153px; -unity-font-style: bold; -unity-font-definition: url(&apos;project://database/Assets/09.Fonts/210%20%EC%BD%A4%ED%93%A8%ED%83%80%EC%84%B8%ED%83%81R%20SDF%201.asset?fileID=11400000&amp;guid=58a9052674fd8424aba65a760159f21f&amp;type=2#210 콤퓨타세탁R SDF 1&apos;); color: rgb(255, 255, 255);" />

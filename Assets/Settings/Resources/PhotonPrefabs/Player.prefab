@@ -687,6 +687,8 @@ MonoBehaviour:
   _walkClipName: WALK
   _invisibleClipName: INVISIBLE
   maxDistance: 10
+  minVolume: 0.1
+  maxVolume: 1
 --- !u!114 &7350830235968054657
 MonoBehaviour:
   m_ObjectHideFlags: 0
