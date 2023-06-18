@@ -67,6 +67,7 @@ MonoBehaviour:
   - SetGameObjectNameRPC
   - ReturnToRoomRPC
   - SetEnterRoomRPC
+  - ActiveScoreBoardRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

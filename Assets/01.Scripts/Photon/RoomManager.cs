@@ -241,12 +241,13 @@ public class RoomManager : MonoBehaviourPunCallbacks{
 
     [PunRPC]
     public void GameEndRPC() {
-        Hashtable hashtable = new Hashtable();
-        hashtable.Add("KILLCOUNT",_playerData.killCount);
-        hashtable.Add("SCORE",_playerData.score);
-        PhotonNetwork.LocalPlayer.SetCustomProperties(hashtable);
+        //Hashtable hashtable = new Hashtable();
+        //hashtable.Add("KILLCOUNT",_playerData.killCount);
+        //hashtable.Add("SCORE",_playerData.score);
+        //PhotonNetwork.LocalPlayer.SetCustomProperties(hashtable);
 
-        InGameUI.Instance.EndGameUI(12f);
+        GameUI.Instance.ActiveScoreBoard(PhotonNetwork.LocalPlayer.NickName,_playerData.killCount,_playerData.score);
+        //InGameUI.Instance.EndGameUI(12f);
         _gameEnd = true;
     }
 

@@ -5,6 +5,7 @@ using System;
 using UnityEngine.UIElements;
 using Photon.Pun;
 using UnityEngine.SceneManagement;
+using Photon.Realtime;
 using UnityEditor;
 
 public class GameUI : MonoBehaviour {
@@ -20,6 +21,8 @@ public class GameUI : MonoBehaviour {
     private VisualElement _loadingMenu;
     private VisualElement _optionMenu;
     private VisualElement _optionPanel;
+    private VisualElement _scoreBoardMenu;
+    private ScrollView _scoreMenuContainer;
 
     private VisualElement _selectMenu;
     private VisualElement _selectInMenu;
@@ -40,10 +43,12 @@ public class GameUI : MonoBehaviour {
         _inGameMenu = root.Q<VisualElement>("InGameMenu");
         _loadingMenu = root.Q<VisualElement>("LoadingMenu");
         _optionMenu = root.Q<VisualElement>("OptionMenu");
+        _scoreBoardMenu = root.Q<VisualElement>("ScoreBoardMenu");
 
         _optionPanel = _optionMenu.Q<VisualElement>("OptionPanel");
         _selectMenu = _optionMenu.Q<VisualElement>("SelectMenu");
         _selectInMenu = _selectMenu.Q<VisualElement>("SelectInMenu");
+        _scoreMenuContainer = _scoreBoardMenu.Q<ScrollView>("ScoreView");
         //OptionPanelBtns
         Button continueBtn = _optionPanel.Q<Button>("ContinueBtn");
         Button titleBtn = _optionPanel.Q<Button>("TitleBtn");
@@ -105,8 +110,43 @@ public class GameUI : MonoBehaviour {
 
     }
     public void SetLastPlayerText(string result) {
+        _PV.RPC("SetLastPlayerTextRPC", RpcTarget.All, result);
+    }
+    [PunRPC]
+    public void SetLastPlayerTextRPC(string result) {
         string value = $"남은인원 {result}";
         _lastPeopleLabel.text = value;
+    }
+    public void ActiveScoreBoard(string nickName, int killCount, int score) {
+        _PV.RPC("ActiveScoreBoardRPC", RpcTarget.All,nickName,killCount,score);
+    }
+    [PunRPC]
+    public void ActiveScoreBoardRPC(string nickName,int killCount,int score) {
+        _scoreBoardMenu.AddToClassList("active");
+        //Player[] players = PhotonNetwork.PlayerList;
+
+        //foreach(var p in players) {
+        //    ExitGames.Client.Photon.Hashtable property = p.CustomProperties;
+        //    int killCount = (int)property["KILLCOUNT"];
+        //    int score = (int)property["SCORE"];
+        //    CreateScoreBoardMenu(p.NickName,killCount,score);
+        //}
+        CreateScoreBoardMenu(nickName,killCount,score);
+    }
+    public void CreateScoreBoardMenu(string nickName, int killCount, int score) {
+        VisualElement scoreMenu = _scoreMenu.Instantiate();
+        VisualElement scoreBoard = scoreMenu.Q<VisualElement>("ScoreMenu");
+
+        Debug.LogError(_scoreMenuContainer);
+        _scoreMenuContainer.Add(scoreBoard);
+
+        Label playerNameLabel = scoreBoard.Q<Label>("NameLabel");
+        Label killCountLabel = scoreBoard.Q<Label>("KillCountLabel");
+        Label scoreLabel = scoreBoard.Q<Label>("ScoreLabel");
+
+        playerNameLabel.text = nickName;
+        killCountLabel.text = killCount.ToString();
+        scoreLabel.text = score.ToString();
     }
     public void SetLoadingText(string result,bool value) {
         _PV.RPC("SetLoadingTextRPC", RpcTarget.All, result, value);
