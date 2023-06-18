@@ -27,7 +27,7 @@ public class CameraManager : MonoBehaviour {
         foreach(var a in _agentCameraList){
             CinemachineVirtualCamera camera = a.GetCamera();
             if(a == currentCamera){
-                camera.enabled = true;
+                camera.enabled = true; 
             }
             else {
                 camera.enabled = false;

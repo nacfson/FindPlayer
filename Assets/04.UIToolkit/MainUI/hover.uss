@@ -138,22 +138,6 @@
     padding-bottom: 9px;
 }
 
-.nameLabel {
-    background-color: rgb(178, 178, 178);
-    border-top-left-radius: 11px;
-    border-bottom-left-radius: 11px;
-    border-top-right-radius: 11px;
-    border-bottom-right-radius: 11px;
-    height: 42px;
-    -unity-font: url('project://database/Assets/09.Fonts/210%20%EC%BD%A4%ED%93%A8%ED%83%80%EC%84%B8%ED%83%81R.ttf?fileID=12800000&guid=9c06efb3022f1d4488d225cdb4371336&type=3#210 콤퓨타세탁R');
-    -unity-text-align: middle-center;
-    -unity-font-style: bold;
-    font-size: 30px;
-    bottom: 10%;
-    left: 10%;
-    position: absolute;
-}
-
 * {
     -unity-font-definition: url('project://database/Assets/09.Fonts/210%20%EC%BD%A4%ED%93%A8%ED%83%80%EC%84%B8%ED%83%81R%20SDF%201.asset?fileID=11400000&guid=58a9052674fd8424aba65a760159f21f&type=2#210 콤퓨타세탁R SDF 1');
 }
@@ -216,4 +200,14 @@
     width: 206px;
     height: 89px;
     scale: 0.7 0.7;
+}
+
+.nameLabel {
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    font-size: 34px;
+    padding-left: 13px;
+    padding-right: 13px;
+    padding-top: 13px;
+    padding-bottom: 13px;
 }

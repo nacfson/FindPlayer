@@ -4,6 +4,7 @@ using UnityEngine;
 using Cinemachine;
 using Photon.Pun;
 using Photon.Realtime;
+using System;
 
 public class AgentController : MonoBehaviour {
     protected PhotonView _PV;
@@ -17,6 +18,17 @@ public class AgentController : MonoBehaviour {
         _actionData = transform.Find("AD").GetComponent<ActionData>();
         _agentAnimator = transform.Find("Visual").GetComponent<AgentAnimator>();
         _agentHP = transform.GetComponent<AgentHP>();
+    }
+    private void OnEnable() {
+        RoomManager.Instance.OnRoundEnd += DancePlayer;
+    }
+    private void OnDisable() {
+        RoomManager.Instance.OnRoundEnd -= DancePlayer;
+    }
+    public void DancePlayer(bool result) {
+        if (result) {
+            _agentAnimator.DoDance();
+        }
     }
 
     protected void Update() {

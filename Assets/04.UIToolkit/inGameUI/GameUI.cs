@@ -53,7 +53,7 @@ public class GameUI : MonoBehaviour {
         Button continueBtn = _optionPanel.Q<Button>("ContinueBtn");
         Button titleBtn = _optionPanel.Q<Button>("TitleBtn");
         continueBtn.RegisterCallback<ClickEvent>(e => {
-            _optionMenu.RemoveFromClassList("active");
+            CloseOptionMenus();
             RoomManager.Instance.UpdateState(GAME_STATE.INGAME);
             _isOptionMenu = !_isOptionMenu;
             UnityEngine.Cursor.lockState = CursorLockMode.Locked;
@@ -80,6 +80,13 @@ public class GameUI : MonoBehaviour {
         });
         _lastPeopleLabel = _inGameMenu.Q<VisualElement>("LastPeople").Q<Label>("LastPeopleLabel");
         _loadingLabel = _loadingMenu.Q<Label>("LoadingLabel");
+
+
+        Button exitToTitleBtn = _scoreBoardMenu.Q<Button>("ExitBtn");
+        exitToTitleBtn.RegisterCallback<ClickEvent>(e => {
+            PhotonNetwork.LeaveRoom();
+            SceneManager.LoadScene(0);
+        });
 
     }
     private void CloseOptionMenus() {
@@ -137,7 +144,6 @@ public class GameUI : MonoBehaviour {
         VisualElement scoreMenu = _scoreMenu.Instantiate();
         VisualElement scoreBoard = scoreMenu.Q<VisualElement>("ScoreMenu");
 
-        Debug.LogError(_scoreMenuContainer);
         _scoreMenuContainer.Add(scoreBoard);
 
         Label playerNameLabel = scoreBoard.Q<Label>("NameLabel");

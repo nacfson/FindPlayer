@@ -21,7 +21,8 @@ public class MainUI : MonoBehaviour {
     private Button _exitRoomBtn;
     private Button _optionOKBtn;
     private Button _optionNOBtn;
-
+    private VisualElement _character;
+    
     private List<Button> _exitBtns;
     private List<VisualElement> _menus;
 
@@ -39,6 +40,9 @@ public class MainUI : MonoBehaviour {
 
     private void OnEnable() {
         VisualElement root = _uiDocument.rootVisualElement;
+        _character = root.Q<VisualElement>("Character");
+        _character.visible = false;
+
         _menus = new List<VisualElement>();
         _exitBtns = new List<Button>(); 
         _titleMenu = root.Q<VisualElement>("TitleMenu");
@@ -49,6 +53,7 @@ public class MainUI : MonoBehaviour {
         _menus.Add(_titleMenu);
         _menus.Add(_roomMenu);
         _menus.Add(_inRoomMenu);
+
         //_menus.Add(_optionMenu);
 
         Button startBtn = _titleMenu.Q<Button>("StartBtn");
@@ -57,7 +62,7 @@ public class MainUI : MonoBehaviour {
             //메뉴 로드
             //RoomManager.Instance.InitGame();
             UISoundManager.Instance.PlayClickAudio();
-
+            _character.visible = true;
             NetworkManager.Instance.JoinLobby();
         });
 
@@ -129,6 +134,13 @@ public class MainUI : MonoBehaviour {
             _roomMenu.AddToClassList("active");
         }
     }
+    public void GameInit() {
+        foreach(var m in _menus) {
+            m.RemoveFromClassList("active");
+        }
+        _roomMenu.RemoveFromClassList("active");
+        _titleMenu.AddToClassList("active");
+    }
 
     public void CreateRoomBtn(List<RoomInfo> roomList,int maxPlayerCount){
         Action<RoomInfo,bool> createBtn = delegate (RoomInfo roomInfo,bool visible){
@@ -169,6 +181,7 @@ public class MainUI : MonoBehaviour {
     public void AddName(Player player) {
         Debug.Log(player.NickName);
         VisualElement temp = _playerName.Instantiate();
+
         Label name = temp.Q<Label>("PlayerName");
         _playerMenuContainer.Add(name);
         name.text = player.NickName;

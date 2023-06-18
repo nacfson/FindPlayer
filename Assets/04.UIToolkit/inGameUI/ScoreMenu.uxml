@@ -1,7 +1,7 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <ui:VisualElement name="ScoreMenu" class="scoreMenu" style="flex-direction: row;">
-        <ui:Label text="PlayerName" display-tooltip-when-elided="true" name="NameLabel" class="scoreLabel" />
-        <ui:Label text="Score" display-tooltip-when-elided="true" name="ScoreLabel" class="scoreLabel" />
-        <ui:Label text="KIll" display-tooltip-when-elided="true" name="KillCountLabel" class="scoreLabel" />
+        <ui:Label text="PlayerName" display-tooltip-when-elided="true" name="NameLabel" class="scoreLabel" style="font-size: 20px; -unity-font-definition: url(&apos;project://database/Assets/09.Fonts/210%20%EC%BD%A4%ED%93%A8%ED%83%80%EC%84%B8%ED%83%81R%20SDF%201.asset?fileID=11400000&amp;guid=58a9052674fd8424aba65a760159f21f&amp;type=2#210 콤퓨타세탁R SDF 1&apos;);" />
+        <ui:Label text="Score" display-tooltip-when-elided="true" name="ScoreLabel" class="scoreLabel" style="font-size: 20px; -unity-font-definition: url(&apos;project://database/Assets/09.Fonts/210%20%EC%BD%A4%ED%93%A8%ED%83%80%EC%84%B8%ED%83%81R%20SDF%201.asset?fileID=11400000&amp;guid=58a9052674fd8424aba65a760159f21f&amp;type=2#210 콤퓨타세탁R SDF 1&apos;);" />
+        <ui:Label text="KIll" display-tooltip-when-elided="true" name="KillCountLabel" class="scoreLabel" style="-unity-font-definition: url(&apos;project://database/Assets/09.Fonts/210%20%EC%BD%A4%ED%93%A8%ED%83%80%EC%84%B8%ED%83%81R%20SDF%201.asset?fileID=11400000&amp;guid=58a9052674fd8424aba65a760159f21f&amp;type=2#210 콤퓨타세탁R SDF 1&apos;); font-size: 20px;" />
     </ui:VisualElement>
 </ui:UXML>

@@ -7,6 +7,7 @@ using Photon.Realtime;
 using DG.Tweening;
 using UnityEngine.SceneManagement;
 using Core;
+using System;
 using System.Linq;
 using System.Collections;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
@@ -33,6 +34,9 @@ public class RoomManager : MonoBehaviourPunCallbacks{
     [SerializeField] private int _initAICount = 50;
     [SerializeField] private int _defineRound = 1; 
     [SerializeField] private ItemObjectListSO _itemObjectList;
+    [SerializeField] private MainUI _mainUI; 
+
+    public Action<bool> OnRoundEnd;
 
 
     private bool _gameEnd = false;
@@ -45,12 +49,14 @@ public class RoomManager : MonoBehaviourPunCallbacks{
     private GAME_STATE _currentState;
 
     private void Awake() { 
-        if(Instance){
+        if(Instance == null){
+            Instance = this;
+        }
+        else {
             Destroy(this.gameObject);
             return;
         }
         DontDestroyOnLoad(this.gameObject);
-        Instance = this;
         _PV = GetComponent<PhotonView>();
     
     }
@@ -76,8 +82,11 @@ public class RoomManager : MonoBehaviourPunCallbacks{
             _playerData.maxPlayer = playerList.Count;
             playerCount = playerList.Count;
         }
-        else if(scene.buildIndex == Define.RoomIndex && _gameEnd == true){
-            MenuManager.Instance.OpenMenu("room");
+        else if(scene.buildIndex == Define.RoomIndex){
+            //MenuManager.Instance.OpenMenu("room");
+            Debug.LogError("GameInit");
+            _mainUI.GameInit();
+
         }
     }
 
@@ -221,6 +230,7 @@ public class RoomManager : MonoBehaviourPunCallbacks{
             Debug.LogError("Player is Null!!!");
         }
         else {
+            OnRoundEnd?.Invoke(PhotonNetwork.LocalPlayer == player);
             UpdateKillCountAndScore(0, 200,player.NickName);
             SetPlayerCount(player);
         }
@@ -246,7 +256,13 @@ public class RoomManager : MonoBehaviourPunCallbacks{
         //hashtable.Add("SCORE",_playerData.score);
         //PhotonNetwork.LocalPlayer.SetCustomProperties(hashtable);
 
-        GameUI.Instance.ActiveScoreBoard(PhotonNetwork.LocalPlayer.NickName,_playerData.killCount,_playerData.score);
+        Sequence sequence = DOTween.Sequence();
+        sequence.AppendInterval(7f);
+        sequence.AppendCallback(() => {
+            GameUI.Instance.ActiveScoreBoard(PhotonNetwork.LocalPlayer.NickName, _playerData.killCount, _playerData.score);
+        });
+        Destroy(RoomManager.Instance.gameObject);
+        
         //InGameUI.Instance.EndGameUI(12f);
         _gameEnd = true;
     }

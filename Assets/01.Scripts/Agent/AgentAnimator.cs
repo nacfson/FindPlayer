@@ -16,6 +16,7 @@ public class AgentAnimator : MonoBehaviourPun{
     protected readonly int _jumpBoolHash = Animator.StringToHash("IS_JUMP");
     protected readonly int _penaltyHash = Animator.StringToHash("PENALTY");
     protected readonly int _penaltyBoolHash =Animator.StringToHash("IS_PENALTY");
+    protected readonly int _danceHash = Animator.StringToHash("DANCE");
 
     protected Animator _animator;
     protected ActionData _actionData;
@@ -32,6 +33,9 @@ public class AgentAnimator : MonoBehaviourPun{
         _animator = GetComponent<Animator>();
         _actionData = transform.parent.Find("AD").GetComponent<ActionData>();
         PV = transform.parent.GetComponent<PhotonView>();
+    }
+    public void DoDance() {
+        _animator.SetTrigger(_danceHash);
     }
     public void SetSpeed(float speed){
         _animator.SetFloat(_speedHash,speed);
