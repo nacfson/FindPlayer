@@ -36,7 +36,7 @@ public class RoomManager : MonoBehaviourPunCallbacks{
     [SerializeField] private ItemObjectListSO _itemObjectList;
     [SerializeField] private MainUI _mainUI; 
 
-    public Action<bool> OnRoundEnd;
+    public event Action<Player> OnRoundEnd;
 
 
     private bool _gameEnd = false;
@@ -58,7 +58,6 @@ public class RoomManager : MonoBehaviourPunCallbacks{
         }
         DontDestroyOnLoad(this.gameObject);
         _PV = GetComponent<PhotonView>();
-    
     }
     public override void OnEnable(){
         base.OnEnable();
@@ -84,7 +83,7 @@ public class RoomManager : MonoBehaviourPunCallbacks{
         }
         else if(scene.buildIndex == Define.RoomIndex){
             //MenuManager.Instance.OpenMenu("room");
-            Debug.LogError("GameInit");
+            //Debug.LogError("GameInit");
             _mainUI.GameInit();
 
         }
@@ -157,7 +156,8 @@ public class RoomManager : MonoBehaviourPunCallbacks{
             if(InGameUI.Instance != null) {
                 GameUI.Instance.SetLastPlayerText(ReturnPlayerCount().ToString());
 
-                InGameUI.Instance.CreateKillLogUI(attacker,player);
+                //InGameUI.Instance.CreateKillLogUI(attacker,player);
+                GameUI.Instance.CreateKillLogUI(attacker.NickName, player.NickName);
             }
         }
 
@@ -230,7 +230,7 @@ public class RoomManager : MonoBehaviourPunCallbacks{
             Debug.LogError("Player is Null!!!");
         }
         else {
-            OnRoundEnd?.Invoke(PhotonNetwork.LocalPlayer == player);
+            OnRoundEnd?.Invoke(player);
             UpdateKillCountAndScore(0, 200,player.NickName);
             SetPlayerCount(player);
         }

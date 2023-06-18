@@ -163,3 +163,19 @@
     padding-top: 30px;
     padding-bottom: 30px;
 }
+
+.killLogUI {
+    height: 109px;
+    background-color: rgba(82, 82, 82, 0.54);
+    border-top-left-radius: 48px;
+    border-bottom-left-radius: 48px;
+    border-top-right-radius: 48px;
+    border-bottom-right-radius: 48px;
+    left: 100%;
+    transition-duration: 1s;
+}
+
+.killLogUI.active {
+    left: 0;
+    transition-duration: 1s;
+}

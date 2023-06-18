@@ -55,6 +55,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks{
     public override void OnJoinedLobby(){
         //MenuManager.Instance.OpenMenu("title");
         Debug.Log("On Joined Lobby");
+        _mainUI.SetPlayerVisible(true);
         PhotonNetwork.NickName = _mainUI.GetText();
         _mainUI.SetPlayerNameText(PhotonNetwork.NickName);
         _selectedName = true;

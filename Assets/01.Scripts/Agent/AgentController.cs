@@ -25,7 +25,8 @@ public class AgentController : MonoBehaviour {
     private void OnDisable() {
         RoomManager.Instance.OnRoundEnd -= DancePlayer;
     }
-    public void DancePlayer(bool result) {
+    public void DancePlayer(Player player) {
+        bool result = (PhotonNetwork.LocalPlayer == player);
         if (result) {
             _agentAnimator.DoDance();
         }

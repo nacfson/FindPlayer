@@ -39,12 +39,15 @@ public class MainUI : MonoBehaviour {
     }
 
     private void OnEnable() {
+        Init();
+    }
+    private void Init() {
         VisualElement root = _uiDocument.rootVisualElement;
         _character = root.Q<VisualElement>("Character");
         _character.visible = false;
 
         _menus = new List<VisualElement>();
-        _exitBtns = new List<Button>(); 
+        _exitBtns = new List<Button>();
         _titleMenu = root.Q<VisualElement>("TitleMenu");
         _roomMenu = root.Q<VisualElement>("RoomMenu");
         _inRoomMenu = root.Q<VisualElement>("InRoomMenu");
@@ -62,12 +65,11 @@ public class MainUI : MonoBehaviour {
             //메뉴 로드
             //RoomManager.Instance.InitGame();
             UISoundManager.Instance.PlayClickAudio();
-            _character.visible = true;
             NetworkManager.Instance.JoinLobby();
         });
 
         Button roomBtn = _roomMenu.Q<Button>("CreateRoomBtn");
-        roomBtn.RegisterCallback<ClickEvent>(e=>{
+        roomBtn.RegisterCallback<ClickEvent>(e => {
             UISoundManager.Instance.PlayClickAudio();
 
             NetworkManager.Instance.CreateRoom();
@@ -82,8 +84,8 @@ public class MainUI : MonoBehaviour {
         _exitRoomBtn = _inRoomMenu.Q<Button>("ExitRoomBtn");
         _optionOKBtn = _optionMenu.Q<Button>("OKBtn");
         _optionNOBtn = _optionMenu.Q<Button>("NOBtn");
-        
-        foreach(var menu in _menus) {
+
+        foreach (var menu in _menus) {
             Button exitBtn = menu.Q<Button>("ExitBtn");
 
             exitBtn.RegisterCallback<ClickEvent>(e => {
@@ -113,6 +115,9 @@ public class MainUI : MonoBehaviour {
             _optionMenu.RemoveFromClassList("active");
         });
     }
+    public void SetPlayerVisible(bool result) {
+        _character.visible = result;
+    }
 
     public void OpenRoomMenu(bool isRoom = true) {
         if (isRoom) {
@@ -135,6 +140,7 @@ public class MainUI : MonoBehaviour {
         }
     }
     public void GameInit() {
+        Init();
         foreach(var m in _menus) {
             m.RemoveFromClassList("active");
         }

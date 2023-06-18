@@ -7,10 +7,11 @@ using Photon.Pun;
 using UnityEngine.SceneManagement;
 using Photon.Realtime;
 using UnityEditor;
-
+using DG.Tweening;
 public class GameUI : MonoBehaviour {
     private UIDocument _uiDoucment;
     [SerializeField] private VisualTreeAsset _scoreMenu;
+    [SerializeField] private VisualTreeAsset _killLogUI;
 
 
     private PhotonView _PV;
@@ -23,6 +24,7 @@ public class GameUI : MonoBehaviour {
     private VisualElement _optionPanel;
     private VisualElement _scoreBoardMenu;
     private ScrollView _scoreMenuContainer;
+    private ScrollView _killLogMenuContainer;
 
     private VisualElement _selectMenu;
     private VisualElement _selectInMenu;
@@ -49,6 +51,7 @@ public class GameUI : MonoBehaviour {
         _selectMenu = _optionMenu.Q<VisualElement>("SelectMenu");
         _selectInMenu = _selectMenu.Q<VisualElement>("SelectInMenu");
         _scoreMenuContainer = _scoreBoardMenu.Q<ScrollView>("ScoreView");
+        _killLogMenuContainer = _inGameMenu.Q<ScrollView>("KillLogView");
         //OptionPanelBtns
         Button continueBtn = _optionPanel.Q<Button>("ContinueBtn");
         Button titleBtn = _optionPanel.Q<Button>("TitleBtn");
@@ -85,7 +88,8 @@ public class GameUI : MonoBehaviour {
         Button exitToTitleBtn = _scoreBoardMenu.Q<Button>("ExitBtn");
         exitToTitleBtn.RegisterCallback<ClickEvent>(e => {
             PhotonNetwork.LeaveRoom();
-            SceneManager.LoadScene(0);
+            PhotonNetwork.AutomaticallySyncScene = false;
+            PhotonNetwork.LoadLevel(0);
         });
 
     }
@@ -154,10 +158,30 @@ public class GameUI : MonoBehaviour {
         killCountLabel.text = killCount.ToString();
         scoreLabel.text = score.ToString();
     }
+    [PunRPC]
+    public void CreateKillLogUIRPC(string attacker,string deader) {
+        string result = $"{attacker}가 {deader}를 처치";
+        VisualElement temp = _killLogUI.Instantiate();
+        VisualElement killLogUI = temp.Q<VisualElement>("KillLogUI");
+
+        Label log = killLogUI.Q<Label>("KillLogLabel");
+        log.text = result;
+
+        _killLogMenuContainer.Add(killLogUI);
+        killLogUI.AddToClassList("active");
+
+        Sequence sequence = DOTween.Sequence();
+        sequence.AppendInterval(3f);
+        sequence.AppendCallback(() => {
+            _killLogMenuContainer.Remove(killLogUI);
+        });
+    }
+    public void CreateKillLogUI(string attacker,string deader) {
+        _PV.RPC("CreateKillLogUIRPC", RpcTarget.All, attacker, deader);
+    }
     public void SetLoadingText(string result,bool value) {
         _PV.RPC("SetLoadingTextRPC", RpcTarget.All, result, value);
     }
-
     [PunRPC]
     public void SetLoadingTextRPC(string result, bool value) {
         Action<bool> action = (value) => {
