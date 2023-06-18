@@ -84,11 +84,14 @@ public class RoomManager : MonoBehaviourPunCallbacks{
         else if(scene.buildIndex == Define.RoomIndex){
             //MenuManager.Instance.OpenMenu("room");
             //Debug.LogError("GameInit");
-            _mainUI.GameInit();
-
         }
     }
-
+    private void Start(){
+        _mainUI.GameInit();
+        Sequence sequence = DOTween.Sequence();
+        sequence.AppendInterval(0.1f);
+        sequence.AppendCallback(() => Debug.Log("DoNothing"));
+    }
     public void InitPlayer(List<Player> playerList) {
         playerDictionary.Clear();
         foreach (Player player in playerList) {
