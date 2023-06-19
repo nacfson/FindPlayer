@@ -110,10 +110,9 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
 
     [PunRPC]
     public void ShowSpinStarRPC(bool result){
-        if(_PV.IsMine){
-            _spinStar.gameObject.SetActive(result);
-        }
+        _spinStar.gameObject.SetActive(result);
     }
+
     protected virtual void StartAttack(){
         if(_actionData.IsPenalty) return;
         if(_canAttack == false) return;

@@ -32,7 +32,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks{
     
     private void Awake() {
         Instance = this;
-        
+
         _selectedName = false;
         _PV = GetComponent<PhotonView>();
         Debug.Log("Connecting To Master");
@@ -54,11 +54,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks{
     }
 
     public override void OnJoinedLobby(){
-        //MenuManager.Instance.OpenMenu("title");
-        // if(_mainUI.GetText() == ){
-
-        // }
-        Debug.Log("On Joined Lobby");
+        if(string.IsNullOrEmpty(_mainUI.GetText())){
+            return;
+        }
+        
         _mainUI.SetPlayerVisible(true);
         PhotonNetwork.NickName = _mainUI.GetText();
         _mainUI.SetPlayerNameText(PhotonNetwork.NickName);
@@ -67,9 +66,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks{
     }
 
     public void CreateRoom(string roomName = null){
-        // if(string.IsNullOrEmpty(_roomNameInputField.text)){
-        //     return;
-        // }
+
         if(roomName == null){
             roomName = $"RoomName: {Random.Range(1000,9999)}";
         }

@@ -38,7 +38,6 @@ public class RoomManager : MonoBehaviourPunCallbacks{
 
     public event Action<Player> OnRoundEnd;
 
-
     private bool _gameEnd = false;
 
     private static int _roundCount = 0; 
@@ -59,6 +58,7 @@ public class RoomManager : MonoBehaviourPunCallbacks{
         DontDestroyOnLoad(this.gameObject);
         _PV = GetComponent<PhotonView>();
     }
+
     public override void OnEnable(){
         base.OnEnable();
         SceneManager.sceneLoaded += OnSceneLoaded;
