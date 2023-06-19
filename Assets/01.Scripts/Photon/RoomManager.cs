@@ -41,7 +41,7 @@ public class RoomManager : MonoBehaviourPunCallbacks{
 
     private bool _gameEnd = false;
 
-    private int _roundCount = 0; 
+    private static int _roundCount = 0; 
     private int _cameraIndex = 0;
     public int playerCount;
     private PlayerData _playerData = new PlayerData();
@@ -216,7 +216,7 @@ public class RoomManager : MonoBehaviourPunCallbacks{
 
     private void RoundEnd(){
         UpdateState(GAME_STATE.LOADING);
-        _roundCount++;
+        _PV.RPC("AddToRoundCount",RpcTarget.All,1);
 
         Player player = null;
 
@@ -242,6 +242,10 @@ public class RoomManager : MonoBehaviourPunCallbacks{
         else {
             InGameUI.Instance.GameEnd(player);
         }
+    }
+    [PunRPC]
+    public void AddToRoundCount(int count){
+        _roundCount += count;
     }
 
     public void GameEnd() {

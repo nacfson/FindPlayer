@@ -147,6 +147,7 @@ public class MainUI : MonoBehaviour {
         }
         _roomMenu.AddToClassList("active");
         _playerNameLabel.text =  PhotonNetwork.LocalPlayer.NickName;
+        _character.visible = true;
     }
 
     public void CreateRoomBtn(List<RoomInfo> roomList,int maxPlayerCount){

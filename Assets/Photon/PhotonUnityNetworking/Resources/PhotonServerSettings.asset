@@ -68,6 +68,8 @@ MonoBehaviour:
   - ReturnToRoomRPC
   - SetEnterRoomRPC
   - ActiveScoreBoardRPC
+  - ShowSpinStarRPC
+  - AddToRoundCount
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

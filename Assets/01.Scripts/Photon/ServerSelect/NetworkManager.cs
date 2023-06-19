@@ -48,12 +48,16 @@ public class NetworkManager : MonoBehaviourPunCallbacks{
     }
 
     public void JoinLobby() {
+
         PhotonNetwork.JoinLobby(TypedLobby.Default);
          //MenuManager.Instance.OpenMenu("loading");
     }
 
     public override void OnJoinedLobby(){
         //MenuManager.Instance.OpenMenu("title");
+        // if(_mainUI.GetText() == ){
+
+        // }
         Debug.Log("On Joined Lobby");
         _mainUI.SetPlayerVisible(true);
         PhotonNetwork.NickName = _mainUI.GetText();

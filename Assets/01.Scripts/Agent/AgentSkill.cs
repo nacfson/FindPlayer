@@ -1,3 +1,4 @@
+using System.Transactions;
 using System.Runtime.InteropServices;
 using System;
 using System.Collections;
@@ -15,14 +16,18 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
     protected Collider _targetCol;
     protected PhotonView _PV;
 
+    protected bool _canAttack;
     [SerializeField] protected Material _changeMat;
     [SerializeField] protected LayerMask _layerMask;
     [SerializeField] protected float _radius = 0.8f;
+
+    [SerializeField] SpinStar _spinStar;
 
     [SerializeField] protected Material _originMat;
     protected Collider _col;
     protected List<SkinnedMeshRenderer> _skins = new List<SkinnedMeshRenderer>();
     protected virtual void Awake() {
+        _canAttack = true;
         _agentInput = GetComponent<AgentInput>();
         _col = transform.Find("Collider").GetComponent<Collider>();
         _agentAnimator = transform.Find("Visual").GetComponent<AgentAnimator>();
@@ -32,12 +37,15 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
         _PV = GetComponent<PhotonView>();
     }
 
-    protected void Start() {
+    protected virtual void Start() {
+        _spinStar.gameObject.SetActive(false);
         _agentInput.OnAttackKeyPress += StartAttack;
         _agentAnimator.OnAttackTrigger += Attack;
+        _agentAnimator.OnPenaltyEndTrigger += () => _PV.RPC("ShowSpinStarRPC",RpcTarget.All,false);
         
         _agentAnimator.transform.GetComponentsInChildren<SkinnedMeshRenderer>(_skins);
     }
+
     protected void Update() {
         if(_actionData.IsAttacking) return;
 
@@ -92,13 +100,23 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
                     RoomManager.Instance.UpdateKillCountAndScore(1,100,player.NickName);
                 }
                 else{
+                    _PV.RPC("ShowSpinStarRPC",RpcTarget.All,true);
                     _agentAnimator.SetPeanlty(true);
                 }
                 agentHP.Damaged(player);
             }
         }
     }
+
+    [PunRPC]
+    public void ShowSpinStarRPC(bool result){
+        if(_PV.IsMine){
+            _spinStar.gameObject.SetActive(result);
+        }
+    }
     protected virtual void StartAttack(){
+        if(_actionData.IsPenalty) return;
+        if(_canAttack == false) return;
         if(_actionData.IsAttacking == false){
             GAME_STATE currentState = RoomManager.Instance.CurrentState;
 
@@ -115,6 +133,7 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
             _agentAnimator.SetBoolAttack(true);
             _agentAnimator.SetTriggerAttack();
             _agentMovement.SetRunSpeed(false);
+            StartCoroutine(AttackDelayCor(3f));
         }
     }
 
@@ -167,5 +186,11 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
                 _agentHighlighting.SetMaterial(0f,Color.white);
             }
         }
+    }
+
+    IEnumerator AttackDelayCor(float delay = 1f){
+        _canAttack = false;
+        yield return new WaitForSeconds(delay);
+        _canAttack = true;
     }
 }

@@ -9,6 +9,13 @@ public class LoadingSkill : AgentSkill{
         _actionData = transform.Find("AD").GetComponent<ActionData>();
         _agentMovement = GetComponent<AgentMovement>();
     }
+    protected override void Start(){
+                _agentInput.OnAttackKeyPress += StartAttack;
+        _agentAnimator.OnAttackTrigger += Attack;
+        //_agentAnimator.OnPenaltyEndTrigger += () => _PV.RPC("ShowSpinStarRPC",RpcTarget.All,false);
+        
+        _agentAnimator.transform.GetComponentsInChildren<SkinnedMeshRenderer>(_skins);
+    }
     protected override void StartAttack(){
         if(_actionData.IsAttacking == false){
             if (_targetCol != null) {

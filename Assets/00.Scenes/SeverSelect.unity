@@ -2922,7 +2922,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 965d1552898e0b8418f4fc9c05eae5d8, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.137
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -4890,10 +4890,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -4978,17 +4978,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: b10fec9bba2b7eb4285c00cedd56af11,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 84.008575
+      value: 84
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b10fec9bba2b7eb4285c00cedd56af11,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -63.39
+      value: -63.390625
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b10fec9bba2b7eb4285c00cedd56af11,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 34.62
+      value: 34.621094
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b10fec9bba2b7eb4285c00cedd56af11,
         type: 3}
@@ -4998,7 +4998,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: b10fec9bba2b7eb4285c00cedd56af11,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b10fec9bba2b7eb4285c00cedd56af11,
         type: 3}
@@ -5008,7 +5008,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: b10fec9bba2b7eb4285c00cedd56af11,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b10fec9bba2b7eb4285c00cedd56af11,
         type: 3}
@@ -5286,7 +5286,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _loadingTime: 3.5
   _initAICount: 32
-  _defineRound: 1
+  _defineRound: 5
   _itemObjectList: {fileID: 11400000, guid: 5fac4f78ea285714cbb1b8c3898ce285, type: 2}
   _mainUI: {fileID: 523498229}
   playerCount: 0
@@ -7303,6 +7303,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   _radius: 0.8
+  _spinStar: {fileID: 0}
   _originMat: {fileID: 0}
 --- !u!82 &6368373495082917559
 AudioSource:
