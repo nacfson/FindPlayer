@@ -141,11 +141,12 @@ public class MainUI : MonoBehaviour {
     }
     public void GameInit() {
         Init();
+        Debug.LogError("GameInit");
         foreach(var m in _menus) {
             m.RemoveFromClassList("active");
         }
-        _roomMenu.RemoveFromClassList("active");
-        _titleMenu.AddToClassList("active");
+        _roomMenu.AddToClassList("active");
+        _playerNameLabel.text =  PhotonNetwork.LocalPlayer.NickName;
     }
 
     public void CreateRoomBtn(List<RoomInfo> roomList,int maxPlayerCount){

@@ -156,9 +156,10 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
     public void SilhouetteItem(bool result){
         _PV.RPC("SilhouetteItemRPC",RpcTarget.All,result);
     }
+    //실루엣 아이템을 먹은 사람이 아니면 실행 시켜주어야 함
     [PunRPC]
     public void SilhouetteItemRPC(bool result){
-        if(_PV.IsMine){
+        if(_PV.IsMine == false){
             if(result){
                 _agentHighlighting.SetMaterial(0.05f,Color.red);
             }

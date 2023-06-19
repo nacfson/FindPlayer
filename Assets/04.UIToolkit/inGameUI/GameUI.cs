@@ -74,7 +74,9 @@ public class GameUI : MonoBehaviour {
 
         okBtn.RegisterCallback<ClickEvent>(e => {
             PhotonNetwork.LeaveRoom();
-            Application.Quit();
+            PhotonNetwork.AutomaticallySyncScene = false;
+            Destroy(RoomManager.Instance.gameObject);
+            PhotonNetwork.LoadLevel(0);
         });
         noBtn.RegisterCallback<ClickEvent>(e => {
             _selectMenu.RemoveFromClassList("active");
@@ -91,8 +93,12 @@ public class GameUI : MonoBehaviour {
             PhotonNetwork.AutomaticallySyncScene = false;
             PhotonNetwork.LoadLevel(0);
         });
-
     }
+
+
+
+
+
     private void CloseOptionMenus() {
         _optionMenu.RemoveFromClassList("active");
         _optionPanel.RemoveFromClassList("active");
