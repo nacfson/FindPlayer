@@ -75,7 +75,7 @@ public class GameUI : MonoBehaviour {
         okBtn.RegisterCallback<ClickEvent>(e => {
             PhotonNetwork.LeaveRoom();
             PhotonNetwork.AutomaticallySyncScene = false;
-            Destroy(RoomManager.Instance.gameObject);
+            Destroy(RoomManager.Instance);
             PhotonNetwork.LoadLevel(0);
         });
         noBtn.RegisterCallback<ClickEvent>(e => {
@@ -131,7 +131,7 @@ public class GameUI : MonoBehaviour {
     }
     [PunRPC]
     public void SetLastPlayerTextRPC(string result) {
-        string value = $"≥≤¿∫¿Œø¯ {result}";
+        string value = $"ÎÇ®ÏùÄÏù∏Ïõê {result}";
         _lastPeopleLabel.text = value;
     }
     public void ActiveScoreBoard(string nickName, int killCount, int score) {
@@ -164,9 +164,15 @@ public class GameUI : MonoBehaviour {
         killCountLabel.text = killCount.ToString();
         scoreLabel.text = score.ToString();
     }
+
+
+    public void CreateKillLogUI(string attacker,string deader) {
+        _PV.RPC("CreateKillLogUIRPC", RpcTarget.All, attacker, deader);
+    }
+    
     [PunRPC]
     public void CreateKillLogUIRPC(string attacker,string deader) {
-        string result = $"{attacker}∞° {deader}∏¶ √≥ƒ°";
+        string result = $"{attacker}Í∞Ä {deader}Î•º Ï≤òÏπò";
         VisualElement temp = _killLogUI.Instantiate();
         VisualElement killLogUI = temp.Q<VisualElement>("KillLogUI");
 
@@ -182,9 +188,7 @@ public class GameUI : MonoBehaviour {
             _killLogMenuContainer.Remove(killLogUI);
         });
     }
-    public void CreateKillLogUI(string attacker,string deader) {
-        _PV.RPC("CreateKillLogUIRPC", RpcTarget.All, attacker, deader);
-    }
+
     public void SetLoadingText(string result,bool value) {
         _PV.RPC("SetLoadingTextRPC", RpcTarget.All, result, value);
     }
