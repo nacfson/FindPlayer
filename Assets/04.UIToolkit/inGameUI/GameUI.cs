@@ -121,7 +121,6 @@ public class GameUI : MonoBehaviour {
 
                 _isOptionMenu = !_isOptionMenu;
                 _optionPanel.AddToClassList("active");
-
             }
         }
 

@@ -1,0 +1,31 @@
+.chatView {
+    flex-grow: 1;
+    position: absolute;
+    left: 25%;
+    width: 50%;
+    height: 70%;
+    top: 15%;
+    background-color: rgba(53, 53, 53, 0.82);
+    border-top-left-radius: 46px;
+    border-bottom-left-radius: 46px;
+    border-top-right-radius: 46px;
+    border-bottom-right-radius: 46px;
+    scale: 0 0;
+    transition-duration: 0.5s;
+}
+
+.chatLabel {
+    -unity-font-definition: url('project://database/Assets/09.Fonts/210%20%EC%BD%A4%ED%93%A8%ED%83%80%EC%84%B8%ED%83%81R%20SDF%201.asset?fileID=11400000&guid=58a9052674fd8424aba65a760159f21f&type=2#210 콤퓨타세탁R SDF 1');
+    -unity-text-align: middle-left;
+    font-size: 37px;
+    color: rgba(255, 255, 255, 255);
+    padding-left: 33px;
+    padding-right: 33px;
+    padding-top: 20px;
+    padding-bottom: 0;
+}
+
+.chatView.active {
+    scale: 1 1;
+    transition-duration: 0.5s;
+}

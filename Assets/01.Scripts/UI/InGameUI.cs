@@ -20,6 +20,7 @@ public class InGameUI : MonoBehaviour {
     [SerializeField] private Transform _informationPanelParent;
     [SerializeField] private Transform _killLogUIParent;
     [SerializeField] private ClockUI _clockUI;
+    [SerializeField] private ChatSystem _chatSystem;
 
     [SerializeField] private TMP_Text _lastPlayerCount;
     private TMP_Text _loadingText;
@@ -36,7 +37,25 @@ public class InGameUI : MonoBehaviour {
         //_scorePanel.gameObject.SetActive(false);
         _optionPanelUI.ContinueGame();
     }
+    private void Update() {
+        GAME_STATE currentState = RoomManager.Instance.CurrentState;
+        if(currentState == GAME_STATE.LOADING || currentState == GAME_STATE.UI) return;
+        if(Input.GetKeyDown(KeyCode.T)){
+            if(_chatSystem.IsActive()){
+                Debug.LogError("UnshowingSequence");
+                _chatSystem.UnShowingSequence();
+            }
+            else{
+                Debug.LogError("ShowingSequence");
 
+                _chatSystem.ShowingSequence();
+            }
+        }
+
+    }
+    public void ShowChat(){
+        _chatSystem.ShowingSequence();
+    }
     public void EndGameUI(float delay = 0f){
         _endPanelUI.ShowingSequence(delay);
     }

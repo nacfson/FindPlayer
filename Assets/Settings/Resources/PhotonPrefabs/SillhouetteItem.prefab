@@ -19537,7 +19537,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _radius: 100
-  _silhouetteTime: 5
+  _silhouetteTime: 15
 --- !u!114 &7703769591984144675
 MonoBehaviour:
   m_ObjectHideFlags: 0

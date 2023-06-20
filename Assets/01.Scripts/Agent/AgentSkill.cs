@@ -89,6 +89,7 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
         return closestCollider;
     }
 
+
     protected virtual void Attack(){
         //Debug.Log($"TargetName: {_targetCol}");
         if (_targetCol != null) {
@@ -102,6 +103,7 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
                 else{
                     _PV.RPC("ShowSpinStarRPC",RpcTarget.All,true);
                     _agentAnimator.SetPeanlty(true);
+                    _agentAnimator.SetBoolPenalty(true);
                 }
                 agentHP.Damaged(player);
             }
