@@ -11,7 +11,7 @@ using System.Linq;
 using System.Collections;
 
 public enum GAME_STATE{
-    MENU = 0, LOADING = 1, INGAME = 2,UI = 3, END = 4
+    MENU = 0, LOADING = 1, INGAME = 2,UI = 3, END = 4, CHAT = 5
 }
 
 [System.Serializable]

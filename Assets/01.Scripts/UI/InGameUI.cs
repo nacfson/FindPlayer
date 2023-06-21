@@ -39,16 +39,25 @@ public class InGameUI : MonoBehaviour {
     }
     private void Update() {
         GAME_STATE currentState = RoomManager.Instance.CurrentState;
-        if(currentState == GAME_STATE.LOADING || currentState == GAME_STATE.UI) return;
+        if(currentState == GAME_STATE.LOADING) return;
+        if(_chatSystem.IsFocus()) return;
         if(Input.GetKeyDown(KeyCode.T)){
             if(_chatSystem.IsActive()){
-                //Debug.LogError("UnshowingSequence");
-                _chatSystem.UnShowingSequence();
+                ShowingSequence(false);
             }
             else{
-                //Debug.LogError("ShowingSequence");
-                _chatSystem.ShowingSequence();
+                ShowingSequence(true);
             }
+        }
+    }
+    public void ShowingSequence(bool result){
+        if(result){
+            _chatSystem.ShowingSequence();
+            RoomManager.Instance.UpdateState(GAME_STATE.CHAT,false);
+        }
+        else{
+            _chatSystem.UnShowingSequence();
+            RoomManager.Instance.UpdateState(GAME_STATE.INGAME,false);
         }
 
     }

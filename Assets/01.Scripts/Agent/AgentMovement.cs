@@ -54,7 +54,7 @@ public class AgentMovement : MonoBehaviourPun{
             return;
         }
         GAME_STATE currentState = RoomManager.Instance.CurrentState;
-        if(currentState == GAME_STATE.LOADING  || currentState == GAME_STATE.UI) return;
+        if(currentState == GAME_STATE.LOADING  || currentState == GAME_STATE.UI || currentState == GAME_STATE.CHAT) return;
         if(Input.GetKey(KeyCode.LeftShift)){
             SetRunSpeed(true);
         }
@@ -117,6 +117,8 @@ public class AgentMovement : MonoBehaviourPun{
     }
 
     public void Jump(){
+        GAME_STATE currentState = RoomManager.Instance.CurrentState;
+        if(currentState == GAME_STATE.LOADING || currentState == GAME_STATE.UI || currentState == GAME_STATE.CHAT) return;
         if(_controller.isGrounded){
             _agentAnimator.OnJump(true);
             _agentAnimator.IsJump(true);

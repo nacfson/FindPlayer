@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using System;
 using UnityEngine.UI;
 using TMPro;
 using Random = UnityEngine.Random;
@@ -25,6 +26,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks{
     [SerializeField] private GameObject _startGameButton;
     [SerializeField] private int _maxPlayerCount = 10;
     [SerializeField] private MainUI _mainUI;
+    [SerializeField] private ErrorText _error;
     private PhotonView _PV;
 
     private bool _selectedName; 
@@ -48,13 +50,27 @@ public class NetworkManager : MonoBehaviourPunCallbacks{
     }
 
     public void JoinLobby() {
-
         PhotonNetwork.JoinLobby(TypedLobby.Default);
          //MenuManager.Instance.OpenMenu("loading");
     }
 
     public override void OnJoinedLobby(){
+        Action<string> errorAction = (text) => {
+            ErrorText errorText = Instantiate<ErrorText>(_error);
+            errorText.ShowingSequence(text);
+            errorText.transform.SetParent(_canvas);
+        };
+        
         if(string.IsNullOrEmpty(_mainUI.GetText())){
+            errorAction("최소 1글자의 단어가 들어가야합니다!");
+            Debug.Log("NullName");
+            PhotonNetwork.LeaveLobby();
+            return;
+        }
+        if(_mainUI.GetText().Length > 8){
+            errorAction("8글자가 최대 이름 크기입니다!");
+            Debug.Log("MaxName");
+            PhotonNetwork.LeaveLobby();
             return;
         }
         

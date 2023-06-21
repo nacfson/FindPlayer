@@ -5,6 +5,7 @@ using Photon.Pun;
 using ExitGames.Client.Photon;
 using DG.Tweening;
 using UnityEngine.UIElements;
+using System;
 
 public class ChatSystem : MonoBehaviour, IChatClientListener{
     public ChatClient chatClient;
@@ -18,14 +19,12 @@ public class ChatSystem : MonoBehaviour, IChatClientListener{
     [SerializeField] private UIDocument _chatUI;
     [SerializeField] private VisualTreeAsset __chatLabel;
     private bool _isOn;
+    private bool _isFocus = false;
 
     private ScrollView __chatView;
     private bool _isSequence = false;
 
 
-    private void Start(){
-
-    }
     private void OnEnable() {
         Application.runInBackground = true;
         chatClient = new ChatClient(this);
@@ -46,25 +45,29 @@ public class ChatSystem : MonoBehaviour, IChatClientListener{
         __stateLabel = __root.Q<Label>("StateLabel");
         gameObject.SetActive(true);
         _isOn = false;
+
+        __inputField.RegisterCallback<FocusInEvent>(OnFocusIn);
+        __inputField.RegisterCallback<FocusOutEvent>(OnFocusOut);
+    }
+
+    private void OnFocusOut(FocusOutEvent evt){
+        _isFocus = false;
+    }
+
+    private void OnFocusIn(FocusInEvent evt){
+        _isFocus = true;
     }
 
     private void Update(){
         chatClient.Service();
         if(Input.GetKeyDown(KeyCode.Return)){
             if(_isOn){
-                if(__inputField.focusable == true){
-                    SendMessage();
-                }
-                else{
-                    __inputField.focusable = true;
-                }
+                SendMessage();
+                __inputField.ElementAt(0).Focus();
             }
         }
     }
     public void ShowingSequence(){
-        if(RoomManager.Instance != null){
-            RoomManager.Instance.UpdateState(GAME_STATE.UI);
-        }
         __parentVisual.AddToClassList("active");
         _isOn = true;
         UnityEngine.Cursor.lockState = CursorLockMode.None;
@@ -72,9 +75,6 @@ public class ChatSystem : MonoBehaviour, IChatClientListener{
 
     }
     public void UnShowingSequence(){
-        if(RoomManager.Instance != null){
-            RoomManager.Instance.UpdateState(GAME_STATE.INGAME);
-        }
         __parentVisual.RemoveFromClassList("active");
         _isOn = false;
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
@@ -101,6 +101,7 @@ public class ChatSystem : MonoBehaviour, IChatClientListener{
         Debug.Log("Disconnected from Chat Server");
         __stateLabel.text = "Disconnected from Chat Server\n";
     }
+
 
     public void OnGetMessages(string channelName, string[] senders, object[] messages){
         for (int i = 0; i < senders.Length; i++){
@@ -158,5 +159,8 @@ public class ChatSystem : MonoBehaviour, IChatClientListener{
 
     public bool IsActive(){
         return _isOn;
+    }
+    public bool IsFocus(){
+        return _isFocus;
     }
 }

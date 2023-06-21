@@ -385,7 +385,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &85882592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2546,6 +2546,7 @@ MonoBehaviour:
   _startGameButton: {fileID: 1768610154}
   _maxPlayerCount: 10
   _mainUI: {fileID: 523498229}
+  _error: {fileID: 3131115767478183385, guid: d09303c7f1e1b9f4395dc85ce332b733, type: 3}
 --- !u!4 &811599624
 Transform:
   m_ObjectHideFlags: 0
@@ -3165,7 +3166,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1062905109
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5960,7 +5961,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1775171811
 RectTransform:
   m_ObjectHideFlags: 0

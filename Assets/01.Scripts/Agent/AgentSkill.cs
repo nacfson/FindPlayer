@@ -123,6 +123,7 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
 
             if (currentState == GAME_STATE.UI) return;
             if (currentState == GAME_STATE.LOADING) return;
+            if(currentState == GAME_STATE.CHAT) return;
 
             InvisibleItem(true);
             InGameUI.Instance.SetClockUI(0, 0, false);

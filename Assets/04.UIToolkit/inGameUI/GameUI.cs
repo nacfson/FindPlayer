@@ -106,16 +106,23 @@ public class GameUI : MonoBehaviour {
     }
     void Update() {
         if(Input.GetKeyDown(KeyCode.Escape)) {
+            GAME_STATE currentState = RoomManager.Instance.CurrentState;
+            if(currentState == GAME_STATE.LOADING || currentState == GAME_STATE.END) return;
+            if(currentState == GAME_STATE.CHAT){
+                InGameUI.Instance.ShowingSequence(false);
+                RoomManager.Instance.UpdateState(GAME_STATE.INGAME,false);
+                return;
+            }
             if (_isOptionMenu) {
                 CloseOptionMenus();
-                RoomManager.Instance.UpdateState(GAME_STATE.INGAME);
+                RoomManager.Instance.UpdateState(GAME_STATE.INGAME,false);
                 UnityEngine.Cursor.lockState = CursorLockMode.Locked;
                 UnityEngine.Cursor.visible = false;
                 _isOptionMenu = !_isOptionMenu;
             }
             else {
                 _optionMenu.AddToClassList("active");
-                RoomManager.Instance.UpdateState(GAME_STATE.UI);
+                RoomManager.Instance.UpdateState(GAME_STATE.UI,false);
                 UnityEngine.Cursor.lockState = CursorLockMode.None;
                 UnityEngine.Cursor.visible = true;
 
