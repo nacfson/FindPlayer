@@ -27,7 +27,7 @@ public class ChatSystem : MonoBehaviour, IChatClientListener{
 
     }
     private void OnEnable() {
-                Application.runInBackground = true;
+        Application.runInBackground = true;
         chatClient = new ChatClient(this);
         chatClient.ChatRegion = "asia"; // Chat Region을 설정합니다. 예: "asia" 또는 "us"
         chatClient.Connect("5886f062-dc46-4f6f-a050-b5352ae8a786", "2.42", new AuthenticationValues(PhotonNetwork.NickName));
@@ -50,9 +50,14 @@ public class ChatSystem : MonoBehaviour, IChatClientListener{
 
     private void Update(){
         chatClient.Service();
-        if(_isOn){
-            if(Input.GetKeyDown(KeyCode.Return)){
-                SendMessage();
+        if(Input.GetKeyDown(KeyCode.Return)){
+            if(_isOn){
+                if(__inputField.focusable == true){
+                    SendMessage();
+                }
+                else{
+                    __inputField.focusable = true;
+                }
             }
         }
     }
@@ -107,6 +112,7 @@ public class ChatSystem : MonoBehaviour, IChatClientListener{
             Label text = temp.Q<Label>("ChatLabel");
             __chatView.Add(text);
             text.text = ($"{sender}: {message}");
+            __chatView.ScrollTo(text);
             //chatText.text += $"[{channelName}] {sender}: {message}\n";
         }
     }

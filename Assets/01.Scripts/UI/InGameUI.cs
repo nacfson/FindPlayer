@@ -42,12 +42,11 @@ public class InGameUI : MonoBehaviour {
         if(currentState == GAME_STATE.LOADING || currentState == GAME_STATE.UI) return;
         if(Input.GetKeyDown(KeyCode.T)){
             if(_chatSystem.IsActive()){
-                Debug.LogError("UnshowingSequence");
+                //Debug.LogError("UnshowingSequence");
                 _chatSystem.UnShowingSequence();
             }
             else{
-                Debug.LogError("ShowingSequence");
-
+                //Debug.LogError("ShowingSequence");
                 _chatSystem.ShowingSequence();
             }
         }
