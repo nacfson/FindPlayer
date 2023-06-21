@@ -46,7 +46,7 @@ public class AgentCamera : MonoBehaviourPunCallbacks{
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        _audioSource = _cam.transform.GetComponent<AudioSource>();
+        //_audioSource = _cam.transform.GetComponent<AudioSource>();
     }
     
     private void Start() {
@@ -63,7 +63,7 @@ public class AgentCamera : MonoBehaviourPunCallbacks{
             _playerNameUI.ShowText(true);
         }
         else{
-            _audioSource.enabled = false;
+            //_audioSource.enabled = false;
         }
     }
 
