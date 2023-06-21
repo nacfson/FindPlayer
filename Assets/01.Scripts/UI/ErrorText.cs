@@ -9,6 +9,6 @@ public class ErrorText : MonoBehaviour{
         _textAnimatorPlayer.ShowText($"<shake>{text}<shake>");
         Sequence sequence = DOTween.Sequence();
         sequence.AppendInterval(2f);
-        //sequence.AppendCallback(()=>_textAnimatorPlayer.StopShowingText());
+        sequence.AppendCallback(()=> Destroy(this.gameObject));
     }
 }

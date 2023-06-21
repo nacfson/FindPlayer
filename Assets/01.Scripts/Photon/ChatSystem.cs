@@ -6,6 +6,8 @@ using ExitGames.Client.Photon;
 using DG.Tweening;
 using UnityEngine.UIElements;
 using System;
+using UnityEditor;
+using System.Collections.Generic;
 
 public class ChatSystem : MonoBehaviour, IChatClientListener{
     public ChatClient chatClient;
@@ -15,6 +17,8 @@ public class ChatSystem : MonoBehaviour, IChatClientListener{
     private Label __stateLabel;
     private VisualElement __root;
     private VisualElement __parentVisual;
+
+    public List<string> messageList = new List<string>();
 
     [SerializeField] private UIDocument _chatUI;
     [SerializeField] private VisualTreeAsset __chatLabel;
@@ -30,7 +34,7 @@ public class ChatSystem : MonoBehaviour, IChatClientListener{
         chatClient = new ChatClient(this);
         chatClient.ChatRegion = "asia"; // Chat Region을 설정합니다. 예: "asia" 또는 "us"
         chatClient.Connect("5886f062-dc46-4f6f-a050-b5352ae8a786", "2.42", new AuthenticationValues(PhotonNetwork.NickName));
-
+        
         _isSequence = false;
 
         __root = _chatUI.rootVisualElement;
@@ -60,12 +64,21 @@ public class ChatSystem : MonoBehaviour, IChatClientListener{
 
     private void Update(){
         chatClient.Service();
-        if(Input.GetKeyDown(KeyCode.Return)){
             if(_isOn){
-                SendMessage();
-                __inputField.ElementAt(0).Focus();
+                if(Input.GetKeyDown(KeyCode.Return)){
+                                    SendMessage();
+                    __inputField.ElementAt(0).Focus();
+                }
+                if(messageList.Count > 0){
+                    foreach(string a in messageList){
+                        CreateText(a);
+                    }
+                    messageList.Clear();
+                }
             }
-        }
+        
+        
+
     }
     public void ShowingSequence(){
         __parentVisual.AddToClassList("active");
@@ -107,15 +120,21 @@ public class ChatSystem : MonoBehaviour, IChatClientListener{
         for (int i = 0; i < senders.Length; i++){
             string sender = senders[i];
             string message = messages[i].ToString();
-            Debug.Log($"[{channelName}] {sender}: {message}");
+            //Debug.LogError($"[{channelName}] {sender}: {message}");
 
-            VisualElement temp = __chatLabel.Instantiate();
-            Label text = temp.Q<Label>("ChatLabel");
-            __chatView.Add(text);
-            text.text = ($"{sender}: {message}");
-            __chatView.ScrollTo(text);
+            //messageList.Add($"{sender}: {message}");
+
+            messageList.Add($"{sender}: {message}");
             //chatText.text += $"[{channelName}] {sender}: {message}\n";
         }
+    }
+
+    public void CreateText(string result){
+        VisualElement temp = __chatLabel.Instantiate();
+        Label text = temp.Q<Label>("ChatLabel");
+        __chatView.Add(text);
+        text.text = ($"{result}");
+        __chatView.ScrollTo(text);
     }
 
     public void OnPrivateMessage(string sender, object message, string channelName){

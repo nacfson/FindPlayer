@@ -44,7 +44,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks{
     public override void OnConnectedToMaster(){
         Debug.Log("On Connected To Master");
         if(_selectedName == false){
-            MenuManager.Instance.OpenMenu("selectName");
+            //MenuManager.Instance.OpenMenu("selectName");
         }
         PhotonNetwork.AutomaticallySyncScene = true; //한 명이 씬을 로딩했을때  다같이 이동하게 됨
     }
@@ -57,8 +57,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks{
     public override void OnJoinedLobby(){
         Action<string> errorAction = (text) => {
             ErrorText errorText = Instantiate<ErrorText>(_error);
-            errorText.ShowingSequence(text);
             errorText.transform.SetParent(_canvas);
+            errorText.ShowingSequence(text);
         };
         
         if(string.IsNullOrEmpty(_mainUI.GetText())){
@@ -106,11 +106,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks{
     public override void OnCreateRoomFailed(short returnCode, string message){
         string text = $"Room Creation Failed {message}" ;
         _errorText.SetText(text);
-        MenuManager.Instance.OpenMenu("error");
+        //MenuManager.Instance.OpenMenu("error");
     }
     public void JoinRoom(RoomInfo info){
         PhotonNetwork.JoinRoom(info.Name);
-        MenuManager.Instance.OpenMenu("loading");
+        //MenuManager.Instance.OpenMenu("loading");
     }
     public void StartGame(){
         PhotonNetwork.LoadLevel(1); //Scene Index

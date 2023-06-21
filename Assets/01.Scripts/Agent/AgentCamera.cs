@@ -21,6 +21,7 @@ public class AgentCamera : MonoBehaviourPunCallbacks{
     private CinemachineVirtualCamera _followCam;
     private Camera _cam;
     private AgentInput _agentInput;
+    private AudioSource _audioSource;
 
     private PlayerNameUI _playerNameUI;
     public PlayerNameUI PlayerNameUI => _playerNameUI;
@@ -45,6 +46,7 @@ public class AgentCamera : MonoBehaviourPunCallbacks{
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
+        _audioSource = _cam.transform.GetComponent<AudioSource>();
     }
     
     private void Start() {
@@ -59,6 +61,9 @@ public class AgentCamera : MonoBehaviourPunCallbacks{
         _rotY = _followCam.transform.localRotation.eulerAngles.y;
         if(_PV.IsMine){
             _playerNameUI.ShowText(true);
+        }
+        else{
+            _audioSource.enabled = false;
         }
     }
 
@@ -76,7 +81,7 @@ public class AgentCamera : MonoBehaviourPunCallbacks{
             return;
         }
 
-        if (_currentState == GAME_STATE.UI || _currentState == GAME_STATE.LOADING) return;
+        if (_currentState == GAME_STATE.UI || _currentState == GAME_STATE.LOADING || _currentState == GAME_STATE.CHAT) return;
         _rotX += -y * _sensitivity * Time.deltaTime;
         _rotY += x * _sensitivity * Time.deltaTime;
 
