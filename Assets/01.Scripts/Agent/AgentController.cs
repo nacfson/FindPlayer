@@ -19,12 +19,15 @@ public class AgentController : MonoBehaviour {
         _agentAnimator = transform.Find("Visual").GetComponent<AgentAnimator>();
         _agentHP = transform.GetComponent<AgentHP>();
     }
+    
     private void OnEnable() {
         RoomManager.Instance.OnRoundEnd += DancePlayer;
     }
+
     private void OnDisable() {
         RoomManager.Instance.OnRoundEnd -= DancePlayer;
     }
+
     public void DancePlayer(Player player) {
         bool result = (PhotonNetwork.LocalPlayer == player);
         if (result) {

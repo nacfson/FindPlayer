@@ -1,3 +1,4 @@
+using System.Net.WebSockets;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +14,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks{
     public static NetworkManager Instance;
 
     public List<RoomInfo> roomListNet = new List<RoomInfo>();
+    public Dictionary<WayPoint,bool> sitPoints = new Dictionary<WayPoint, bool>();
+
+    [SerializeField]
+    private GameObject _sitCharacter;
 
     [SerializeField] private Transform _canvas;
     [SerializeField] private TMP_InputField _roomNameInputField;
@@ -39,6 +44,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks{
         _PV = GetComponent<PhotonView>();
         Debug.Log("Connecting To Master");
         PhotonNetwork.ConnectUsingSettings();
+
+        List<WayPoint> sitPoints = new List<WayPoint>();
+        transform.Find("SitPoint").GetComponentsInChildren<WayPoint>(sitPoints);
+
+        foreach(var s in sitPoints){
+            this.sitPoints.Add(s,true);
+        }
     }
 
     public override void OnConnectedToMaster(){
@@ -132,4 +144,5 @@ public class NetworkManager : MonoBehaviourPunCallbacks{
         _mainUI.AddName(newPlayer);
         Instantiate(_playerListItemPrefab,_playerListContent).GetComponent<PlayerListItem>().SetUp(newPlayer);
     }
+
 }

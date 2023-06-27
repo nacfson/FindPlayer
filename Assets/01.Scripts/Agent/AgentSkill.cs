@@ -89,15 +89,16 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
         return closestCollider;
     }
 
-
     protected virtual void Attack(){
-        //Debug.Log($"TargetName: {_targetCol}");
         if (_targetCol != null) {
-            //Debug.Log("TargetCol not null");
             if (_targetCol.transform.parent.TryGetComponent<AgentHP>(out AgentHP agentHP)){
-                //Debug.Log("Damaged");
-                Player player = PhotonNetwork.LocalPlayer;
+
                 if(_targetCol.gameObject.CompareTag("PLAYER")){
+                    Player player = agentHP.GetPlayer();
+
+                    if(RoomManager.Instance.IsPlayerAlive(player) == false){
+                        return;
+                    }
                     RoomManager.Instance.UpdateKillCountAndScore(1,100,player.NickName);
                 }
                 else{
@@ -105,8 +106,11 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
                     _agentAnimator.SetPeanlty(true);
                     _agentAnimator.SetBoolPenalty(true);
                 }
-                agentHP.Damaged(player);
+                agentHP.Damaged(PhotonNetwork.LocalPlayer);
             }
+        }
+        else{
+            _targetCol = GetClosestObjectCollider();
         }
     }
 
@@ -114,16 +118,14 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
     public void ShowSpinStarRPC(bool result){
         _spinStar.gameObject.SetActive(result);
     }
-
+    
     protected virtual void StartAttack(){
         if(_actionData.IsPenalty) return;
         if(_canAttack == false) return;
         if(_actionData.IsAttacking == false){
             GAME_STATE currentState = RoomManager.Instance.CurrentState;
 
-            if (currentState == GAME_STATE.UI) return;
-            if (currentState == GAME_STATE.LOADING) return;
-            if(currentState == GAME_STATE.CHAT) return;
+            if (currentState == GAME_STATE.UI || currentState == GAME_STATE.LOADING || currentState == GAME_STATE.CHAT) return;
 
             InvisibleItem(true);
             InGameUI.Instance.SetClockUI(0, 0, false);
@@ -157,6 +159,7 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
                 _agentHighlighting.SetMaterialOpacity(Mathf.Round(value));
             }
         };
+
         if (_PV.IsMine) {
             if(result){
                 action(1f);
@@ -174,9 +177,11 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
             }
         }
     }
+
     public void SilhouetteItem(bool result){
         _PV.RPC("SilhouetteItemRPC",RpcTarget.All,result);
     }
+
     //실루엣 아이템을 먹은 사람이 아니면 실행 시켜주어야 함
     [PunRPC]
     public void SilhouetteItemRPC(bool result){

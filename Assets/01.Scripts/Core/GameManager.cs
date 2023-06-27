@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,9 @@ using System.IO;
 using Photon.Realtime;
 public class GameManager : MonoBehaviourPunCallbacks{
     public static GameManager Instance;
+
     public List<WayPoint> wayPoints = new List<WayPoint>();
+
     [SerializeField] private Vector3 _originOffset;
     [SerializeField] private PoolingListSO _poolingListSO;
 

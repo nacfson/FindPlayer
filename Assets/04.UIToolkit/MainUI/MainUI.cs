@@ -41,6 +41,7 @@ public class MainUI : MonoBehaviour {
     private void OnEnable() {
         Init();
     }
+
     private void Init() {
         VisualElement root = _uiDocument.rootVisualElement;
         _character = root.Q<VisualElement>("Character");
@@ -99,7 +100,7 @@ public class MainUI : MonoBehaviour {
 
         _playBtn.RegisterCallback<ClickEvent>(e => {
             UISoundManager.Instance.PlayClickAudio();
-            RoomManager.Instance.InitGame();
+            RoomManager.Instance.InitGame(true);
         });
         _exitRoomBtn.RegisterCallback<ClickEvent>(e => {
             UISoundManager.Instance.PlayClickAudio();
@@ -115,6 +116,7 @@ public class MainUI : MonoBehaviour {
             _optionMenu.RemoveFromClassList("active");
         });
     }
+    
     public void SetPlayerVisible(bool result) {
         _character.visible = result;
     }
@@ -139,9 +141,9 @@ public class MainUI : MonoBehaviour {
             _roomMenu.AddToClassList("active");
         }
     }
+
     public void GameInit() {
         Init();
-        Debug.LogError("GameInit");
         foreach(var m in _menus) {
             m.RemoveFromClassList("active");
         }

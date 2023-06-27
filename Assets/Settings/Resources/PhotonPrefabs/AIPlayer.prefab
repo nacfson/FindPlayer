@@ -492,6 +492,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  IsDead: 0
 --- !u!1 &8396855442795313432
 GameObject:
   m_ObjectHideFlags: 0

@@ -25,6 +25,7 @@ public class PlayerData{
 public class RoomManager : MonoBehaviourPunCallbacks{
     public static RoomManager Instance;
     public Dictionary<Player,bool> playerDictionary = new Dictionary<Player,bool>();
+    
 
     private PhotonView _PV;
     [SerializeField] private float _loadingTime;
@@ -69,42 +70,65 @@ public class RoomManager : MonoBehaviourPunCallbacks{
     private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode){
         if(scene.buildIndex == Define.GameSceneIndex){
             PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs","PlayerManager"),Vector3.zero, Quaternion.identity);
-
             List<Player> playerList = PhotonNetwork.PlayerList.ToList();
+
             UpdateState(GAME_STATE.LOADING);
-            InitPlayer(playerList);
-            LoadingGame();
+            //InitPlayer(playerList);
+            _PV.RPC("InitPlayerRPC",RpcTarget.All);
+            //LoadingGame();
             MakeAIPlayer();
             _playerData.maxPlayer = playerList.Count;
             playerCount = playerList.Count;
         }
+
         else if(scene.buildIndex == Define.RoomIndex && !string.IsNullOrEmpty(PhotonNetwork.LocalPlayer.NickName)){
-            //MenuManager.Instance.OpenMenu("room");
-            //Debug.LogError("GameInit");
             Sequence sequence = DOTween.Sequence();
             sequence.AppendInterval(0.3f);
             sequence.AppendCallback(() => _mainUI.GameInit());
         }
     }
-    public void InitPlayer(List<Player> playerList) {
+    public void InitPlayer(List<Player> playerList){
         playerDictionary.Clear();
         foreach (Player player in playerList) {
             playerDictionary.Add(player, true);
+            Debug.LogError(player.NickName);
+            //플레이어가 Dictionary안에 잘 들어가는지 확인
         }
     }
+
+    [PunRPC]
+    public void InitPlayerRPC() {
+        List<Player> playerList = PhotonNetwork.PlayerList.ToList();
+
+        playerDictionary.Clear();
+        foreach (Player player in playerList) {
+            playerDictionary.Add(player, true);
+            //Debug.LogError(player.NickName);
+            //플레이어가 Dictionary안에 잘 들어가는지 확인
+        }
+    }
+
     private void LoadingGame(){
         if(PhotonNetwork.IsMasterClient){
             StartCoroutine(LoadGameCor());
         }
     }
 
-    public void InitGame() {
-        _PV.RPC("InitGameRPC", RpcTarget.All);
+    public void InitGame(bool start = false) {
+        _PV.RPC("InitGameRPC", RpcTarget.All,start);
     }
 
     [PunRPC]
-    public void InitGameRPC() {
-        PhotonNetwork.LoadLevel(Define.GameSceneIndex);
+    public void InitGameRPC(bool start) {
+        //PhotonNetwork.LoadLevel(Define.GameSceneIndex);
+        if(start){
+            LoadingUI.Instance.LoadLevel(Define.GameSceneIndex,true,true,LoadingGame);
+        }
+        else{
+            LoadingUI.Instance.LoadLevel(Define.GameSceneIndex,true,false);
+
+        }
+
     }
 
     public void ReturnToRoom(){
@@ -113,7 +137,9 @@ public class RoomManager : MonoBehaviourPunCallbacks{
 
     [PunRPC]
     public void ReturnToRoomRPC(){
-        PhotonNetwork.LoadLevel(Define.RoomIndex);
+        //PhotonNetwork.LoadLevel(Define.RoomIndex);
+        LoadingUI.Instance.LoadLevel(Define.GameSceneIndex,true,true);
+
     } 
 
     IEnumerator LoadGameCor(){
@@ -123,10 +149,10 @@ public class RoomManager : MonoBehaviourPunCallbacks{
         while(timer < _loadingTime){
             timer += Time.deltaTime;
             string value = ((int)(_loadingTime - timer)).ToString();
-            //InGameUI.Instance.SetLoadingText(value);
             GameUI.Instance.SetLoadingText(value,true);
             yield return null;
         }
+
         InGameUI.Instance.GameStart();
         UpdateState(GAME_STATE.INGAME);
         GameUI.Instance.SetLoadingText("3", false);
@@ -145,15 +171,15 @@ public class RoomManager : MonoBehaviourPunCallbacks{
 
     public void DeadPlayer(Player attacker, AgentCamera agentCamera,bool result = false) {
         Player player = agentCamera.GetPlayer();
-
+        
         if (playerDictionary.ContainsKey(player)) {
             int index = CameraManager.Instance.GetCameraIndex(agentCamera);
             _PV.RPC("DeadPlayerRPC",RpcTarget.All,player,result,index);
 
-            if(InGameUI.Instance != null) {
+            if(InGameUI.Instance != null && player == PhotonNetwork.LocalPlayer)  {
+                Debug.LogError($"{attacker.NickName} == {player.NickName}");
                 GameUI.Instance.SetLastPlayerText(ReturnPlayerCount().ToString());
 
-                //InGameUI.Instance.CreateKillLogUI(attacker,player);
                 GameUI.Instance.CreateKillLogUI(attacker.NickName, player.NickName);
             }
         }
@@ -197,7 +223,6 @@ public class RoomManager : MonoBehaviourPunCallbacks{
         }
     }
 
-
     public void SetPlayerCount(Player player) {
         _PV.RPC("SetPlayerCountRPC", RpcTarget.All, player);
     }
@@ -240,6 +265,7 @@ public class RoomManager : MonoBehaviourPunCallbacks{
             InGameUI.Instance.GameEnd(player);
         }
     }
+
     [PunRPC]
     public void AddToRoundCount(int count){
         _roundCount += count;
@@ -252,11 +278,6 @@ public class RoomManager : MonoBehaviourPunCallbacks{
 
     [PunRPC]
     public void GameEndRPC() {
-        //Hashtable hashtable = new Hashtable();
-        //hashtable.Add("KILLCOUNT",_playerData.killCount);
-        //hashtable.Add("SCORE",_playerData.score);
-        //PhotonNetwork.LocalPlayer.SetCustomProperties(hashtable);
-
         Sequence sequence = DOTween.Sequence();
         sequence.AppendInterval(7f);
         sequence.AppendCallback(() => {
@@ -264,7 +285,6 @@ public class RoomManager : MonoBehaviourPunCallbacks{
         });
         Destroy(RoomManager.Instance.gameObject);
         
-        //InGameUI.Instance.EndGameUI(12f);
         _gameEnd = true;
     }
 
@@ -288,7 +308,7 @@ public class RoomManager : MonoBehaviourPunCallbacks{
             }
         }
     }
-
+    
     public int ReturnPlayerCount() {
         int count = 0;
         foreach(var p in playerDictionary.Values) {
@@ -333,4 +353,17 @@ public class RoomManager : MonoBehaviourPunCallbacks{
     public PlayerData GetPlayerData(){
         return _playerData;
     }
+
+    public bool IsPlayerAlive(Player player){
+        bool result = false;
+        if(playerDictionary.ContainsKey(player)){
+            result = playerDictionary[player];
+            return result;
+        }
+        else{
+            Debug.LogError("Player is not contain Key");
+        }
+        return result;
+    }
 }
+

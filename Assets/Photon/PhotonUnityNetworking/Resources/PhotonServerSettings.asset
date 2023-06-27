@@ -71,6 +71,7 @@ MonoBehaviour:
   - ShowSpinStarRPC
   - AddToRoundCount
   - CreateTextRPC
+  - GetPlayerRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

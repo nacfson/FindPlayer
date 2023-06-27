@@ -1,5 +1,5 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <ui:VisualElement name="KillLogUI" class="killLogUI" style="scale: 0.5 0.5;">
-        <ui:Label text="Label" display-tooltip-when-elided="true" name="KillLogLabel" style="-unity-text-align: middle-center; -unity-font-definition: url(&apos;project://database/Assets/09.Fonts/210%20%EC%BD%A4%ED%93%A8%ED%83%80%EC%84%B8%ED%83%81R%20SDF%201.asset?fileID=11400000&amp;guid=58a9052674fd8424aba65a760159f21f&amp;type=2#210 콤퓨타세탁R SDF 1&apos;); top: 15%; font-size: 54px; color: rgb(255, 255, 255);" />
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement name="KillLogUI" class="killLogUI">
+        <ui:Label text="Label" display-tooltip-when-elided="true" name="KillLogLabel" style="top: 30%;" />
     </ui:VisualElement>
 </ui:UXML>

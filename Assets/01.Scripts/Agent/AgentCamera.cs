@@ -89,6 +89,7 @@ public class AgentCamera : MonoBehaviourPunCallbacks{
         Quaternion rot = Quaternion.Euler(_rotX,_rotY,0);
         _parent.transform.rotation = rot;
     }
+    
     public CinemachineVirtualCamera GetCamera(){
         return _followCam;
     }

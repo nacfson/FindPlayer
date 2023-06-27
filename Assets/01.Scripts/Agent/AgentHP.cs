@@ -6,12 +6,18 @@ using Photon.Realtime;
 using Photon.Pun;
 public class AgentHP : MonoBehaviourPunCallbacks{
     public UnityEvent OnDead;
+
     protected AgentAnimator _agentAnimator;
     protected CinemachineVirtualCamera _cmCam;
     protected PhotonView _PV;
     protected ActionData _actionData;
     protected AgentController _agentController;
     protected AgentCamera _agentCamera;
+
+    protected Player _localPlayer;
+
+    public bool IsDead;
+
     protected void Awake() {
         _agentAnimator = transform.Find("Visual").GetComponent<AgentAnimator>();
         _actionData = transform.Find("AD").GetComponent<ActionData>();
@@ -20,13 +26,16 @@ public class AgentHP : MonoBehaviourPunCallbacks{
         _agentController = transform.GetComponent<AgentController>();
         _agentCamera = transform.GetComponent<AgentCamera>();
     }
+
     public void Damaged(Player attacker) {
         _PV.RPC("DamagedRPC", RpcTarget.All, attacker);
     }
+
     [PunRPC]
     public void DamagedRPC(Player attacker){
         if (_PV.IsMine) {
             DeadProcess(attacker);
+            IsDead = true;
         }
     }
     protected virtual void DeadProcess(Player attacker){
@@ -34,4 +43,16 @@ public class AgentHP : MonoBehaviourPunCallbacks{
         OnDead?.Invoke();
         Debug.Log("DeadProcess");
     }
+
+    public Player GetPlayer(){
+        //_PV.RPC("GetPlayerRPC",RpcTarget.All);
+        return PhotonNetwork.LocalPlayer;
+    }
+    [PunRPC]
+    public void GetPlayerRPC(){
+        if(_PV.IsMine){
+            _localPlayer = PhotonNetwork.LocalPlayer;
+        }
+    }
+
 }

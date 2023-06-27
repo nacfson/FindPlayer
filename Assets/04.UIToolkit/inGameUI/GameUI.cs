@@ -179,16 +179,22 @@ public class GameUI : MonoBehaviour {
     [PunRPC]
     public void CreateKillLogUIRPC(string attacker,string deader) {
         string result = $"{attacker}가 {deader}를 처치";
+        Debug.LogError(result);
         VisualElement temp = _killLogUI.Instantiate();
         VisualElement killLogUI = temp.Q<VisualElement>("KillLogUI");
 
         Label log = killLogUI.Q<Label>("KillLogLabel");
         log.text = result;
 
+
         _killLogMenuContainer.Add(killLogUI);
-        killLogUI.AddToClassList("active");
 
         Sequence sequence = DOTween.Sequence();
+        sequence.AppendInterval(0.5f);
+        sequence.AppendCallback(() => {
+        killLogUI.AddToClassList("active");
+
+        });
         sequence.AppendInterval(3f);
         sequence.AppendCallback(() => {
             _killLogMenuContainer.Remove(killLogUI);

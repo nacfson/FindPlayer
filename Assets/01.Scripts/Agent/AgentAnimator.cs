@@ -34,15 +34,19 @@ public class AgentAnimator : MonoBehaviourPun{
         _actionData = transform.parent.Find("AD").GetComponent<ActionData>();
         PV = transform.parent.GetComponent<PhotonView>();
     }
+
     public void DoDance() {
         _animator.SetTrigger(_danceHash);
     }
+
     public void SetSpeed(float speed){
         _animator.SetFloat(_speedHash,speed);
     }
+
     public void SetBoolRun(bool result){
         _animator.SetBool(_runBoolHash,result);
     }
+
     public void SetPeanlty(bool result){
         if(result){
             _animator.SetTrigger(_penaltyHash);
@@ -51,9 +55,11 @@ public class AgentAnimator : MonoBehaviourPun{
             _animator.ResetTrigger(_penaltyHash);
         }
     }
+
     public void SetBoolPenalty(bool result){
         _animator.SetBool(_penaltyBoolHash,result);
-    }
+    }   
+    
     public void OnJump(bool result){
         if(result){
             _animator.SetTrigger(_jumpHash);
