@@ -24,7 +24,7 @@
             <ui:Button display-tooltip-when-elided="true" name="ExitBtn" class="sqaureButton exit" style="background-image: url(&apos;project://database/Assets/02.Assets/00.Sprite/quitImage-removebg-preview.png?fileID=2800000&amp;guid=97cfdb96e3c9e554683f18734ecfde90&amp;type=3#quitImage-removebg-preview&apos;);" />
             <ui:Label text="RoomName:" display-tooltip-when-elided="true" name="RoomName" style="position: absolute; top: 15%; right: 20%; font-size: 40px; -unity-font-style: bold; -unity-text-align: middle-left;" />
         </ui:VisualElement>
-        <ui:VisualElement name="Character" style="background-image: url(&apos;project://database/Assets/11.RenderTexture/Player.renderTexture?fileID=8400000&amp;guid=6582860eb614f55459e2243e16f34a09&amp;type=2#Player&apos;); width: 512px; height: 512px; position: absolute; left: 310px; top: 255px;" />
+        <ui:VisualElement name="Character" picking-mode="Ignore" style="background-image: url(&apos;project://database/Assets/11.RenderTexture/Player.renderTexture?fileID=8400000&amp;guid=6582860eb614f55459e2243e16f34a09&amp;type=2#Player&apos;); width: 512px; height: 512px; position: absolute; left: 310px; top: 255px; opacity: 1; visibility: hidden; display: none;" />
         <ui:VisualElement name="OptionMenu" picking-mode="Ignore" class="titleMenu optionMenu" style="background-color: rgba(63, 63, 63, 0.69);">
             <ui:VisualElement name="SelectMenu" class="selectMenu">
                 <ui:VisualElement name="SelectMenuIn" class="selectMenu in">

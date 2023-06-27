@@ -131,7 +131,7 @@
     border-top-right-radius: 30px;
     border-bottom-right-radius: 30px;
     height: 555px;
-    background-color: rgba(207, 207, 207, 0.89);
+    background-color: rgba(207, 207, 207, 0.47);
     padding-left: 9px;
     padding-right: 9px;
     padding-top: 9px;

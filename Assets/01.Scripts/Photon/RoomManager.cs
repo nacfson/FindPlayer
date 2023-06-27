@@ -9,6 +9,7 @@ using Core;
 using System;
 using System.Linq;
 using System.Collections;
+using Core;
 
 public enum GAME_STATE{
     MENU = 0, LOADING = 1, INGAME = 2,UI = 3, END = 4, CHAT = 5
@@ -25,7 +26,6 @@ public class PlayerData{
 public class RoomManager : MonoBehaviourPunCallbacks{
     public static RoomManager Instance;
     public Dictionary<Player,bool> playerDictionary = new Dictionary<Player,bool>();
-    
 
     private PhotonView _PV;
     [SerializeField] private float _loadingTime;

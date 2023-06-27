@@ -5,8 +5,10 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using System;
+using Cinemachine;
 using UnityEngine.UI;
 using TMPro;
+using Core;
 using Random = UnityEngine.Random;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
@@ -14,10 +16,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks{
     public static NetworkManager Instance;
 
     public List<RoomInfo> roomListNet = new List<RoomInfo>();
-    public Dictionary<WayPoint,bool> sitPoints = new Dictionary<WayPoint, bool>();
-
+    public Dictionary<WayPoint,SitPlayer> sitPoints = new Dictionary<WayPoint,SitPlayer>();
     [SerializeField]
-    private GameObject _sitCharacter;
+    private SitPlayer _sitCharacter;
 
     [SerializeField] private Transform _canvas;
     [SerializeField] private TMP_InputField _roomNameInputField;
@@ -32,6 +33,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks{
     [SerializeField] private int _maxPlayerCount = 10;
     [SerializeField] private MainUI _mainUI;
     [SerializeField] private ErrorText _error;
+    [SerializeField] private Camera _roomCam;
+
     private PhotonView _PV;
 
     private bool _selectedName; 
@@ -49,8 +52,15 @@ public class NetworkManager : MonoBehaviourPunCallbacks{
         transform.Find("SitPoint").GetComponentsInChildren<WayPoint>(sitPoints);
 
         foreach(var s in sitPoints){
-            this.sitPoints.Add(s,true);
+            SitPlayer obj = Instantiate<SitPlayer>(_sitCharacter);
+            obj.transform.position = s.ReturnPos();
+            obj.gameObject.SetActive(false);
+            obj.IsEnabled = false;
+            this.sitPoints.Add(s,obj);
         }
+
+        Define.MainCam.enabled = true;
+        _roomCam.enabled = false;
     }
 
     public override void OnConnectedToMaster(){
@@ -111,6 +121,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks{
         _mainUI.CreatePlayerName(roomInfo,players);
         _mainUI.StartButtonEnabled(PhotonNetwork.IsMasterClient);
         _mainUI.SetRoomNameText(roomInfo.Name);
+        
+        Define.MainCam.enabled = false;
+        _roomCam.enabled = true;
+        DisappearCharacterAll();
+        ShowSitCharacterAll(players.ToList());
     }
     public override void OnMasterClientSwitched(Player newMasterClient){
         _mainUI.StartButtonEnabled(PhotonNetwork.IsMasterClient);
@@ -134,6 +149,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks{
     public override void OnLeftRoom(){
         Debug.Log("OnLeftRoom");
         _mainUI.OpenInRoomMenu(false);
+        
+        Define.MainCam.enabled = true;
+        _roomCam.enabled = false;
     }
     public override void OnRoomListUpdate(List<RoomInfo> roomList){
         Debug.Log("OnRoomListUpdate");
@@ -143,6 +161,41 @@ public class NetworkManager : MonoBehaviourPunCallbacks{
     public override void OnPlayerEnteredRoom(Player newPlayer){
         _mainUI.AddName(newPlayer);
         Instantiate(_playerListItemPrefab,_playerListContent).GetComponent<PlayerListItem>().SetUp(newPlayer);
+
+        List<Player> players = PhotonNetwork.PlayerList.ToList();
+
+        DisappearCharacterAll();
+        ShowSitCharacterAll(players);
+    }
+    
+    public void ShowSitCharacterAll(List<Player> playerList){
+        foreach(var p in playerList){
+            WayPoint wayPoint = GetRandomSitPoint();
+
+            SitPlayer sp = sitPoints[wayPoint];
+            sp.gameObject.SetActive(true);
+            sp.IsEnabled = true;
+            sp.SetNickName(p.NickName);
+        }
     }
 
+    public void DisappearCharacterAll(){
+        foreach(var s in sitPoints){
+            if(s.Value.IsEnabled == true){
+                s.Value.gameObject.SetActive(false);
+                s.Value.IsEnabled = false;
+            }
+        }
+    }
+
+    private WayPoint GetRandomSitPoint(){
+        foreach(var s in sitPoints){
+            if(s.Value.IsEnabled == false){
+                return s.Key;
+            }
+        }
+        Debug.LogError("Can't Find More SitPoint");
+        return null;
+    }
 }
+
