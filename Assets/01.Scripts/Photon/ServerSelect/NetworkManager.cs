@@ -8,6 +8,7 @@ using System;
 using Cinemachine;
 using UnityEngine.UI;
 using TMPro;
+using Cinemachine;
 using Core;
 using Random = UnityEngine.Random;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
@@ -33,7 +34,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks{
     [SerializeField] private int _maxPlayerCount = 10;
     [SerializeField] private MainUI _mainUI;
     [SerializeField] private ErrorText _error;
-    [SerializeField] private Camera _roomCam;
+    [SerializeField] private CinemachineVirtualCamera _roomCam;
 
     private PhotonView _PV;
 
@@ -59,7 +60,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks{
             this.sitPoints.Add(s,obj);
         }
 
-        Define.MainCam.enabled = true;
+        Define.CMCam.enabled = true;
         _roomCam.enabled = false;
     }
 
@@ -122,7 +123,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks{
         _mainUI.StartButtonEnabled(PhotonNetwork.IsMasterClient);
         _mainUI.SetRoomNameText(roomInfo.Name);
         
-        Define.MainCam.enabled = false;
+        Define.CMCam.enabled = false;
         _roomCam.enabled = true;
         DisappearCharacterAll();
         ShowSitCharacterAll(players.ToList());
@@ -150,8 +151,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks{
         Debug.Log("OnLeftRoom");
         _mainUI.OpenInRoomMenu(false);
         
-        Define.MainCam.enabled = true;
+        Define.CMCam.enabled = true;
         _roomCam.enabled = false;
+        DisappearCharacterAll();
     }
     public override void OnRoomListUpdate(List<RoomInfo> roomList){
         Debug.Log("OnRoomListUpdate");

@@ -50,12 +50,14 @@
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
     position: absolute;
-    right: 10%;
+    right: 3%;
     bottom: 25%;
     transition-property: scale;
     transition-duration: 0.4s;
     scale: 1.5 1.5;
     -unity-font-style: normal;
+    background-color: rgba(159, 155, 155, 0.62);
+    width: 15%;
 }
 
 .inputField:hover {
@@ -143,12 +145,12 @@
 }
 
 .sqaureButton {
-    width: 125px;
-    height: 125px;
-    border-top-left-radius: 34px;
-    border-bottom-left-radius: 34px;
-    border-top-right-radius: 34px;
-    border-bottom-right-radius: 34px;
+    width: 75px;
+    height: 75px;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
     font-size: 24px;
     -unity-font-style: bold;
     transition-duration: 0.4s;
