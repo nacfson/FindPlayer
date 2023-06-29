@@ -11,4 +11,5 @@ public class ActionData : MonoBehaviour{
     public bool IsDead;
     public bool CanMove;
     public bool IsPenalty;
+    public bool IsGrounded;
 }

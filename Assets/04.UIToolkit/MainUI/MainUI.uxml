@@ -20,7 +20,7 @@
         <ui:VisualElement name="InRoomMenu" class="titleMenu">
             <ui:ScrollView name="PlayerView" class="scrollView" />
             <ui:Button text="게임 시작" display-tooltip-when-elided="true" name="PlayBtn" class="roomBtn" />
-            <ui:Button text="방 나가기" display-tooltip-when-elided="true" name="ExitRoomBtn" class="sqaureButton" style="position: absolute; bottom: 10%; right: 35%; background-color: rgb(255, 0, 0);" />
+            <ui:Button text="방 나가기" display-tooltip-when-elided="true" name="ExitRoomBtn" class="sqaureButton" style="position: absolute; bottom: 12%; right: 35%; background-color: rgb(255, 0, 0); width: 125px; height: 75px;" />
             <ui:Button display-tooltip-when-elided="true" name="ExitBtn" class="sqaureButton exit" style="background-image: url(&apos;project://database/Assets/02.Assets/00.Sprite/quitImage-removebg-preview.png?fileID=2800000&amp;guid=97cfdb96e3c9e554683f18734ecfde90&amp;type=3#quitImage-removebg-preview&apos;);" />
             <ui:Label text="RoomName:" display-tooltip-when-elided="true" name="RoomName" style="position: absolute; top: 15%; right: 20%; font-size: 40px; -unity-font-style: bold; -unity-text-align: middle-left;" />
         </ui:VisualElement>

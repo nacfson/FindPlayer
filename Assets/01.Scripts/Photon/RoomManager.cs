@@ -73,9 +73,7 @@ public class RoomManager : MonoBehaviourPunCallbacks{
             List<Player> playerList = PhotonNetwork.PlayerList.ToList();
 
             UpdateState(GAME_STATE.LOADING);
-            //InitPlayer(playerList);
             _PV.RPC("InitPlayerRPC",RpcTarget.All);
-            //LoadingGame();
             MakeAIPlayer();
             _playerData.maxPlayer = playerList.Count;
             playerCount = playerList.Count;
@@ -87,6 +85,7 @@ public class RoomManager : MonoBehaviourPunCallbacks{
             sequence.AppendCallback(() => _mainUI.GameInit());
         }
     }
+
     public void InitPlayer(List<Player> playerList){
         playerDictionary.Clear();
         foreach (Player player in playerList) {
@@ -118,17 +117,21 @@ public class RoomManager : MonoBehaviourPunCallbacks{
         _PV.RPC("InitGameRPC", RpcTarget.All,start);
     }
 
+
     [PunRPC]
     public void InitGameRPC(bool start) {
-        //PhotonNetwork.LoadLevel(Define.GameSceneIndex);
         if(start){
             LoadingUI.Instance.LoadLevel(Define.GameSceneIndex,true,true,LoadingGame);
         }
         else{
             LoadingUI.Instance.LoadLevel(Define.GameSceneIndex,true,false);
-
         }
+    }
 
+    public void RestartGame(){
+        List<Player> playerList = PhotonNetwork.PlayerList.ToList();
+        InitPlayer(playerList);
+        LoadingGame();
     }
 
     public void ReturnToRoom(){

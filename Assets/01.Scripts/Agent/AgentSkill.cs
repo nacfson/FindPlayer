@@ -26,6 +26,7 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
     [SerializeField] protected Material _originMat;
     protected Collider _col;
     protected List<SkinnedMeshRenderer> _skins = new List<SkinnedMeshRenderer>();
+
     protected virtual void Awake() {
         _canAttack = true;
         _agentInput = GetComponent<AgentInput>();
@@ -122,6 +123,8 @@ public class AgentSkill : MonoBehaviourPunCallbacks{
     protected virtual void StartAttack(){
         if(_actionData.IsPenalty) return;
         if(_canAttack == false) return;
+        if(_actionData.IsGrounded == false) return;
+        
         if(_actionData.IsAttacking == false){
             GAME_STATE currentState = RoomManager.Instance.CurrentState;
 

@@ -56,8 +56,19 @@ public class LoadingUI : MonoBehaviour{
             StartCoroutine(AsyncLoadCor(sceneIndex,Callback));
         }
         else{
-            PhotonNetwork.LoadLevel(sceneIndex);
+            StartCoroutine(RestartGameCor(sceneIndex,Callback));
         }
+    }
+
+    private IEnumerator RestartGameCor(int sceneIndex,Action Callback){
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneIndex);
+
+        while(!asyncLoad.isDone){
+            yield return null;
+        }
+
+        PhotonNetwork.LoadLevel(sceneIndex);
+        RoomManager.Instance.RestartGame();
     }
 
     private IEnumerator AsyncLoadCor(int sceneIndex,Action Callback){

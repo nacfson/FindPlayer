@@ -8241,6 +8241,7 @@ MonoBehaviour:
   IsDead: 0
   CanMove: 0
   IsPenalty: 0
+  IsGrounded: 0
 --- !u!1 &6368373494233394301
 GameObject:
   m_ObjectHideFlags: 0

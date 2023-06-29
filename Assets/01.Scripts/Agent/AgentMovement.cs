@@ -53,6 +53,9 @@ public class AgentMovement : MonoBehaviourPun{
         if (_actionData.IsAttacking || _actionData.IsPenalty) {
             return;
         }
+        
+        _actionData.IsGrounded = _controller.isGrounded;
+
         GAME_STATE currentState = RoomManager.Instance.CurrentState;
         if(currentState == GAME_STATE.LOADING  || currentState == GAME_STATE.UI || currentState == GAME_STATE.CHAT) return;
         if(Input.GetKey(KeyCode.LeftShift)){

@@ -73,6 +73,7 @@ public class InGameUI : MonoBehaviour {
         sequence.AppendInterval(delay);
         sequence.AppendCallback(() => RoomManager.Instance.InitGame());
     }
+    
     public void SetLastPlayerText(int count) {
         _PV.RPC("SetLastPlayerTextRPC", RpcTarget.All, count);
     }
@@ -142,7 +143,7 @@ public class InGameUI : MonoBehaviour {
         _scorePanel.SetRankText((int)rank,(int)maxPlayer);
         _scorePanel.gameObject.SetActive(true);
 
-        if(gameEnd == false){
+        if(gameEnd == false && PhotonNetwork.IsMasterClient){
             OnNextRound(10f);
         }
     }
