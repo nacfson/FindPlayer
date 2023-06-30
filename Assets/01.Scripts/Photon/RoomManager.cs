@@ -79,6 +79,7 @@ public class RoomManager : MonoBehaviourPunCallbacks{
             playerCount = playerList.Count;
         }
 
+
         else if(scene.buildIndex == Define.RoomIndex && !string.IsNullOrEmpty(PhotonNetwork.LocalPlayer.NickName)){
             Sequence sequence = DOTween.Sequence();
             sequence.AppendInterval(0.3f);
@@ -129,6 +130,10 @@ public class RoomManager : MonoBehaviourPunCallbacks{
     }
 
     public void RestartGame(){
+        _PV.RPC("RestartGameRPC",RpcTarget.All);
+    }
+    [PunRPC]
+    public void RestartGameRPC() {
         List<Player> playerList = PhotonNetwork.PlayerList.ToList();
         InitPlayer(playerList);
         LoadingGame();
