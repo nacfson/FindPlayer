@@ -28,6 +28,7 @@ public class RoomManager : MonoBehaviourPunCallbacks{
     public Dictionary<Player,bool> playerDictionary = new Dictionary<Player,bool>();
 
     private PhotonView _PV;
+
     [SerializeField] private float _loadingTime;
     [SerializeField] private int _initAICount = 50;
     [SerializeField] private int _defineRound = 1; 
@@ -41,7 +42,9 @@ public class RoomManager : MonoBehaviourPunCallbacks{
     private static int _roundCount = 0; 
     private int _cameraIndex = 0;
     public int playerCount;
+
     private PlayerData _playerData = new PlayerData();
+
     public GAME_STATE CurrentState => _currentState;
     private GAME_STATE _currentState;
 
@@ -182,7 +185,7 @@ public class RoomManager : MonoBehaviourPunCallbacks{
             if(InGameUI.Instance != null && player == PhotonNetwork.LocalPlayer)  {
                 Debug.LogError($"{attacker.NickName} == {player.NickName}");
                 GameUI.Instance.SetLastPlayerText(ReturnPlayerCount().ToString());
-
+                
                 GameUI.Instance.CreateKillLogUI(attacker.NickName, player.NickName);
             }
         }
@@ -276,7 +279,6 @@ public class RoomManager : MonoBehaviourPunCallbacks{
 
     public void GameEnd() {
         _PV.RPC("GameEndRPC",RpcTarget.All);
-
     }
 
     [PunRPC]
@@ -311,6 +313,7 @@ public class RoomManager : MonoBehaviourPunCallbacks{
             }
         }
     }
+
     
     public int ReturnPlayerCount() {
         int count = 0;
@@ -322,9 +325,11 @@ public class RoomManager : MonoBehaviourPunCallbacks{
         return count;
     }
 
+
     public void UpdateKillCountAndScore(int killCount = 0,int score = 0,string nickName = null){
         _PV.RPC("UpdateKillCountAndScoreRPC",RpcTarget.All,killCount,score,nickName);
     }
+
 
     [PunRPC]
     public void UpdateKillCountAndScoreRPC(int killCount = 1,int score = 100,string nickName= null){
@@ -334,9 +339,11 @@ public class RoomManager : MonoBehaviourPunCallbacks{
             _playerData.score += score;
         }
     }
+
     public override void OnPlayerLeftRoom(Player otherPlayer) {
         LeftPlayer(otherPlayer);
     }
+
     public void UpdateState(GAME_STATE state,bool rpc = true){
         if (rpc == false) {
             _currentState = state;
@@ -345,6 +352,7 @@ public class RoomManager : MonoBehaviourPunCallbacks{
             _PV.RPC("UpdateStateRPC", RpcTarget.All, state);
         }
     }
+
     [PunRPC]
     public void UpdateStateRPC(GAME_STATE state){
         _currentState = state;
@@ -353,6 +361,7 @@ public class RoomManager : MonoBehaviourPunCallbacks{
     public bool IfRoundEnd(){
         return ReturnPlayerCount() <= 1;
     }
+
     public PlayerData GetPlayerData(){
         return _playerData;
     }

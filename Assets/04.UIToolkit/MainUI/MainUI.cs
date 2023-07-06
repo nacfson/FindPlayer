@@ -131,6 +131,7 @@ public class MainUI : MonoBehaviour {
             _titleMenu.AddToClassList("active");
         }
     }
+    
     public void OpenInRoomMenu(bool isRoom = true) {
         if (isRoom) {
             _roomMenu.RemoveFromClassList("active");
