@@ -52,6 +52,7 @@ public class GameUI : MonoBehaviour {
         _selectInMenu = _selectMenu.Q<VisualElement>("SelectInMenu");
         _scoreMenuContainer = _scoreBoardMenu.Q<ScrollView>("ScoreView");
         _killLogMenuContainer = _inGameMenu.Q<ScrollView>("KillLogView");
+
         //OptionPanelBtns
         Button continueBtn = _optionPanel.Q<Button>("ContinueBtn");
         Button titleBtn = _optionPanel.Q<Button>("TitleBtn");
@@ -95,10 +96,6 @@ public class GameUI : MonoBehaviour {
         });
     }
 
-
-
-
-
     private void CloseOptionMenus() {
         _optionMenu.RemoveFromClassList("active");
         _optionPanel.RemoveFromClassList("active");
@@ -135,6 +132,7 @@ public class GameUI : MonoBehaviour {
     public void SetLastPlayerText(string result) {
         _PV.RPC("SetLastPlayerTextRPC", RpcTarget.All, result);
     }
+
     [PunRPC]
     public void SetLastPlayerTextRPC(string result) {
         string value = $"남은인원 {result}";
@@ -180,12 +178,12 @@ public class GameUI : MonoBehaviour {
     public void CreateKillLogUIRPC(string attacker,string deader) {
         string result = $"{attacker}가 {deader}를 처치";
         Debug.LogError(result);
+
         VisualElement temp = _killLogUI.Instantiate();
         VisualElement killLogUI = temp.Q<VisualElement>("KillLogUI");
 
         Label log = killLogUI.Q<Label>("KillLogLabel");
         log.text = result;
-
 
         _killLogMenuContainer.Add(killLogUI);
 

@@ -1,5 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
-    <ui:VisualElement name="KillLogUI" class="killLogUI">
-        <ui:Label text="Label" display-tooltip-when-elided="true" name="KillLogLabel" style="top: 30%;" />
+    <ui:VisualElement name="KillLogUI" class="killLogUI active" style="flex-direction: row;">
+        <ui:VisualElement name="Image" style="width: 13%; height: 80%; left: 5%; justify-content: flex-start; top: 10%; flex-grow: 0; background-image: url(&apos;project://database/Assets/02.Assets/GUIPack-Clean&amp;Minimalist/Demo/Sprites/Icons/Icons/Game/Tools/Aim.png?fileID=2800000&amp;guid=9be4b981cff45442ea70499d83f511c7&amp;type=3#Aim&apos;);" />
+        <ui:Label text="xx가 누구를 처치" display-tooltip-when-elided="true" name="KillLogLabel" style="align-items: center; justify-content: flex-start; flex-shrink: 1; flex-grow: 1; -unity-text-align: middle-left; left: 10%;" />
     </ui:VisualElement>
 </ui:UXML>
